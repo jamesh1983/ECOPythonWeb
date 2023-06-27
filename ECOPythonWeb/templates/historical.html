@@ -1,0 +1,154 @@
+$def with (username,data1,data2)
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>铱钶环保</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
+    <script src="/static/js/modernizr-2.6.2.js"></script>
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">实时数据展示</a></li>
+                    <li><a href="/historical">历史数据展示</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a>已登录-您好！$username</a></li>
+                    <li><a href="logout">登出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <table width="100%" border="1">
+        <tbody>
+            <tr>
+                <td width="50%">
+                    <label for="date1">开始日期:</label>
+                    <input type="date" name="date1" id="date1">
+                    <label for="time1">时间:</label>
+                    <input type="time" name="time1" id="time1">
+                </td>
+                <td width="50%" align="right">
+                    <label for="date2">截止日期:</label>
+                    <input type="date" name="date2" id="date2">
+                    <label for="time2">时间:</label>
+                    <input type="time" name="time2" id="time2">
+                    <button id="Button1" type="submit">查询</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table width="100%" border="1">
+        <tbody>
+            <tr id="chart1" style="height: 200px;"></tr>
+            <tr id="chart2" style="height: 200px;"></tr>
+        </tbody>
+    </table>
+    <div class="container body-content">
+        <hr />
+        <footer>
+            <p>&copy; ECOTECH</p>
+        </footer>
+    </div>
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap-4.4.1.js"></script>
+    <script src="/static/js/respond.js"></script>
+
+    <script type="text/javascript">
+        var myChart1 = echarts.init(document.getElementById('chart1'));
+        var myChart2 = echarts.init(document.getElementById('chart2'));
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            title: {
+                left: 'center',
+                text: 'Large Area Chart'
+            },
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                show: false,
+                data: $data2
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%']
+            },
+            dataZoom: [
+                {
+                    type: 'inside',
+                    start: 0,
+                    end: 10
+                },
+                {
+                    start: 0,
+                    end: 10
+                }
+            ],
+            series: [
+                {
+                    name: 'Population',
+                    type: 'bar',
+                    symbol: 'none',
+                    sampling: 'lttb',
+                    itemStyle: {
+                        color: 'rgb(255, 70, 131)'
+                    },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            },
+                            {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }
+                        ])
+                    },
+                    data: $data2
+                }
+            ]
+        };
+        myChart1.setOption(option);
+        option = {
+            xAxis: {
+                type: 'category',
+                data: ''
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: $data2,
+                    type: 'bar',
+                    smooth: true
+                }
+            ]
+        };
+        myChart2.setOption(option);
+    </script>
+</body>
+
+</html>

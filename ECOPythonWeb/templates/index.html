@@ -1,0 +1,138 @@
+$def with (username,data1,data2)
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>铱钶环保</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
+    <script src="/static/js/modernizr-2.6.2.js"></script>
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">实时数据展示</a></li>
+                    <li><a href="/historical">历史数据展示</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a>已登录-您好！$username</a></li>
+                    <li><a href="logout">登出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <header id="1" align="center">OZAST高效水处理监控大屏</header>
+    <table width="100%" border="0">
+        <tbody>
+            <tr style="height: 25%;">
+                <td id="td1" width="20%" style="height: 200px; ">
+                    <p>凝汽器前ORP：</p>
+                    <p>塔前ORP：</p>
+                    <p>pH值：</p>
+                    <p>电导率：</p>
+                    <p>凝汽器前SS：</p>
+                    <p>塔前SS：</p>
+                </td>
+                <td id="chart1" width="60%" style="height: 200px; "></td>
+                <td id="td2" width="20%" style="height: 200px; ">
+                    <p>端差：</p>
+                    <p>负荷：</p>
+                    <p>进水水温：</p>
+                    <p>出水水温：</p>
+                    <p>循泵1：</p>
+                    <p>循泵2：</p>
+                </td>
+            </tr>
+            <tr style="height: 200px;">
+                <td id="td3" width="20%" style="height: 200px; ">
+                    <p><a>臭氧投加模式：</a></p>
+                    <p>一号取水阀：</p>
+                    <p>二号取水阀：</p>
+                    <p>一号注水阀：</p>
+                    <p>二号注水阀：</p>
+                    <p>代斯米泵1/2：</p>
+                    <p>格兰富泵1/2：</p>
+                    <p>sv1/2/3：</p>
+                    <p>sv7/8/9：</p>
+                </td>
+                <td id="td4" width="60%" style="height: 200px; ">
+                    <table width="100%" border="0" align="center">
+                        <tbody>
+                            <tr align="center">
+                                <td id="chart2" style="width: 200px; height: 200px; ">&nbsp;</td>
+                                <td id="chart3" style="width: 200px; height: 200px; ">&nbsp;</td>
+                                <td id="chart4" style="width: 200px; height: 200px; ">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td id="td5" width="20%" style="height: 200px; ">
+                    <p>凝汽器支路</p>
+                    <p>调节阀开度：</p>
+                    <p>冷却塔支路</p>
+                    <p>调节阀开度：</p>
+                    <p>本地支路</p>
+                    <p>水压/气压：</p>
+                    <p>远调支路</p>
+                    <p>水压/气压：</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container body-content">
+        <hr />
+        <footer>
+            <p>&copy; ECOTECH</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap-4.4.1.js"></script>
+    <script src="/static/js/respond.js"></script>
+
+    <script type="text/javascript">
+        var myChart1 = echarts.init(document.getElementById('chart1'));
+        var myChart2 = echarts.init(document.getElementById('chart2'));
+        var myChart3 = echarts.init(document.getElementById('chart3'));
+        var myChart4 = echarts.init(document.getElementById('chart4'));
+        var option = {
+            xAxis: {
+                type: 'category',
+                data: ''
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: $data2,
+                    type: 'bar',
+                    smooth: true
+                }
+            ]
+        };
+        myChart1.setOption(option);
+        option = {
+            series: [
+                {
+                    name: 'Pressure',
+                    type: 'gauge',
+                    data: [
+                        {
+                            value: 50
+                        }
+                    ]
+                }
+            ]
+        };
+        myChart2.setOption(option);
+        myChart3.setOption(option);
+        myChart4.setOption(option);
+    </script>
+</body>
+</html>

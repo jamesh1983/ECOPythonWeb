@@ -1,0 +1,134 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>890351ad-4bbe-48be-8210-0cc26a850270</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>main.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Web launcher</LaunchProvider>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+    <Name>ECOPythonWeb</Name>
+    <RootNamespace>ECOPythonWeb</RootNamespace>
+    <WebBrowserPort>8080</WebBrowserPort>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="main.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="model.py" />
+    <Compile Include="settings.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="static\" />
+    <Folder Include="static\js\" />
+    <Folder Include="static\css\" />
+    <Folder Include="templates\" />
+    <Folder Include="images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="static\css\eCommerceStyle.css" />
+    <Content Include="static\js\bootstrap-4.4.1.js" />
+    <Content Include="static\js\bootstrap.js" />
+    <Content Include="static\js\bootstrap.min.js" />
+    <Content Include="static\js\echarts.js" />
+    <Content Include="static\js\jquery-1.10.2.js" />
+    <Content Include="static\js\jquery-1.10.2.min.js" />
+    <Content Include="static\js\jquery-1.10.2.min.map" />
+    <Content Include="static\js\jquery-3.7.0.js" />
+    <Content Include="static\js\modernizr-2.6.2.js" />
+    <Content Include="static\js\respond.js" />
+    <Content Include="static\js\respond.min.js" />
+    <Content Include="static\css\bootstrap.css" />
+    <Content Include="static\css\bootstrap.min.css" />
+    <Content Include="static\css\site.css" />
+    <None Include="static\js\jquery-1.10.2.intellisense.js" />
+    <None Include="static\js\jquery.validate-vsdoc.js" />
+    <Content Include="static\js\jquery.validate.js" />
+    <Content Include="static\js\jquery.validate.min.js" />
+    <Content Include="static\js\jquery.validate.unobtrusive.js" />
+    <Content Include="static\js\jquery.validate.unobtrusive.min.js" />
+    <None Include="static\js\_references.js" />
+    <Content Include="static\js\templates_for_charts.js" />
+    <Content Include="templates\historical.html" />
+    <Content Include="templates\data.html" />
+    <Content Include="images\animated-overlay.gif" />
+    <Content Include="images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="images\ui-icons_228ef1_256x240.png" />
+    <Content Include="images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="images\ui-icons_ffffff_256x240.png" />
+    <Content Include="static\js\jquery-1.11.1.min.js" />
+    <Content Include="static\js\jquery.ui-1.10.4.button.min.js" />
+    <Content Include="static\js\jquery.ui-1.10.4.datepicker.min.js" />
+    <Content Include="static\css\jquery.ui.button.min.css" />
+    <Content Include="static\css\jquery.ui.core.min.css" />
+    <Content Include="static\css\jquery.ui.datepicker.min.css" />
+    <Content Include="static\css\jquery.ui.theme.min.css" />
+    <Content Include="templates\index.html" />
+    <Content Include="templates\layout.html" />
+    <Content Include="templates\login.html" />
+    <Content Include="templates\loginpartial.html" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
