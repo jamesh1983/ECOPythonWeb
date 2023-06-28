@@ -65,7 +65,6 @@
     <None Include="static\js\_references.js" />
     <Content Include="static\js\templates_for_charts.js" />
     <Content Include="templates\historical.html" />
-    <Content Include="templates\data.html" />
     <Content Include="images\animated-overlay.gif" />
     <Content Include="images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="images\ui-bg_diagonals-thick_20_666666_40x40.png" />

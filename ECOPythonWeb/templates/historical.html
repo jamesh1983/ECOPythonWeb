@@ -1,4 +1,4 @@
-$def with (username,data1,data2)
+$def with (username,column_data,his_data)
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -16,11 +16,24 @@ $def with (username,data1,data2)
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">实时数据展示</a></li>
-                    <li><a href="/historical">历史数据展示</a></li>
+                    $if username=='admin':
+                        <li><a href="/?sn=1">HQ一号机组实时数据展示</a></li>
+                        <li><a href="/?sn=2">HQ二号机组实时数据展示</a></li>
+                        <li><a href="/?sn=3">HL组实时数据展示</a></li>
+                        <li><a href="/historical?sn=1">HQ一号机组历史数据展示</a></li>
+                        <li><a href="/historical?sn=2">HQ二号机组历史数据展示</a></li>
+                        <li><a href="/historical?sn=3">HL历史数据展示</a></li>
+                    $if (username=='111')|(username=='222'):
+                        <li><a href="/?sn=1">一号机组实时数据展示</a></li>
+                        <li><a href="/historical?sn=1">一号机组历史数据展示</a></li>
+                        <li><a href="/?sn=2">二号机组实时数据展示</a></li>
+                        <li><a href="/historical?sn=2">二号机组历史数据展示</a></li>
+                    $if username=='333':
+                        <li><a href="/?sn=3">实时数据展示</a></li>
+                        <li><a href="/historical?sn=3">历史数据展示</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a>已登录-您好！$username</a></li>
+                    <li><a>您好！$username</a></li>
                     <li><a href="logout">登出</a></li>
                 </ul>
             </div>
@@ -29,26 +42,48 @@ $def with (username,data1,data2)
     <table width="100%" border="1">
         <tbody>
             <tr>
-                <td width="50%">
-                    <label for="date1">开始日期:</label>
-                    <input type="date" name="date1" id="date1">
-                    <label for="time1">时间:</label>
-                    <input type="time" name="time1" id="time1">
-                </td>
-                <td width="50%" align="right">
-                    <label for="date2">截止日期:</label>
-                    <input type="date" name="date2" id="date2">
-                    <label for="time2">时间:</label>
-                    <input type="time" name="time2" id="time2">
-                    <button id="Button1" type="submit">查询</button>
+                
+                <td width="100%">
+                    <form action="historical" method="post" class="form-horizontal">
+                        <p>
+                            <label for="date1">开始日期:</label>
+                            <input type="date" name="date1" id="date1">
+                            <label for="time1">时间:</label>
+                            <input type="time" name="time1" id="time1">
+                        </p>
+                        <p>
+                            <label for="date2">截止日期:</label>
+                            <input type="date" name="date2" id="date2">
+                            <label for="time2">时间:</label>
+                            <input type="time" name="time2" id="time2">
+                        </p>
+                        <label for="select">查询字段名</label>
+                        <select name="select" id="select">
+                        $for name in column_data.values():
+                            <option>$name</option>
+                        </select>
+                        $if username=='admin':
+                            <label for="select2">查询机组</label>
+                            <select name="select2" id="select2">
+                                <option>鹤淇一号机组</option>
+                                <option>鹤淇二号机组</option>
+                                <option>环龙</option>
+                            </select>
+                        $if (username=='111') | (username=='222'):
+                            <label for="select2">查询机组</label>
+                            <select name="select2" id="select2">
+                                <option>鹤淇一号机组</option>
+                                <option>鹤淇二号机组</option>
+                            </select>
+                        <button id="Button1" type="submit">查询</button>
+                    </form>
                 </td>
             </tr>
         </tbody>
     </table>
     <table width="100%" border="1">
         <tbody>
-            <tr id="chart1" style="height: 200px;"></tr>
-            <tr id="chart2" style="height: 200px;"></tr>
+            <tr id="chart1" style="height: 465px;"></tr>
         </tbody>
     </table>
     <div class="container body-content">
@@ -62,92 +97,48 @@ $def with (username,data1,data2)
     <script src="/static/js/respond.js"></script>
 
     <script type="text/javascript">
+        function today() {
+            let d = new Date();
+            let currDate = d.getDate();
+            let currMonth = d.getMonth();
+            let currYear = d.getFullYear();
+            return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
+        }
+        function yesterday() {
+            let d = new Date();
+            let currDate = d.getDate()-1;
+            let currMonth = d.getMonth();
+            let currYear = d.getFullYear();
+            return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
+        }
+        function nowtime() {
+            let d = new Date();
+            let hour = d.getHours();
+            let Min = d.getMinutes();
+            return hour + ":" +Min;
+        }
+        document.getElementById('date1').value = yesterday();
+        document.getElementById('date2').value = today();
+        document.getElementById('time1').value = nowtime();
+        document.getElementById('time2').value = nowtime();
         var myChart1 = echarts.init(document.getElementById('chart1'));
-        var myChart2 = echarts.init(document.getElementById('chart2'));
-        option = {
-            tooltip: {
-                trigger: 'axis',
-                position: function (pt) {
-                    return [pt[0], '10%'];
-                }
-            },
-            title: {
-                left: 'center',
-                text: 'Large Area Chart'
-            },
-            toolbox: {
-                feature: {
-                    dataZoom: {
-                        yAxisIndex: 'none'
-                    },
-                    restore: {},
-                    saveAsImage: {}
-                }
-            },
+        var option = {
             xAxis: {
                 type: 'category',
-                boundaryGap: false,
-                show: false,
-                data: $data2
-            },
-            yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
-            },
-            dataZoom: [
-                {
-                    type: 'inside',
-                    start: 0,
-                    end: 10
-                },
-                {
-                    start: 0,
-                    end: 10
-                }
-            ],
-            series: [
-                {
-                    name: 'Population',
-                    type: 'bar',
-                    symbol: 'none',
-                    sampling: 'lttb',
-                    itemStyle: {
-                        color: 'rgb(255, 70, 131)'
-                    },
-                    areaStyle: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                            {
-                                offset: 0,
-                                color: 'rgb(255, 158, 68)'
-                            },
-                            {
-                                offset: 1,
-                                color: 'rgb(255, 70, 131)'
-                            }
-                        ])
-                    },
-                    data: $data2
-                }
-            ]
-        };
-        myChart1.setOption(option);
-        option = {
-            xAxis: {
-                type: 'category',
-                data: ''
+                data: [1, 2, 3, 4, 5]
             },
             yAxis: {
                 type: 'value'
             },
             series: [
                 {
-                    data: $data2,
+                    data: [1, 2, 3, 4, 5],
                     type: 'bar',
                     smooth: true
                 }
             ]
         };
-        myChart2.setOption(option);
+        myChart1.setOption(option);
     </script>
 </body>
 

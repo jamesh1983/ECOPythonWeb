@@ -16,9 +16,9 @@ loginuser=''
 web.config.debug = True
 app = web.application(settings.urls, globals())
 render = web.template.render('templates')
-idlistdata = model.CurrentData.getColumnList('id')
-namelistdata = model.CurrentData.getColumnList('Name')
-poplistdata = model.CurrentData.getColumnList('Population')
+ColumnData = model.CurrentData.getColumnList()
+ColumnList12 = dict(zip(ColumnData["column_name"], ColumnData["comments"]))
+ColumnList3 = dict(zip(ColumnData["column_name"], ColumnData["comments_for_HL"]))
 #render = render_jinja(
 #    'templates',
 #    encoding = 'utf-8',
@@ -64,8 +64,12 @@ class UIThread (threading.Thread):
 class login:
     def GET(self):
         loginuser=web.cookies().get('user_id')
+        i = web.input()
+        sn = i.get('sn')
         if loginuser:
-            return render.index(loginuser, namelistdata, poplistdata)
+            if sn==None:
+                sn=settings.auth[loginuser]
+            return render.index(loginuser, model.CurrentData.getCurrentData(sn))
         else:
             return render.login('欢迎访问，请先登录...')
     def POST(self):
@@ -74,8 +78,14 @@ class login:
         passwd = i.get('passwd')
         if (username,passwd) in settings.allowed:
             loginuser = username
+            usertype = settings.auth[loginuser]
             web.setcookie('user_id', loginuser, settings.COOKIE_EXPIRES)
-            return render.index(loginuser,namelistdata, poplistdata)
+            if (loginuser == 'admin') | (loginuser == '111') | (loginuser == '222'):
+                return render.index(loginuser,model.CurrentData.getCurrentData(1))
+            elif loginuser == '333':
+                return render.index(loginuser,model.CurrentData.getCurrentData(3))
+            else:
+                return render.login('登录错误，请重新登陆...')
         else:
             return render.login('登录错误，请重新登陆...')
 class logout:
@@ -86,16 +96,18 @@ class historical:
     def GET(self):
         loginuser=web.cookies().get('user_id')
         if loginuser:
-            return render.historical(loginuser, namelistdata, poplistdata)
+            if (loginuser=='admin') | (loginuser=='111') | (loginuser=='222'):
+                return render.historical(loginuser, ColumnList12, '')
+            if loginuser=='333':
+                return render.historical(loginuser, ColumnList3, '')
         else:
             return render.login('欢迎，请登录...')
-class data:
-    def GET(self):
+    def POST(self):
+        i = web.input()
         loginuser=web.cookies().get('user_id')
-        if loginuser:
-            return render.index(loginuser, namelistdata, poplistdata)
-        else:
-            return render.login('欢迎，请登录...')
+        his_data = ''
+        return render.historical(loginuser, ColumnList3, '')
+
 if __name__ == '__main__':
    # X秒打印一次时间
     #TimeCounter_5()

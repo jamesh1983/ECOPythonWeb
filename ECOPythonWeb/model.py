@@ -216,15 +216,29 @@ class Comment:
                 return i.count
         return 0
 class CurrentData:
-    def getColumnList(ColumnName):
+    def getColumnList():
         try:
-            list = db.query('SELECT ' + ColumnName + ' FROM app_country')
-            columnlist = []
-            for a in list:
-                #print(a[ColumnName])
-                columnlist.append(a[ColumnName])
+            list = db.query('SELECT column_name, comments, comments_for_HL FROM column_list')
+            columnlist = {}
+            column_name = []
+            comments = []
+            comments_for_HL = []
+            for row in list:
+                column_name.append(row.column_name)
+                comments.append(row.comments)
+                comments_for_HL.append(row.comments_for_HL)
+            columnlist["column_name"] = column_name
+            columnlist["comments"] = comments
+            columnlist["comments_for_HL"] = comments_for_HL
             return columnlist
             #return list
+        except Exception as e:
+            print(e)
+            return None
+    def getCurrentData(sn):
+        try:
+            list = db.query('SELECT * FROM table_current WHERE SN = ' + str(sn) + ' ORDER BY ID DESC LIMIT 1')
+            return dict(list[0])
         except Exception as e:
             print(e)
             return None
