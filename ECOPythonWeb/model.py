@@ -2,7 +2,10 @@ import web
 import datetime
 import hashlib
 import settings
+import re
+import datetime
 #import util
+
 # 连接MySQL数据库
 db = web.database(dbn=settings.DBN, host=settings.HOST, port=settings.PORT,  db=settings.DB,
                   user=settings.MYSQL_USERNAME, pw=settings.MYSQL_PASSWORD, driver=settings.DRIVER,
@@ -237,8 +240,21 @@ class CurrentData:
             return None
     def getCurrentData(sn):
         try:
-            list = db.query('SELECT * FROM table_current WHERE SN = ' + str(sn) + ' ORDER BY ID DESC LIMIT 1')
-            return dict(list[0])
+            result = db.query('SELECT * FROM table_current WHERE SN = ' + str(sn) + ' ORDER BY ID DESC LIMIT 1')
+            return dict(result[0])
+        except Exception as e:
+            print(e)
+            return None
+    def getHisData(sn, column, starttime, endtime):
+        resultdata = {"TIMETAG":[],"result":[]}
+        try:
+            results = db.query('SELECT TIMETAG, ' + column + ' as result FROM table_prodict WHERE SN = ' + str(sn) + ' AND TIMETAG BETWEEN "' + starttime + '" AND "' + endtime + '"')
+            for result in results:
+                datetime_inf = int(result.TIMETAG.strftime('%Y%m%d%H%M'))
+                num_value = result.result
+                resultdata["TIMETAG"].append(datetime_inf)
+                resultdata["result"].append(num_value)
+            return resultdata
         except Exception as e:
             print(e)
             return None

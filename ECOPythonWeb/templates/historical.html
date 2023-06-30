@@ -10,24 +10,19 @@ $def with (username,column_data,his_data)
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
     <script src="/static/js/modernizr-2.6.2.js"></script>
     <script src="/static/js/echarts.js"></script>
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap-4.4.1.js"></script>
+    <script src="/static/js/respond.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    $if username=='admin':
-                        <li><a href="/?sn=1">HQ一号机组实时数据展示</a></li>
-                        <li><a href="/?sn=2">HQ二号机组实时数据展示</a></li>
-                        <li><a href="/?sn=3">HL组实时数据展示</a></li>
-                        <li><a href="/historical?sn=1">HQ一号机组历史数据展示</a></li>
-                        <li><a href="/historical?sn=2">HQ二号机组历史数据展示</a></li>
-                        <li><a href="/historical?sn=3">HL历史数据展示</a></li>
                     $if (username=='111')|(username=='222'):
                         <li><a href="/?sn=1">一号机组实时数据展示</a></li>
-                        <li><a href="/historical?sn=1">一号机组历史数据展示</a></li>
                         <li><a href="/?sn=2">二号机组实时数据展示</a></li>
-                        <li><a href="/historical?sn=2">二号机组历史数据展示</a></li>
+                        <li><a href="/historical?sn=1">历史数据展示</a></li>
                     $if username=='333':
                         <li><a href="/?sn=3">实时数据展示</a></li>
                         <li><a href="/historical?sn=3">历史数据展示</a></li>
@@ -39,10 +34,9 @@ $def with (username,column_data,his_data)
             </div>
         </div>
     </div>
-    <table width="100%" border="1">
+    <table width="100%" border="0">
         <tbody>
             <tr>
-                
                 <td width="100%">
                     <form action="historical" method="post" class="form-horizontal">
                         <p>
@@ -59,8 +53,8 @@ $def with (username,column_data,his_data)
                         </p>
                         <label for="select">查询字段名</label>
                         <select name="select" id="select">
-                        $for name in column_data.values():
-                            <option>$name</option>
+                            $for name in column_data.values():
+                                <option>$name</option>
                         </select>
                         $if username=='admin':
                             <label for="select2">查询机组</label>
@@ -81,9 +75,9 @@ $def with (username,column_data,his_data)
             </tr>
         </tbody>
     </table>
-    <table width="100%" border="1">
+    <table width="100%" border="0">
         <tbody>
-            <tr id="chart1" style="height: 465px;"></tr>
+            <tr id="chart1" style="height: 450px;"></tr>
         </tbody>
     </table>
     <div class="container body-content">
@@ -92,9 +86,6 @@ $def with (username,column_data,his_data)
             <p>&copy; ECOTECH</p>
         </footer>
     </div>
-    <script src="/static/js/jquery-1.10.2.js"></script>
-    <script src="/static/js/bootstrap-4.4.1.js"></script>
-    <script src="/static/js/respond.js"></script>
 
     <script type="text/javascript">
         function today() {
@@ -106,7 +97,7 @@ $def with (username,column_data,his_data)
         }
         function yesterday() {
             let d = new Date();
-            let currDate = d.getDate()-1;
+            let currDate = d.getDate() - 1;
             let currMonth = d.getMonth();
             let currYear = d.getFullYear();
             return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
@@ -115,7 +106,7 @@ $def with (username,column_data,his_data)
             let d = new Date();
             let hour = d.getHours();
             let Min = d.getMinutes();
-            return hour + ":" +Min;
+            return ((hour < 10) ? '0' + hour : hour) + ":" + ((Min < 10) ? '0' + Min : Min);
         }
         document.getElementById('date1').value = yesterday();
         document.getElementById('date2').value = today();
@@ -123,17 +114,29 @@ $def with (username,column_data,his_data)
         document.getElementById('time2').value = nowtime();
         var myChart1 = echarts.init(document.getElementById('chart1'));
         var option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataView: {},
+                    saveAsImage: {}
+                }
+            },
             xAxis: {
                 type: 'category',
-                data: [1, 2, 3, 4, 5]
+                data: $his_data["TIMETAG"]
             },
             yAxis: {
                 type: 'value'
             },
             series: [
                 {
-                    data: [1, 2, 3, 4, 5],
-                    type: 'bar',
+                    data: $his_data["result"],
+                    type: 'line',
                     smooth: true
                 }
             ]
@@ -141,5 +144,4 @@ $def with (username,column_data,his_data)
         myChart1.setOption(option);
     </script>
 </body>
-
 </html>

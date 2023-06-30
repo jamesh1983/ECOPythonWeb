@@ -81,9 +81,9 @@ class login:
             usertype = settings.auth[loginuser]
             web.setcookie('user_id', loginuser, settings.COOKIE_EXPIRES)
             if (loginuser == 'admin') | (loginuser == '111') | (loginuser == '222'):
-                return render.index(loginuser,model.CurrentData.getCurrentData(1))
+                return render.index(loginuser, model.CurrentData.getCurrentData(1))
             elif loginuser == '333':
-                return render.index(loginuser,model.CurrentData.getCurrentData(3))
+                return render.index(loginuser, model.CurrentData.getCurrentData(3))
             else:
                 return render.login('登录错误，请重新登陆...')
         else:
@@ -95,18 +95,42 @@ class logout:
 class historical:
     def GET(self):
         loginuser=web.cookies().get('user_id')
+        his_data = {
+                    "TIMETAG":[202310011000, 202310011001, 202310011002, 202310011003, 202310011004, 202310011005, 202310011006], 
+                    "result":[820, 932, 901, 934, 1290, 1330, 1320]
+                    }
         if loginuser:
             if (loginuser=='admin') | (loginuser=='111') | (loginuser=='222'):
-                return render.historical(loginuser, ColumnList12, '')
+                return render.historical(loginuser, ColumnList12, his_data)
             if loginuser=='333':
-                return render.historical(loginuser, ColumnList3, '')
+                return render.historical(loginuser, ColumnList3, his_data)
         else:
             return render.login('欢迎，请登录...')
     def POST(self):
         i = web.input()
         loginuser=web.cookies().get('user_id')
-        his_data = ''
-        return render.historical(loginuser, ColumnList3, '')
+        startdatetime = i.get('date1') + ' ' +  i.get('time1') + ':00'
+        enddatetime = i.get('date2') + ' ' + i.get('time2') + ':00'
+        column_name = i.get('select')
+        if loginuser:
+            if (loginuser=='111') | (loginuser=='222'):
+                if i.get('select2') == '鹤淇一号机组':
+                    sn = 1
+                elif i.get('select2') == '鹤淇二号机组':
+                    sn = 2
+                else:
+                    sn = -1
+                selected_column = list(ColumnList12.keys())[list(ColumnList12.values()).index(column_name)]
+                his_data = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
+                #show_data = dict(his_data['result'])
+                return render.historical(loginuser, ColumnList12, his_data)
+            if loginuser=='333':
+                sn = 3
+                selected_column = list(ColumnList3.keys())[list(ColumnList3.values()).index(column_name)]
+                hisdata = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
+                return render.historical(loginuser, ColumnList3, hisdata)
+        else:
+            return render.login('欢迎，请登录...')
 
 if __name__ == '__main__':
    # X秒打印一次时间
