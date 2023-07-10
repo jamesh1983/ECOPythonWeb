@@ -66,10 +66,15 @@ class login:
         loginuser=web.cookies().get('user_id')
         i = web.input()
         sn = i.get('sn')
+        if sn == None:
+            sn=settings.auth[loginuser]
         if loginuser:
-            if sn==None:
-                sn=settings.auth[loginuser]
-            return render.index(loginuser, model.CurrentData.getCurrentData(sn))
+            if (sn==1)|(sn==2):
+                return render.index12(loginuser, model.CurrentData.getCurrentData(sn))
+            elif sn==3:
+                return render.index3(loginuser, model.CurrentData.getCurrentData(sn))
+            else:
+                return None
         else:
             return render.login('欢迎访问，请先登录...')
     def POST(self):
@@ -80,10 +85,10 @@ class login:
             loginuser = username
             usertype = settings.auth[loginuser]
             web.setcookie('user_id', loginuser, settings.COOKIE_EXPIRES)
-            if (loginuser == 'admin') | (loginuser == '111') | (loginuser == '222'):
-                return render.index(loginuser, model.CurrentData.getCurrentData(1))
+            if (loginuser == '111') | (loginuser == '222'):
+                return render.index12(loginuser, model.CurrentData.getCurrentData(1))
             elif loginuser == '333':
-                return render.index(loginuser, model.CurrentData.getCurrentData(3))
+                return render.index3(loginuser, model.CurrentData.getCurrentData(3))
             else:
                 return render.login('登录错误，请重新登陆...')
         else:
@@ -133,14 +138,14 @@ class historical:
             return render.login('欢迎，请登录...')
 
 if __name__ == '__main__':
-   # X秒打印一次时间
+    #X秒打印一次时间
     #TimeCounter_5()
     #TimeCounter_10()
-   # X秒与Modbus主机通讯一次
+    #X秒与Modbus主机通讯一次
     #ModBusCommunication(10)
-   # 初始化对话框
+    #初始化对话框
     #ui = UIThread("UIThread")
     #ui.start()
     #mysql.start()
-   # 启动web服务
+    #启动web服务
     app.run()

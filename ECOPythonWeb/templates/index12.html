@@ -16,13 +16,9 @@ $def with (username,data)
         <div class="container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    $if (username=='111') | (username=='222'):
-                        <li><a href="/?sn=1">一号机组实时数据展示</a></li>
-                        <li><a href="/?sn=2">二号机组实时数据展示</a></li>
-                        <li><a href="/historical">历史数据展示</a></li>
-                    $if username=='333':
-                        <li><a href="/?sn=3">实时数据展示</a></li>
-                        <li><a href="/historical">历史数据展示</a></li>
+                    <li><a href="/?sn=1">一号机组实时数据展示</a></li>
+                    <li><a href="/?sn=2">二号机组实时数据展示</a></li>
+                    <li><a href="/historical">历史数据展示</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a>您好！$username</a></li>

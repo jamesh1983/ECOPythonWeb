@@ -85,7 +85,8 @@
     <Content Include="static\css\jquery.ui.core.min.css" />
     <Content Include="static\css\jquery.ui.datepicker.min.css" />
     <Content Include="static\css\jquery.ui.theme.min.css" />
-    <Content Include="templates\index.html" />
+    <Content Include="templates\index12.html" />
+    <Content Include="templates\index3.html" />
     <Content Include="templates\layout.html" />
     <Content Include="templates\login.html" />
     <Content Include="templates\loginpartial.html" />
