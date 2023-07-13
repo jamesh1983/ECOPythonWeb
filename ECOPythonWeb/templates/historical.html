@@ -34,10 +34,10 @@ $def with (username,column_data,his_data)
             </div>
         </div>
     </div>
-    <table width="100%" border="0">
+    <table width="1080px" border="0">
         <tbody>
             <tr>
-                <td width="100%">
+                <td width="1080px">
                     <form action="historical" method="post" class="form-horizontal">
                         <p>
                             <label for="date1">开始日期:</label>
@@ -56,26 +56,19 @@ $def with (username,column_data,his_data)
                             $for name in column_data.values():
                                 <option>$name</option>
                         </select>
-                        $if username=='admin':
-                            <label for="select2">查询机组</label>
-                            <select name="select2" id="select2">
-                                <option>鹤淇一号机组</option>
-                                <option>鹤淇二号机组</option>
-                                <option>环龙</option>
-                            </select>
-                        $if (username=='111') | (username=='222'):
-                            <label for="select2">查询机组</label>
-                            <select name="select2" id="select2">
-                                <option>鹤淇一号机组</option>
-                                <option>鹤淇二号机组</option>
-                            </select>
+                            $if (username=='111')|(username=='222'):
+                                <label for="select2">查询机组</label>
+                                <select name="select2" id="select2">
+                                    <option>鹤淇一号机组</option>
+                                    <option>鹤淇二号机组</option>
+                                </select>
                         <button id="Button1" type="submit">查询</button>
                     </form>
                 </td>
             </tr>
         </tbody>
     </table>
-    <table width="100%" border="0">
+    <table width="1080px" border="0">
         <tbody>
             <tr id="chart1" style="height: 450px;"></tr>
         </tbody>
@@ -91,14 +84,14 @@ $def with (username,column_data,his_data)
         function today() {
             let d = new Date();
             let currDate = d.getDate();
-            let currMonth = d.getMonth();
+            let currMonth = d.getMonth()+1;
             let currYear = d.getFullYear();
             return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
         }
         function yesterday() {
             let d = new Date();
             let currDate = d.getDate() - 1;
-            let currMonth = d.getMonth();
+            let currMonth = d.getMonth()+1;
             let currYear = d.getFullYear();
             return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
         }

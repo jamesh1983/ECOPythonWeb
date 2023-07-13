@@ -1,4 +1,4 @@
-$def with (username,data)
+$def with (username,data,predata)
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -26,58 +26,49 @@ $def with (username,data)
             </div>
         </div>
     </div>
-    <header id="1" align="center">OZAST高效水处理监控大屏</header>
-    <table width="100%" border="0">
+    <header id="1" align="center"><h1>OZAST高效水处理监控大屏</h1></header>
+    <table width="1920px" border="0">
         <tbody>
-            <tr style="height: 25%;">
-                <td id="td1" width="150px" style="height: 250px; ">
-                    <p>凝汽器前ORP1：$data["int_8"]</p>
-                    <p>凝汽器前ORP2：$data["int_10"]</p>
-                    <p>pH值：$data["int_33"]</p>
-                    <p>电导率：$data["int_34"]</p>
-                    <p>凝汽器前水温1：$data["int_9"]</p>
-                    <p>凝汽器前水温2：$data["int_11"]</p>
+            <tr style="height: 250px;">
+                <td id="td1" width="420px" style="height: 250px; ">
+                    <p id ="p1">凝汽器前ORP1：$data["int_8"]</p>
+                    <p id ="p2">凝汽器前ORP2：$data["int_10"]</p>
+                    <p id ="p3"></p>
+                    <p id ="p4">电导率：$data["int_34"]</p>
+                    <p id ="p5"></p>
+                    <p id ="p6"></p>
                 </td>
-                <td id="chart1" width="720px" style="height: 250px; "></td>
-                <td id="td2" width="150px" style="height: 250px; ">
-                    <p>排气温度：$data["Value5"]</p>
-                    <p>出水水温：$data["Value6"]</p>
-                    <p>进水压力：$data["Value7"]</p>
-                    <p>出水压力：$data["Value8"]</p>
-                    <p>发电负荷：$data["Value4"]</p>
+                <td id="chart1" width="1080px" style="height: 250px; "></td>
+                <td id="td2" width="420px" style="height: 250px; ">
+                    <p id ="p7">排气温度：$data["Value5"]</p>
+                    <p id ="p8">出水水温：$data["Value6"]</p>
+                    <p id ="p9">进水压力：$data["Value7"]</p>
+                    <p id ="p10">出水压力：$data["Value8"]</p>
+                    <p id ="p11"></p>
                 </td>
             </tr>
             <tr style="height: 230px;">
-                <td id="td3" width="150px" style="height: 230px; ">
-                    <p>取水阀开/关：$data["bool6"]/$data["bool7"]</p>
-                    <p>气路快开阀开/关：$data["bool8"]/$data["bool9"]</p>
-                    <p>取水泵1运行：$data["bool15"]</p>
-                    <p>取水泵2运行：$data["bool18"]</p>
-                    <p>循泵1：$data["bool1"]</p>
-                    <p>循泵2：$data["bool2"]</p>
-                    <p>循泵3：$data["bool3"]</p>
-                    <p>变频水泵工作频率：$data["Value3"]</p>
+                <td id="td3" width="420px" style="height: 230px; ">
+                    <p id ="p12"></p>
+                    <p id ="p13"></p>
+                    <p id ="p14"></p>
+                    <p id ="p15"></p>
+                    <p id ="p16"></p>
+                    <p id ="p17"></p>
+                    <p id ="p18"></p>
+                    <p id ="p19">变频水泵工作频率：$data["Value3"]</p>
                 </td>
-                <td id="td4" width="720px" style="height: 230px; ">
-                    <table width="100%" border="0" align="center">
-                        <tbody>
-                            <tr align="center">
-                                <td id="chart2" style="width: 240px; height: 230px; "></td>
-                                <td id="chart3" style="width: 240px; height: 230px; "></td>
-                                <td id="chart4" style="width: 240px; height: 230px; "></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <td id="chart2" width="1080px" style="height: 230px; ">
                 </td>
-                <td id="td5" width="150px" style="height: 230px; ">
-                    <p>凝汽器支路</p>
-                    <p>调节阀开度：$data["int_4"]</p>
-                    <p>冷却塔支路</p>
-                    <p>调节阀开度：$data["int_5"]</p>
-                    <p>吸气口水压/气压：$data["Value15"]/$data["Value14"]</p>
-                    <p>吸入器后水压：$data["Value16"]</p>
-                    <p>脱气塔前水压：$data["Value18"]</p>
-                    <p>脱气塔后水压：$data["Value19"]</p>
+                <td id="td5" width="420px" style="height: 230px; ">
+                    <p id ="p20">凝汽器支路</p>
+                    <p id ="p21">调节阀开度：$data["int_4"]</p>
+                    <p id ="p22">冷却塔支路</p>
+                    <p id ="p23">调节阀开度：$data["int_5"]</p>
+                    <p id ="p24">吸气口水压/气压：$data["Value15"]/$data["Value14"]</p>
+                    <p id ="p25">吸入器后水压：$data["Value16"]</p>
+                    <p id ="p26">脱气塔前水压：$data["Value18"]</p>
+                    <p id ="p27">脱气塔后水压：$data["Value19"]</p>
                 </td>
             </tr>
         </tbody>
@@ -114,19 +105,60 @@ $def with (username,data)
                 }
             },
             xAxis: {
-                type: 'time',
-                boundaryGap: false
+                type: 'category',
+                data: $predata["TIMETAG"]
             },
-            yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
-            },
+            yAxis: [
+                {
+                    name: "负荷",
+                    type: 'value'
+                },
+                {
+                    type: 'value',
+                    name: "端差"
+                },
+                {
+                    type: 'value',
+                    name: "预测",
+                    axisLabel: {
+                        show: false
+                    }
+                }
+            ],
             series: [
                 {
-                    name: '预测运维数据',
+                    name: '负荷',
                     type: 'line',
-                    symbol: 'none',
-                    data: ''
+                    data: $predata["result1"],
+                    yAxisIndex: 1,
+                    smooth: true
+                },
+                {
+                    name: '端差',
+                    type: 'line',
+                    data: $predata["result2"],
+                    yAxisIndex: 0,
+                    smooth: true
+                },
+                {
+                    name: '预测',
+                    type: 'line',
+                    data: $predata["result3"],
+                    yAxisIndex: 2,
+                    lineStyle: {
+                        type: [5, 10],
+                        dashOffset: 5
+                    }
+                },
+                {
+                    name: '警戒值',
+                    type: 'line',
+                    data: $predata["warningvalue"],
+                    yAxisIndex: 0,
+                    lineStyle: {
+                        type: [5, 10],
+                        dashOffset: 5
+                    }
                 }
             ]
         };
@@ -135,21 +167,21 @@ $def with (username,data)
             radar: {
                 // shape: 'circle',
                 indicator: [
-                    { name: '发生量', max: 15000 },
-                    { name: '气流量', max: 1800 },
-                    { name: '功率', max: 1100 },
-                    { name: '冷却水进水', max: 250 },
-                    { name: '冷却水出水', max: 250 },
+                    { name: '发生量', max: 1500 },
+                    { name: '气流量', max: 180 },
+                    { name: '功率', max: 11000 },
+                    { name: '冷却水进水', max: 25 },
+                    { name: '冷却水出水', max: 25 },
                     { name: '氧气浓度', max: 100 }
                 ]
             },
             series: [
                 {
-                    name: 'GM48-1',
+                    name: 'GM18',
                     type: 'radar',
                     data: [
                         {
-                            value: [$data["int_32"], $data["int_16"], $data["int_17"], $data["int_18"], $data["int_19"], $data["Value12"]],
+                            value: [$data["int_32"]/10, $data["int_16"]/10, $data["int_17"]*10, $data["int_18"]/10, $data["int_19"]/10, $data["Value12"]],
                             name: '1'
                         }
                     ],
@@ -160,6 +192,78 @@ $def with (username,data)
             ]
         };
         myChart2.setOption(option);
+        var p3 = document.getElementById('p3');
+        var p5 = document.getElementById('p5');
+        var p6 = document.getElementById('p6');
+        var p11 = document.getElementById('p11');
+        var p12 = document.getElementById('p12');
+        var p13 = document.getElementById('p13');
+        var p14 = document.getElementById('p14');
+        var p15 = document.getElementById('p15');
+        var p16 = document.getElementById('p16');
+        var p17 = document.getElementById('p17');
+        var p18 = document.getElementById('p18');
+        p3.innerHTML = 'pH值：' + $data["int_33"]/100;
+        p5.innerHTML = '凝汽器前水温1：' + $data["int_9"] / 10;
+        p6.innerHTML = '凝汽器前水温2：' + $data["int_11"] / 10;
+        p11.innerHTML = '发电负荷：' + $data["Value4"] * 100;
+        var temp1 = $data["bool6"];
+        var temp2 = $data["bool7"];
+        if (temp1 == 1) {
+            p12.innerHTML = '取水阀开';
+        }
+        else if (temp2 == 1) {
+            p12.innerHTML = '取水阀关';
+        }
+        else {
+            p12.innerHTML = '取水阀动作中';
+        }
+        temp1 = $data["bool8"];
+        temp2 = $data["bool9"];
+        if (temp1 == 1) {
+            p13.innerHTML = '气路快开阀开';
+        }
+        else if (temp2 == 1) {
+            p13.innerHTML = '气路快开阀关';
+        }
+        else {
+            p13.innerHTML = '气路快开阀动作中';
+        }
+        temp1 = $data["bool15"];
+        if (temp1 == 1) {
+            p14.innerHTML = '取水泵1运行中';
+        }
+        else {
+            p14.innerHTML = '取水泵1未运行';
+        }
+        temp1 = $data["bool18"];
+        if (temp1 == 1) {
+            p15.innerHTML = '取水泵2运行中';
+        }
+        else {
+            p15.innerHTML = '取水泵2未运行';
+        }
+        temp1 = $data["bool1"];
+        if (temp1 == 1) {
+            p16.innerHTML = '循泵1运行中';
+        }
+        else {
+            p16.innerHTML = '循泵1未运行';
+        }
+        temp1 = $data["bool2"];
+        if (temp1 == 1) {
+            p17.innerHTML = '循泵2运行中';
+        }
+        else {
+            p17.innerHTML = '循泵2未运行';
+        }
+        temp1 = $data["bool3"];
+        if (temp1 == 1) {
+            p18.innerHTML = '循泵3运行中';
+        }
+        else {
+            p18.innerHTML = '循泵3未运行';
+        }
     </script>
 </body>
 </html>

@@ -64,15 +64,16 @@ class UIThread (threading.Thread):
 class login:
     def GET(self):
         loginuser=web.cookies().get('user_id')
-        i = web.input()
-        sn = i.get('sn')
-        if sn == None:
-            sn=settings.auth[loginuser]
         if loginuser:
+            i = web.input()
+            if i.get('sn'):
+                sn = int(i.get('sn'))
+            else:
+                sn=settings.auth[loginuser]
             if (sn==1)|(sn==2):
-                return render.index12(loginuser, model.CurrentData.getCurrentData(sn))
+                return render.index12(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn))
             elif sn==3:
-                return render.index3(loginuser, model.CurrentData.getCurrentData(sn))
+                return render.index3(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn))
             else:
                 return None
         else:
@@ -86,9 +87,9 @@ class login:
             usertype = settings.auth[loginuser]
             web.setcookie('user_id', loginuser, settings.COOKIE_EXPIRES)
             if (loginuser == '111') | (loginuser == '222'):
-                return render.index12(loginuser, model.CurrentData.getCurrentData(1))
+                return render.index12(loginuser, model.CurrentData.getCurrentData(1), model.CurrentData.getPreData(1))
             elif loginuser == '333':
-                return render.index3(loginuser, model.CurrentData.getCurrentData(3))
+                return render.index3(loginuser, model.CurrentData.getCurrentData(3), model.CurrentData.getPreData(3))
             else:
                 return render.login('登录错误，请重新登陆...')
         else:
@@ -105,7 +106,7 @@ class historical:
                     "result":[820, 932, 901, 934, 1290, 1330, 1320]
                     }
         if loginuser:
-            if (loginuser=='admin') | (loginuser=='111') | (loginuser=='222'):
+            if (loginuser=='111') | (loginuser=='222'):
                 return render.historical(loginuser, ColumnList12, his_data)
             if loginuser=='333':
                 return render.historical(loginuser, ColumnList3, his_data)

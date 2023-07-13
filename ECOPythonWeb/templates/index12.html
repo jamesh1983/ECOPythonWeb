@@ -1,4 +1,4 @@
-$def with (username,data)
+$def with (username,data,predata)
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -27,11 +27,11 @@ $def with (username,data)
             </div>
         </div>
     </div>
-    <header id="1" align="center">OZAST高效水处理监控大屏</header>
-    <table width="100%" border="0">
+    <header id="1" align="center"><h1>OZAST高效水处理监控大屏</h1></header>
+    <table width="1080px" border="0">
         <tbody>
-            <tr style="height: 25%;">
-                <td id="td1" width="150px" style="height: 250px; ">
+            <tr style="height: 250px;">
+                <td id="td1" width="195px" style="height: 250px; ">
                     <p>凝汽器前ORP：$data["Value8"]</p>
                     <p>塔前ORP：$data["Value9"]</p>
                     <p>pH值：$data["Value19"]</p>
@@ -39,8 +39,8 @@ $def with (username,data)
                     <p>凝汽器前SS：$data["Value15"]</p>
                     <p>塔前SS：$data["Value16"]</p>
                 </td>
-                <td id="chart1" width="720px" style="height: 250px; "></td>
-                <td id="td2" width="150px" style="height: 250px; ">
+                <td id="chart1" width="690px" style="height: 250px; "></td>
+                <td id="td2" width="195px" style="height: 250px; ">
                     <p>端差：$data["Value3"]</p>
                     <p>负荷：$data["Value5"]</p>
                     <p>进水水温：$data["Value1"]</p>
@@ -50,29 +50,29 @@ $def with (username,data)
                 </td>
             </tr>
             <tr style="height: 230px;">
-                <td id="td3" width="150px" style="height: 230px; ">
-                    <p>臭氧投加模式：$data["Value1"]</p>
-                    <p>一号取水阀：$data["bool9"]/$data["bool10"]</p>
-                    <p>二号取水阀：$data["bool11"]/$data["bool12"]</p>
-                    <p>一号注水阀：$data["bool13"]/$data["bool14"]</p>
-                    <p>二号注水阀：$data["bool15"]/$data["bool16"]</p>
-                    <p>代斯米泵1/2：$data["bool17"]/$data["bool18"]</p>
-                    <p>格兰富泵1/2：$data["bool19"]/$data["bool20"]</p>
-                    <p>sv1/2/3：$data["bool1"]/$data["bool2"]/$data["bool3"]</p>
-                    <p>sv7/8/9：$data["bool4"]/$data["bool5"]/$data["bool6"]</p>
+                <td id="td3" width="195px" style="height: 230px; ">
+                    <p id ="p1">臭氧投加模式：$data["Value1"]</p>
+                    <p id ="p2">一号取水阀：$data["bool9"]/$data["bool10"]</p>
+                    <p id ="p3">二号取水阀：$data["bool11"]/$data["bool12"]</p>
+                    <p id ="p4">一号注水阀：$data["bool13"]/$data["bool14"]</p>
+                    <p id ="p5">二号注水阀：$data["bool15"]/$data["bool16"]</p>
+                    <p id ="p6">代斯米泵1/2：$data["bool17"]/$data["bool18"]</p>
+                    <p id ="p7">格兰富泵1/2：$data["bool19"]/$data["bool20"]</p>
+                    <p id ="p8">sv1/2/3：$data["bool1"]/$data["bool2"]/$data["bool3"]</p>
+                    <p id ="p9">sv7/8/9：$data["bool4"]/$data["bool5"]/$data["bool6"]</p>
                 </td>
-                <td id="td4" width="720px" style="height: 230px; ">
-                    <table width="100%" border="0" align="center">
+                <td id="td4" width="690px" style="height: 230px; ">
+                    <table width="690px" border="0" align="center">
                         <tbody>
                             <tr align="center">
-                                <td id="chart2" style="width: 240px; height: 230px; "></td>
-                                <td id="chart3" style="width: 240px; height: 230px; "></td>
-                                <td id="chart4" style="width: 240px; height: 230px; "></td>
+                                <td id="chart2" style="width: 230px; height: 230px; "></td>
+                                <td id="chart3" style="width: 230px; height: 230px; "></td>
+                                <td id="chart4" style="width: 230px; height: 230px; "></td>
                             </tr>
                         </tbody>
                     </table>
                 </td>
-                <td id="td5" width="150px" style="height: 230px; ">
+                <td id="td5" width="195px" style="height: 230px; ">
                     <p>凝汽器支路</p>
                     <p>调节阀开度：$data["int_13"]</p>
                     <p>冷却塔支路</p>
@@ -92,7 +92,7 @@ $def with (username,data)
         </footer>
     </div>
 
-    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/jquery-3.7.0.js"></script>
     <script src="/static/js/bootstrap-4.4.1.js"></script>
     <script src="/static/js/respond.js"></script>
 
@@ -101,6 +101,15 @@ $def with (username,data)
         var myChart2 = echarts.init(document.getElementById('chart2'));
         var myChart3 = echarts.init(document.getElementById('chart3'));
         var myChart4 = echarts.init(document.getElementById('chart4'));
+        var p1 = document.getElementById('p1');
+        var p2 = document.getElementById('p2');
+        var p3 = document.getElementById('p3');
+        var p4 = document.getElementById('p4');
+        var p5 = document.getElementById('p5');
+        var p6 = document.getElementById('p6');
+        var p7 = document.getElementById('p7');
+        var p8 = document.getElementById('p8');
+        var p9 = document.getElementById('p9');
         var option = {
             tooltip: {
                 trigger: 'axis',
@@ -119,19 +128,50 @@ $def with (username,data)
                 }
             },
             xAxis: {
-                type: 'time',
-                boundaryGap: false
+                type: 'category',
+                data: $predata["TIMETAG"]
             },
-            yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
-            },
+            yAxis: [
+                {
+                    name: "负荷",
+                    type: 'value'
+                },
+                {
+                    type: 'value',
+                    name: "端差"
+                }
+            ],
             series: [
                 {
-                    name: '预测运维数据',
+                    name: '负荷',
                     type: 'line',
-                    symbol: 'none',
-                    data: ''
+                    data: $predata["result1"],
+                    yAxisIndex: 1,
+                    smooth: true
+                },
+                {
+                    name: '端差',
+                    type: 'line',
+                    data: $predata["result2"],
+                    smooth: true
+                },
+                {
+                    name: '预测',
+                    type: 'line',
+                    data: $predata["result3"],
+                    lineStyle: {
+                        type: [5, 10],
+                        dashOffset: 5
+                    }
+                },
+                {
+                    name: '警戒值',
+                    type: 'line',
+                    data: $predata["warningvalue"],
+                    lineStyle: {
+                        type: [5, 10],
+                        dashOffset: 5
+                    }
                 }
             ]
         };
@@ -223,6 +263,102 @@ $def with (username,data)
             ]
         };
         myChart4.setOption(option);
+        var temp1 = $data["bool9"];
+        var temp2 = $data["bool10"];
+        if (temp1 == 1)
+            p2.innerHTML = '一号取水阀 开';
+        else if (temp2 == 1)
+            p2.innerHTML = '一号取水阀 关';
+        else
+            p2.innerHTML = '一号取水阀 动作中';
+        temp1 = $data["bool11"];
+        temp2 = $data["bool12"];
+        if (temp1 == 1)
+            p3.innerHTML = '二号取水阀 开';
+        else if (temp2 == 1)
+            p3.innerHTML = '二号取水阀 关';
+        else
+            p3.innerHTML = '二号取水阀 动作中';
+        temp1 = $data["bool13"];
+        temp2 = $data["bool14"];
+        if (temp1 == 1)
+            p4.innerHTML = '一号注水阀 开';
+        else if (temp2 == 1)
+            p4.innerHTML = '一号注水阀 关';
+        else
+            p4.innerHTML = '一号注水阀 动作中';
+        temp1 = $data["bool15"];
+        temp2 = $data["bool16"];
+        if (temp1 == 1)
+            p5.innerHTML = '二号注水阀 开';
+        else if (temp2 == 1)
+            p5.innerHTML = '二号注水阀 关';
+        else
+            p5.innerHTML = '二号注水阀 动作中';
+        temp1 = $data["bool17"];
+        temp2 = $data["bool18"];
+        p6.innerHTML = '代斯米泵1/2：';
+        if (temp1 == 1)
+            p6.innerHTML += '运行中/';
+        else
+            p6.innerHTML += '未运行/';
+        if (temp2 == 1)
+            p6.innerHTML += '运行中';
+        else
+            p6.innerHTML += '未运行';
+        temp1 = $data["bool19"];
+        temp2 = $data["bool20"];
+        p7.innerHTML = '格兰富泵1/2：';
+        if (temp1 == 1)
+            p7.innerHTML += '运行中/';
+        else
+            p7.innerHTML += '未运行/';
+        if (temp2 == 1)
+            p7.innerHTML += '运行中';
+        else
+            p7.innerHTML += '未运行';
+        temp1 = $data["bool1"];
+        p8.innerHTML = 'SV1/2/3：';
+        if (temp1 == 1)
+            p8.innerHTML += '开/';
+        else
+            p8.innerHTML += '关/';
+        temp1 = $data["bool2"];
+        if (temp1 == 1)
+            p8.innerHTML += '开/';
+        else
+            p8.innerHTML += '关/';
+        temp1 = $data["bool3"];
+        if (temp1 == 1)
+            p8.innerHTML += '开';
+        else
+            p8.innerHTML += '关';
+        p9.innerHTML = 'SV7/8/9：';
+        temp1 = $data["bool4"];
+        if (temp1 == 1)
+            p9.innerHTML += '开/';
+        else
+            p9.innerHTML += '关/';
+        temp1 = $data["bool5"];
+        if (temp1 == 1)
+            p9.innerHTML += '开/';
+        else
+            p9.innerHTML += '关/';
+        temp1 = $data["bool6"];
+        temp2 = $data["bool5"];
+        if (temp1 == 1) 
+            p9.innerHTML += '开';
+        else
+            p9.innerHTML += '关';
+        var temp3 = $data["bool4"];
+        if ((temp3 == 1) & (temp2 == 1) & (temp1 == 0))
+            p1.innerHTML = '臭氧投加模式：远程调入';
+        else if ((temp3 ==0) & (temp2 == 0) & (temp1 == 1))
+            p1.innerHTML = '臭氧投加模式：远程调出';
+        else if ((temp1 == 0) & (temp3 == 0) & (temp2 == 1))
+            p1.innerHTML = '臭氧投加模式：本地运行';
+        else
+            p1.innerHTML = '臭氧投加模式：模式切换中';
     </script>
 </body>
 </html>
