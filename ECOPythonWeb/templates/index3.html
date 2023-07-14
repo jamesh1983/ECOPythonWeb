@@ -9,6 +9,9 @@ $def with (username,data,predata)
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
     <script src="/static/js/modernizr-2.6.2.js"></script>
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap-4.4.1.js"></script>
+    <script src="/static/js/respond.js"></script>
     <script src="/static/js/echarts.js"></script>
 </head>
 <body>
@@ -80,10 +83,6 @@ $def with (username,data,predata)
         </footer>
     </div>
 
-    <script src="/static/js/jquery-1.10.2.js"></script>
-    <script src="/static/js/bootstrap-4.4.1.js"></script>
-    <script src="/static/js/respond.js"></script>
-
     <script type="text/javascript">
         var myChart1 = echarts.init(document.getElementById('chart1'));
         var myChart2 = echarts.init(document.getElementById('chart2'));
@@ -116,13 +115,6 @@ $def with (username,data,predata)
                 {
                     type: 'value',
                     name: "端差"
-                },
-                {
-                    type: 'value',
-                    name: "预测",
-                    axisLabel: {
-                        show: false
-                    }
                 }
             ],
             series: [
@@ -144,7 +136,7 @@ $def with (username,data,predata)
                     name: '预测',
                     type: 'line',
                     data: $predata["result3"],
-                    yAxisIndex: 2,
+                    yAxisIndex: 0,
                     lineStyle: {
                         type: [5, 10],
                         dashOffset: 5
