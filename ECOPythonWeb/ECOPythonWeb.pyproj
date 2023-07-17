@@ -27,11 +27,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="handle.py" />
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="main_old.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="model.py" />
+    <Compile Include="mysql.py" />
+    <Compile Include="receive.py" />
+    <Compile Include="reply.py" />
     <Compile Include="settings.py" />
+    <Compile Include="weixin.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="static\" />

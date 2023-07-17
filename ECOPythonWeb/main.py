@@ -5,6 +5,7 @@ import tkinter as tk
 import pymysql
 import settings
 import model
+import weixin
 #import mysql
 from datetime import datetime
 from threading import Timer
@@ -42,6 +43,7 @@ def TimeCounter_5():
     global t1
     t1 = Timer(5, TimeCounter_5)
     t1.start()
+
 def TimeCounter_10():
     # 打印时间函数
     print('T2现在时间：',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -51,6 +53,20 @@ def TimeCounter_10():
     global t2
     t2 = Timer(10, TimeCounter_10)
     t2.start()
+
+def TimeCounter_60():
+    # 打印时间函数
+    print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    #具体触发内容
+    ###
+    mysql.run_mysql()
+    mysql.run_mysql_HL()
+    #weixin.run_weixin()
+    #weixin.repeat_weixin(1440)
+    global t1
+    t1 = Timer(60, TimeCounter_60)
+    t1.start()
+
 class UIThread (threading.Thread):
     def __init__(self, threadID):
         threading.Thread.__init__(self)
@@ -61,6 +77,7 @@ class UIThread (threading.Thread):
         UIModule.ui_create()
         #root.mainloop()
         print ("退出线程：" + self.threadID)
+
 class login:
     def GET(self):
         loginuser=web.cookies().get('user_id')
@@ -139,14 +156,7 @@ class historical:
             return render.login('欢迎，请登录...')
 
 if __name__ == '__main__':
-    #X秒打印一次时间
-    #TimeCounter_5()
-    #TimeCounter_10()
-    #X秒与Modbus主机通讯一次
-    #ModBusCommunication(10)
-    #初始化对话框
-    #ui = UIThread("UIThread")
-    #ui.start()
-    #mysql.start()
+    TimeCounter_60()
+    weixin.conn_weixin()
     #启动web服务
     app.run()

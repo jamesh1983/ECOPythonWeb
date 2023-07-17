@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# filename: model.py
 import web
 import datetime
 import hashlib

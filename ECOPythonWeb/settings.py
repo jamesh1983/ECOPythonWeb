@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# filename: settings.py
 ##### 公共配置 #####
 COOKIE_EXPIRES = 3600 # 单位s
 urls = (
