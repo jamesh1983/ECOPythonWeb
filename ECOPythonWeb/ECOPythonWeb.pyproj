@@ -95,7 +95,6 @@
     <Content Include="static\css\jquery.ui.theme.min.css" />
     <Content Include="templates\index12.html" />
     <Content Include="templates\index3.html" />
-    <Content Include="templates\index_test.html" />
     <Content Include="templates\layout.html" />
     <Content Include="templates\login.html" />
     <Content Include="templates\loginpartial.html" />
