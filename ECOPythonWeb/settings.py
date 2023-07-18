@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# filename: settings.py
 ##### 公共配置 #####
 COOKIE_EXPIRES = 3600 # 单位s
 urls = (
@@ -7,13 +9,11 @@ urls = (
     '/wx', 'Handle',
 )
 allowed = (
-    ('admin','admin'),
     ('111','111'),
     ('222','222'),
     ('333','333'),
 )
 auth = {
-    "admin":1,
     "111":1,
     "222":1,
     "333":3,

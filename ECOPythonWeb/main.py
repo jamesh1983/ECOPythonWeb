@@ -37,6 +37,7 @@ def TimeCounter_5():
     global t1
     t1 = Timer(5, TimeCounter_5)
     t1.start()
+
 def TimeCounter_10():
     # 打印时间函数
     print('T2现在时间：',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -68,6 +69,7 @@ class UIThread (threading.Thread):
         UIModule.ui_create()
         #root.mainloop()
         print ("退出线程：" + self.threadID)
+
 class login:
     def GET(self):
         loginuser=web.cookies().get('user_id')

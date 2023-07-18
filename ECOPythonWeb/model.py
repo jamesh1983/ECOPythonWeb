@@ -16,7 +16,8 @@ db = web.database(dbn=settings.DBN, host=settings.HOST, port=settings.PORT,  db=
 class CurrentData:
     def getColumnList():
         try:
-            list = db.query('SELECT column_name, comments, comments_for_HL FROM column_list')
+            cmd = 'SELECT column_name, comments, comments_for_HL FROM column_list'
+            list = db.query(cmd)
             columnlist = {}
             column_name = []
             comments = []
@@ -35,7 +36,8 @@ class CurrentData:
             return None
     def getCurrentData(sn):
         try:
-            result = db.query('SELECT * FROM table_current WHERE SN = ' + str(sn) + ' ORDER BY ID DESC LIMIT 1')
+            cmd = 'SELECT * FROM table_current WHERE SN = ' + str(sn) + ' ORDER BY ID DESC LIMIT 1'
+            result = db.query(cmd)
             return dict(result[0])
         except Exception as e:
             print(e)
@@ -43,7 +45,8 @@ class CurrentData:
     def getHisData(sn, column, starttime, endtime):
         resultdata = {"TIMETAG":[],"result":[]}
         try:
-            results = db.query('SELECT TIMETAG, ' + column + ' as result FROM table_prodict WHERE SN = ' + str(sn) + ' AND TIMETAG BETWEEN "' + starttime + '" AND "' + endtime + '"')
+            cmd = 'SELECT TIMETAG, ' + column + ' as result FROM table_prodict WHERE SN = ' + str(sn) + ' AND TIMETAG BETWEEN "' + starttime + '" AND "' + endtime + '"'
+            results = db.query(cmd)
             for result in results:
                 datetime_inf = int(result.TIMETAG.strftime('%Y%m%d%H%M'))
                 num_value = result.result
