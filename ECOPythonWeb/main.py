@@ -1,17 +1,12 @@
+# -*- coding: utf-8 -*-
+# filename: main.py
 import web
 import threading
-import time
-import tkinter as tk
-import pymysql
 import settings
 import model
-#import mysql
 from datetime import datetime
 from threading import Timer
-from web import form
-#from UIModule import userinterface
-#from mbtcpmodule import MBTCP
-#from web.contrib.template import render_jinja
+from model import Handle
 loginuser=''
 web.config.debug = True
 app = web.application(settings.urls, globals())
@@ -51,6 +46,18 @@ def TimeCounter_10():
     global t2
     t2 = Timer(10, TimeCounter_10)
     t2.start()
+def TimeCounter_60():
+    # 打印时间函数
+    print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    #具体触发内容
+    ###
+    model.run_mysql()
+    model.run_mysql_HL()
+    #weixin.run_weixin()
+    #weixin.repeat_weixin(1440)
+    global t1
+    t1 = Timer(60, TimeCounter_60)
+    t1.start()
 class UIThread (threading.Thread):
     def __init__(self, threadID):
         threading.Thread.__init__(self)
@@ -139,14 +146,6 @@ class historical:
             return render.login('欢迎，请登录...')
 
 if __name__ == '__main__':
-    #X秒打印一次时间
-    #TimeCounter_5()
-    #TimeCounter_10()
-    #X秒与Modbus主机通讯一次
-    #ModBusCommunication(10)
-    #初始化对话框
-    #ui = UIThread("UIThread")
-    #ui.start()
-    #mysql.start()
-    #启动web服务
+    #model.conn_weixin()
+    #TimeCounter_60()
     app.run()

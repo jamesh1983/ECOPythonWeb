@@ -1,223 +1,18 @@
+# -*- coding: utf-8 -*-
+# filename: main.py
 import web
-import datetime
+import time
 import hashlib
 import settings
 import re
-import datetime
-#import util
-
+import xml.etree.ElementTree as ET
+import requests
+import json
+import random
+from threading import Timer
+from datetime import datetime
 # 连接MySQL数据库
-db = web.database(dbn=settings.DBN, host=settings.HOST, port=settings.PORT,  db=settings.DB,
-                  user=settings.MYSQL_USERNAME, pw=settings.MYSQL_PASSWORD, driver=settings.DRIVER,
-                  buffered=True)
-class Post:
-    def count(self):
-        '''获取文章总数'''
-        return db.query("SELECT COUNT(*) AS count FROM posts")[0].count
-    def list(self, page):
-        '''获取第page页的所有文章'''
-        per_page = settings.POSTS_PER_PAGE
-
-        # 获取从offset开始共per_page个post
-        offset = (page - 1) * per_page
-        posts = db.query('''SELECT posts.id, title, posts.time, user_id, users.name AS username
-                            FROM posts JOIN users
-                            ON posts.user_id = users.id
-                            ORDER BY posts.id DESC
-                            LIMIT %d OFFSET %d''' % (per_page, offset))
-        page_posts = []
-        for p in posts:
-            comment = Comment(p.id)
-            last = comment.last()
-            last_time = last.time if last else p.time
-            page_posts.append({'id': p.id, 'title': p.title, 'userid': p.user_id, 'username': p.username,
-            'comment_count': comment.count(), 'last_time': last_time})
-
-        # 计算总页数
-        post_count = self.count()
-        page_count = post_count // per_page
-        if post_count % per_page > 0:
-            page_count += 1
-
-        return (page_posts, page_count)
-    def new(self, title, content, user_id):
-        if user_id:
-            return db.insert('posts', title=title, content=content, user_id=user_id)
-        else:
-            return 0
-    def view(self, id):
-        '''获取id对应的文章'''
-        posts = db.query('''SELECT posts.id, title, content, posts.time, user_id, users.name AS username, users.picture AS user_face
-                            FROM posts JOIN users
-                            ON posts.user_id = users.id
-                            WHERE posts.id = %d''' % id)
-        if posts:
-            return posts[0]
-
-        return None       
-    def digest_list(self, user_id):
-        '''获取user_id对应作者的文章列表'''
-        posts = db.query('''SELECT id, title, time FROM posts
-                            WHERE user_id=%d
-                            ORDER BY id DESC''' % user_id)
-        return posts
-    def update(self, id, title, content): 
-        '''更新文章'''
-        try:
-            db.update('posts', where='id=$id', title=title, content=content, vars=locals())
-            return True
-        except Exception as e:
-            print(e)
-            return False
-    def ddel(self, id):
-        try:
-            db.delete('posts', where='id=$id', vars=locals())          
-        except Exception as e:
-            print(e)
-class User:
-    def current_id(self):
-        '''当前登录用户的id'''
-        user_id = 0
-        try:
-            if web.cookies().get('user_id') != None:
-                user_id = int(web.cookies().get('user_id'))
-            else:
-                user_id = 0
-        except Exception as e:
-            print(e)
-        else:
-            # 刷新cookie
-            web.setcookie('user_id', str(user_id), settings.COOKIE_EXPIRES)
-        finally:
-            return user_id
-    def new(self, email, username, password):
-        pwdhash = hashlib.md5(password.encode('utf-8')).hexdigest()
-        return db.insert('users', email=email, name=username, password=pwdhash,
-                         picture='/static/img/user_normal.jpg', description='')
-    def status(self, id):
-        '''查询id对应的用户信息'''
-        email = ''
-        username = ''
-        password_hash = ''
-        picture = ''
-        description = ''
-
-        users = db.query('SELECT email, name, password, picture, description FROM users WHERE id=%d' % id)
-        if users:
-            u = users[0]
-            email = u.email
-            username = u.name
-            password_hash = u.password
-            picture = u.picture
-            description = u.description
-
-        return {'email': email, 'username': username, 'password_hash': password_hash,
-                'picture': picture, 'description': description}
-    
-    def login(self, username, password):
-        '''登录验证'''
-        pwdhash = hashlib.md5(password.encode('utf-8')).hexdigest()
-        users = db.select('users', what='id', where='name=$username AND password=$pwdhash', vars=locals())
-        for user in users:
-            if user:               
-                return user['id']            
-            else:
-                return 0
-    def update(self, id, **kwd):
-        try:
-            if 'email' in kwd and kwd['email']:
-                db.update('users', where='id=$id', email=kwd['email'], vars=locals())
-
-            if 'password' in kwd and kwd['password']:
-                pwdhash = hashlib.md5(kwd['password']).hexdigest()
-                db.update('users', where='id=$id', password=pwdhash, vars=locals())
-
-            if 'picture' in kwd and kwd['picture']:
-                db.update('users', where='id=$id', picture=kwd['picture'], vars=locals())
-
-            if 'description' in kwd and kwd['description']:
-                db.update('users', where='id=$id', description=kwd['description'], vars=locals())
-
-            return True
-        except Exception as e:
-            print(e)
-            return False
-    def matched_id(self, **kwd):
-        '''根据kwd指定的查询条件，搜索数据库'''
-        users = db.select('users', what='id', where=web.db.sqlwhere(kwd, grouping='OR'))
-        if users:
-            # 目前只用于单条记录查询，因此只取第一个
-            u = users[0]
-            return u.id
-        else:
-            return 0
-class Comment:
-    def __init__(self, post_id):
-        '''一个Comment实例只对应一篇文章'''
-        self.__parent_id = post_id
-
-    def quote(self, comments):
-        '''为每个评论获取父评论（即引用，只处理一级）'''
-        comments_with_quote = []
-        for c in comments:
-            quote_content = ''
-            quote_username = ''
-            quote_user_id = 0
-            if c.quote_id:
-                quotes = db.query('''SELECT content, users.name AS username, user_id
-                                       FROM comments JOIN users
-                                       ON comments.user_id = users.id
-                                       WHERE comments.id=%d''' % c.quote_id)
-                if quotes:
-                    q = quotes[0]
-                    quote_content = q.content
-                    quote_username = q.username
-                    quote_user_id = q.user_id
-            comments_with_quote.append({'id': c.id, 'content': c.content, 'user_id': c.user_id, 'username': c.username,
-                                        'user_face': c.user_face, 'time': c.time, 'quote_content': quote_content,
-                                        'quote_username': quote_username, 'quote_user_id': quote_user_id})
-        return comments_with_quote
-
-    def new(self, content, user_id, quote_id):
-        try:
-            return db.insert('comments', content=content, user_id=user_id, parent_id=self.__parent_id, quote_id=quote_id)
-        except Exception as e:
-            print(e)
-            return 0
-
-    def ddel(self):
-        try:
-            #db.delete('comments', where='parent_id=$self.__parent_id', vars=locals())
-            db.query('DELETE FROM comments WHERE parent_id=%d' % self.__parent_id)
-        except Exception as e:
-            print(e)
-
-    def list(self):
-        '''获取当前文章（创建Comment实例时指定了post_id）下面的所有评论'''
-        comments = db.query('''SELECT comments.id, content, comments.time, users.name AS username, user_id, quote_id, users.picture AS user_face
-                               FROM comments JOIN users
-                               ON comments.user_id = users.id
-                               WHERE comments.parent_id=%d
-                               ORDER BY comments.id''' % self.__parent_id)
-        return comments
-
-    def last(self):
-        '''获取当前文章下面的最新评论'''
-        last_comments = db.query('''SELECT comments.id, content, comments.time, users.name AS username, user_id, quote_id, users.picture AS user_face
-                                    FROM comments JOIN users
-                                    ON comments.user_id = users.id
-                                    WHERE comments.id=(SELECT MAX(id) FROM comments WHERE parent_id=%d)''' % self.__parent_id)
-        if last_comments:
-            return last_comments[0]
-
-        return None
-
-    def count(self):
-        '''获取当前文章下面的评论总数'''
-        result = db.query("SELECT COUNT(*) AS count FROM comments WHERE parent_id=%d" % self.__parent_id)
-        for i in result:
-                return i.count
-        return 0
+db = web.database(dbn=settings.DBN, host=settings.HOST, port=settings.PORT,  db=settings.DB, user=settings.MYSQL_USERNAME, pw=settings.MYSQL_PASSWORD, driver=settings.DRIVER)
 class CurrentData:
     def getColumnList():
         try:
@@ -284,3 +79,611 @@ class CurrentData:
         except Exception as e:
             print(e)
             return None
+class Msg_RLY(object):
+    def __init__(self):
+        pass
+    def send(self):
+        return "success"
+class TextMsg_RLY(Msg_RLY):
+    def __init__(self, toUserName, fromUserName, content):
+        self.__dict = dict()
+        self.__dict['ToUserName'] = toUserName
+        self.__dict['FromUserName'] = fromUserName
+        self.__dict['CreateTime'] = int(time.time())
+        self.__dict['Content'] = content
+    def send(self):
+        XmlForm = """
+        <xml>
+        <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+        <CreateTime>{CreateTime}</CreateTime>
+        <MsgType><![CDATA[text]]></MsgType>
+        <Content><![CDATA[{Content}]]></Content>
+        </xml>
+        """
+        return XmlForm.format(**self.__dict)
+class LinkMsg_RLY(Msg_RLY):
+    def __init__(self, toUserName, fromUserName, title, description, url):
+        self.__dict = dict()
+        self.__dict['ToUserName'] = toUserName
+        self.__dict['FromUserName'] = fromUserName
+        self.__dict['CreateTime'] = int(time.time())
+        self.__dict['Title'] = title
+        self.__dict['Description '] = description
+        self.__dict['Url'] = url
+    def send(self):
+        XmlForm = """
+        <xml>
+        <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+        <CreateTime>{CreateTime}</CreateTime>
+        <MsgType><![CDATA[link]]></MsgType>
+        <Title><![CDATA[{title}]]></Title>
+        <Description><![CDATA[{description}]]></Description>
+        <Url><![CDATA[{url}]]></Url>
+        </xml>
+        """
+        return XmlForm.format(**self.__dict)
+class ImageMsg_RLY(Msg_RLY):
+    def __init__(self, toUserName, fromUserName, mediaId):
+        self.__dict = dict()
+        self.__dict['ToUserName'] = toUserName
+        self.__dict['FromUserName'] = fromUserName
+        self.__dict['CreateTime'] = int(time.time())
+        self.__dict['MediaId'] = mediaId
+    def send(self):
+        XmlForm = """
+        <xml>
+        <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+        <CreateTime>{CreateTime}</CreateTime>
+        <MsgType><![CDATA[image]]></MsgType>
+        <Image>
+        <MediaId><![CDATA[{MediaId}]]></MediaId>
+        </Image>
+        </xml>
+        """
+        return XmlForm.format(**self.__dict)
+class Msg_REC(object):
+    def __init__(self, xmlData):
+        self.ToUserName = xmlData.find('ToUserName').text
+        self.FromUserName = xmlData.find('FromUserName').text
+        self.CreateTime = xmlData.find('CreateTime').text
+        self.MsgType = xmlData.find('MsgType').text
+class TextMsg_REC(Msg_REC):
+    def __init__(self, xmlData):
+        Msg.__init__(self, xmlData)
+        self.MsgId = xmlData.find('MsgId').text
+        self.recText = xmlData.find('Content').text
+class ImageMsg_REC(Msg_REC):
+    def __init__(self, xmlData):
+        Msg.__init__(self, xmlData)
+class EventMsg_REC(Msg_REC):
+    def __init__(self, xmlData):
+        Msg.__init__(self, xmlData)
+        self.Event = xmlData.find('Event').text
+        self.EventKey = xmlData.find('EventKey').text
+class Handle(object):
+    def GET(self):
+        try:
+            data = web.input()
+            if len(data) == 0:
+                return "hello, this is handle view"
+            return data
+            signature = data.signature
+            timestamp = data.timestamp
+            nonce = data.nonce
+            echostr = data.echostr
+            print (data)
+            token = "Ecotech1661"
+            list = [token, timestamp, nonce]
+            list.sort()
+            sha1 = hashlib.sha1()
+            sha1.update(list[0].encode("utf-8"))
+            sha1.update(list[1].encode("utf-8"))
+            sha1.update(list[2].encode("utf-8"))
+            hashcode = sha1.hexdigest()
+            print ("handle/GET func: hashcode, signature: ", hashcode, signature)
+            if hashcode == signature:
+                return ""
+            else:
+                return "success"
+        except Exception as Argument:
+            return None
+    def POST(self):
+        try:
+            webData = web.data()
+            print ("Handle Post webdata is ", webData)
+   #后台打日志
+            recMsg = parse_xml(webData)
+            if isinstance(recMsg, Msg_REC) and recMsg.MsgType == 'text':
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
+                recContent = recMsg.recText
+                keyword = recContent.split('-')
+                if (recContent == "绑定账号"):
+                    weixinID = recMsg.FromUserName
+                    userID = str(random.randint(1000000000, 1999999999))
+                    result = insert_user(userID,weixinID)
+                    if result == "success":
+                        content = "绑定成功！报警ID为：" + userID
+                    elif result == "fault":
+                        content = "出错啦！"
+                    else:
+                        content = "用户已经绑定！ID为：" + result
+                elif(len(keyword)>1 and keyword[0] == "确认"):
+                    settingID = keyword[1]
+                    #db_connect = pymysql.connect("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
+                    #cursor = db_connect.cursor()
+                    cmd = "UPDATE warning_log, table_user SET warning_ack = CURRENT_TIMESTAMP, warning_log.ack_user = table_user.user_ID "\
+                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "'"
+                    #result = cursor.execute(cmd)
+                    result = db.query(cmd)
+                    #db_connect.commit()
+                    #db_connect.close()
+                    print (result)
+                    content = "确认成功！"
+                elif(len(keyword)>1 and keyword[0] == "消除"):
+                    settingID = keyword[1]
+                    #db_connect = pymysql.connect("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
+                    #cursor = db_connect.cursor()
+                    cmd = "UPDATE warning_log, table_user SET warning_resolved = CURRENT_TIMESTAMP, warning_log.resloved_user = table_user.user_ID "\
+                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "'"
+                    #result = cursor.execute(cmd)
+                    #db_connect.commit()
+                    #db_connect.close()
+                    result = db.query(cmd)
+                    print (result)
+                    content = "消除成功！"
+                elif(recContent.isdigit()):
+                    settingID = recContent
+                    #db_connect = pymysql.connect("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
+                    #cursor = db_connect.cursor()
+                    cmd = "UPDATE warning_log, table_user SET warning_ack = CURRENT_TIMESTAMP, warning_log.ack_user = table_user.user_ID "\
+                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "'"
+                    #result = cursor.execute(cmd)
+                    #db_connect.commit()
+                    #db_connect.close()
+                    result = db.query(cmd)
+                    print (result)
+                    content = "确认成功！"
+                else:
+                    content = "点击按钮'绑定账号'确认绑定操作，并生成报警ID"
+                replyMsg = TextMsg_RLY(toUser, fromUser, content)
+                return replyMsg.send()
+            elif isinstance(recMsg, Msg_REC) and recMsg.MsgType == 'event':
+                toUser = recMsg.FromUserName
+                fromUser = recMsg.ToUserName
+                weixinID = recMsg.FromUserName
+                userID = str(random.randint(1000000000, 1999999999))
+                result = insert_user(userID,weixinID)
+                if result == "success":
+                    content = "绑定成功！报警ID为：" + userID
+                elif result == "fault":
+                    content = "出错啦！"
+                else:
+                    content = "用户已经绑定！ID为：" + result
+                #content = "回复文字'绑定账号'确认绑定操作，并生成报警ID"
+                replyMsg = TextMsg_RLY(toUser, fromUser, content)
+                return replyMsg.send()
+            #elif isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'link':
+            #    toUser = recMsg.FromUserName
+            #    fromUser = recMsg.ToUserName
+            #    content = "您发送的连接已经收到！正在调试，尽情谅解！"
+            #    replyMsg = reply.TextMsg(toUser, fromUser, content)
+            #    return replyMsg.send()
+            else:
+                print ("暂且不处理")
+                return "success"
+        except Exception as Argment:
+            print(Argment)
+            return Argment
+class Wechat_Info:
+    def __init__(self):
+        self.appid = 'wx326ea151e11df0a0'
+        self.secret = '6b401b050b73073ab113caf2d1beafb2'
+        self.token = None
+    def get_token(self,appid, secret):
+        Url = "https://api.weixin.qq.com/cgi-bin/token"
+        Data = {
+            "grant_type": 'client_credential',
+            "appid": appid,
+            "secret": secret
+        }
+        r = requests.get(url=Url, params=Data)
+        try:
+            token = r.json()['access_token']
+            return token
+        except Exception as Argment:
+            print(Argment)
+            return None
+    def send_message(self, weixinID, message):
+        #模板发送
+        url = "https://api.weixin.qq.com/cgi-bin/message/template/send"
+        data = {
+            "touser":weixinID,#oJsNDw7R6SPKZKNo7pyki51ub6jg
+            #"template_id":"0NeybOJ7-15dc3T1YXMxaISxdDoLuapHbEdhiDItrL4",
+            #"template_id":"9sqHT3HSLuJdESQ5rPi9rErb-tiE60sSJp7Kpoj6oAY",
+            #"UFEXf7fI8imOI0z7fu3hpT-C9dCb0cMGoQqdOGp_hEY"
+            "template_id":"UFEXf7fI8imOI0z7fu3hpT-C9dCb0cMGoQqdOGp_hEY",
+            "url":" ",
+            "topcolor":"#FF0000",
+            "data":{
+                "keyword3": {
+                    "value":message['Date'],
+                    "color":"#173177"
+                },
+                "keyword2":{
+                    "value":message['warningcode'],
+                    "color":"#173177"
+                },
+                "keyword1":{
+                    "value":message['SN'] + message['equipment'],
+                    "color":"#173177"
+                },
+                "first":{
+                    "value":"故障码" + message['warning_setting'],
+                    "color":"#173177"
+                },
+                "remark":{
+                    "value":message['warning_status'],
+                    "color":"#173177"
+                },
+                "keyword4":{
+                    "value":message['warning_setting'] + message['warning_status'],
+                    "color":"#173177"
+                }
+            }
+        }
+        #result = requests.post(url=url, 
+        #                       params={'access_token':self.__get_token(self.appid, self.secret)},
+        #                       data=json.dumps(data))
+        result = requests.post(url=url, 
+                               params={'access_token': self.token},
+                               data=json.dumps(data))
+        #json.JSONEncoder().encode(data)
+        return result
+class MySQL(object):
+    def tablelistSQL(self):
+        # 打开数据库连接
+        try:
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #print ("数据库连接成功！")
+            # 使用cursor()方法获取操作游标 
+            #cursor = db.cursor()
+            # 使用execute方法执行SQL语句
+            #cursor.execute("SELECT TABLE_NAME from information_schema.TABLES where TABLE_SCHEMA = 'prodict_database'")
+            #print ("数据库查询完成！")
+            ## 使用 fetchone() 方法获取一条数据
+            #data = cursor.fetchall()
+            cmd = "SELECT TABLE_NAME from information_schema.TABLES where TABLE_SCHEMA = 'prodict_database'"
+            data = db.query(cmd)
+            for name in data:
+                print ("table_name:", name)
+            # 关闭数据库连接
+            #db.close()
+            return data
+        except Exception as Argment:
+            return Argment
+    def tableSQL(self, tablename):
+        # 打开数据库连接
+        try:
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #cursor = db.cursor()
+            #cursor.execute("SELECT * from " + tablename + " LIMIT 1")
+            #data = cursor.fetchall()
+            #db.close()
+            cmd = "SELECT * from " + tablename + " LIMIT 1"
+            data = db.query(cmd)
+            return data
+        except Exception as Argment:
+            return Argment
+    def Get_Warning_Value(self):
+        # 打开数据库连接
+        try:
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #cursor = db.cursor()
+            # 使用execute方法执行SQL语句 #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_name, 7:settingID, 8:equipment_name, 9:SN_name
+            sql_cmd = "SELECT warning_setting.value_name, warning_setting.up_limit, warning_setting.down_limit, warning_setting.user_list, table_sn.SN_ID, "\
+                      "table_warningcode.content, warning_setting.equipment_ID, warning_setting.ID, table_equipment.name as equipment_name, table_sn.name as SN_name "\
+                      "FROM warning_setting, table_equipment, table_sn, table_warningcode "\
+                      "WHERE table_warningcode.code_ID = warning_setting.warningcode_content AND "\
+                      "warning_setting.equipment_ID = table_equipment.equipment_ID AND "\
+                      "table_equipment.SN_ID = table_sn.SN_ID AND "\
+                      "table_sn.location = 'HQ' and warning_setting.activated = '1' "
+            #cursor.execute(sql_cmd)
+            #data = cursor.fetchall()
+            #db.close()
+            data = db.query(sql_cmd)
+            return data
+        except Exception as Argment:
+            return Argment
+    def Get_Value(self, value_name):
+        # 打开数据库连接
+        try:
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #cursor = db.cursor()
+            # 使用execute方法执行SQL语句
+            sql_cmd = "SELECT "+value_name+" "\
+                "FROM table_prodict, table_sn "\
+                "WHERE table_prodict.SN = table_sn.SN_ID AND table_sn.location = 'HQ' "\
+                "ORDER BY table_prodict.ID DESC LIMIT 1"
+            #cursor.execute(sql_cmd)
+            #data = cursor.fetchall()
+            #db.close()
+            data = db.query(sql_cmd)
+            return data
+        except Exception as Argment:
+            return Argment
+    def Get_Warning_Value_HL(self):
+        # 打开数据库连接
+        try:
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #cursor = db.cursor()
+            # 使用execute方法执行SQL语句 #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_name, 7:settingID, 8:equipment_name, 9:SN_name
+            sql_cmd = "SELECT warning_setting.value_name, warning_setting.up_limit, warning_setting.down_limit, warning_setting.user_list, table_sn.SN_ID, "\
+                      "table_warningcode.content, warning_setting.equipment_ID, warning_setting.ID, table_equipment.name as equipment_name, table_sn.name as SN_name "\
+                      "FROM warning_setting, table_equipment, table_sn, table_warningcode "\
+                      "WHERE table_warningcode.code_ID = warning_setting.warningcode_content AND "\
+                      "warning_setting.equipment_ID = table_equipment.equipment_ID AND "\
+                      "table_equipment.SN_ID = table_sn.SN_ID AND "\
+                      "table_sn.location = 'HL' and warning_setting.activated = '1' "
+            #cursor.execute(sql_cmd)
+            #data = cursor.fetchall()
+            #db.close()
+            data = db.query(sql_cmd)
+            return data
+        except Exception as Argment:
+            return Argment
+    def Get_Value_HL(self, value_name):
+        # 打开数据库连接
+        try:
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #cursor = db.cursor()
+            # 使用execute方法执行SQL语句
+            sql_cmd = "SELECT "+value_name+" "\
+                "FROM table_prodict, table_sn "\
+                "WHERE table_prodict.SN = table_sn.SN_ID AND table_sn.location = 'HL' "\
+                "ORDER BY table_prodict.ID DESC LIMIT 1"
+            #cursor.execute(sql_cmd)
+            #data = cursor.fetchall()
+            #db.close()
+            data = db.query(sql_cmd)
+            return data
+        except Exception as Argment:
+            return Argment
+def parse_xml(web_data):
+    if len(web_data) == 0:
+        return None
+    xmlData = ET.fromstring(web_data)
+    msg_type = xmlData.find('MsgType').text
+    if msg_type == 'text':
+        return TextMsg(xmlData)
+    elif msg_type == 'image':
+        return ImageMsg(xmlData)
+    elif msg_type == 'event':
+        return EventMsg(xmlData)
+def run_weixin(wechat_info):
+    #str_connection = ("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
+    #wechat_info = Wechat_Info()
+    message = {'Date':datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'warningcode':"XXX",'SN':"1", 'equipment': "微信测试", 'warning_setting':"XXX", 'warning_status':"XXX"}
+    try:
+        #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+        #cursor = db.cursor()
+        sqlcmd = "SELECT warningcode, SN, equipment, warning_setting, warning_status, user_list FROM warning_log, warning_setting WHERE warning_log.warning_ack IS NULL  AND warning_setting.ID = warning_log.warning_setting"
+        #cursor.execute(sqlcmd)
+        #data = cursor.fetchall()
+        #db.close()
+        data = db.query(sqlcmd)
+        if (len(data)>=1):
+            for row in data:
+                message['Date'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message['warningcode'] = row["warningcode"]#故障码
+                message['SN'] = row["SN"]#模块
+                message['equipment'] = row["equipment"]#设备
+                message['warning_setting'] = row["warning_setting"]#报警设置
+                message['warning_status'] = row["warning_status"]#报警状态
+                if(row[5] != None):
+                    userID_List = row["user_list"].split(',')#报警用户
+                else:
+                    userID_List = ""
+                if(len(userID_List)>0):
+                    #userDB = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+                    #user_cursor = userDB.cursor()
+                    for userID in userID_List:
+                        user_cmd = "select weixinID from table_user where user_ID = '" + userID + "'"
+                        #user_cursor.execute(user_cmd)
+                        #user_data = user_cursor.fetchall()
+                        user_data = db.query(user_cmd)
+                        weixinID = user_data[0]["weixinID"]
+                        wechat_info.send_message(weixinID, message)
+                    #userDB.close()
+    except Exception as Argment:
+        print(Argment)
+def repeat_weixin(wechat_info,count):
+    #str_connection = ("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
+    #wechat_info = Wechat_Info()
+    message = {'Date':datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 'warningcode':"XXX",'SN':"1", 'equipment': "微信测试", 'warning_setting':"XXX", 'warning_status':"XXX"}
+    try:
+        #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+        #cursor = db.cursor()
+        sqlcmd = "SELECT warningcode, SN, equipment, warning_setting, warning_status, user_list "\
+            "FROM warning_log, warning_setting "\
+            "WHERE (warning_log.warning_ack IS NOT NULL AND warning_log.warning_resolved IS NULL) AND warning_log.warning_status > " + str(count) + " AND warning_setting.ID = warning_log.warning_setting"
+        #cursor.execute(sqlcmd)
+        #data = cursor.fetchall()
+        #db.close()
+        data = db.query(sqlcmd)
+        if (len(data)>=1):
+            for row in data:
+                message['Date'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message['warningcode'] = str(row["warningcode"])#故障码
+                message['SN'] = str(row["SN"])#模块
+                message['equipment'] = str(row["equipment"])#设备
+                message['warning_setting'] = str(row["warning_setting"])#报警设置
+                message['warning_status'] = str(row["warning_status"])#报警状态
+                if(row[5] != None):
+                    userID_List = row["user_list"].split(',')#报警用户
+                else:
+                    userID_List = ""
+                if(len(userID_List)>0):
+                    #userDB = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+                    #user_cursor = userDB.cursor()
+                    for userID in userID_List:
+                        user_cmd = "select weixinID from table_user where user_ID = '" + userID + "'"
+                        #user_cursor.execute(user_cmd)
+                        #user_data = user_cursor.fetchall()
+                        user_data = db.query(user_cmd)
+                        weixinID = user_data[0]["weixinID"]
+                        wechat_info.send_message(weixinID, message)
+                    #userDB.close()
+    except Exception as Argment:
+        print(Argment)
+def TimeCounter_run(wechat_info):
+    run_weixin(wechat_info)
+    global t_run
+    t_run = Timer(600, TimeCounter_run,(wechat_info,))
+    t_run.start()
+def TimeCounter_repeat(wechat_info):
+    repeat_weixin(wechat_info,1440)
+    global t_repeat
+    t_repeat = Timer(600, TimeCounter_repeat, (wechat_info,))
+    t_repeat.start()
+def TimeCounter_token(wechat_info):
+    get_token(wechat_info)
+    global t_token
+    t_token = Timer(7200, TimeCounter_token,(wechat_info,))
+    t_token.start()
+def get_token(wechat_info):
+    wechat_info.token = wechat_info.get_token(wechat_info.appid,wechat_info.secret)
+    print(wechat_info.token)
+def insert_user(userID, weixinID):
+# 打开数据库连接
+    try:
+        #db = pymysql.connect("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
+        #cursor = db.cursor()
+        #cursor.execute("SELECT user_ID FROM table_user WHERE weixinID = '" + weixinID + "'")
+        #exist_id_list = cursor.fetchone()
+        cmd = "SELECT user_ID FROM table_user WHERE weixinID = '" + weixinID + "'"
+        exist_id_list = db.query(cmd)
+        if exist_id_list == None:
+            # 使用execute方法执行SQL语句 replace into table( col1, col2, col3 ) values ( val1, val2, val3 )
+            result = cursor.execute("REPLACE INTO table_user (user_ID, weixinID) VALUE (" + userID + ", '" + weixinID + "')")
+            print (result)
+            #db.commit()
+            return "success"
+        else:
+            exist_id = exist_id_list[0]
+            print (exist_id)
+            return str(exist_id)
+# 关闭数据库连接
+        #db.close()
+    except Exception as Argment:
+        print (Argment)
+        #db.rollback()
+        return "fault"
+def conn_weixin():
+    wechat_info = Wechat_Info()
+    TimeCounter_token(wechat_info)
+    TimeCounter_run(wechat_info)
+    TimeCounter_repeat(wechat_info)
+def run_mysql():
+    mysql = MySQL()
+    warning_table = mysql.Get_Warning_Value()
+    #print(warning_table)
+    for setting_row in warning_table:
+        #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+        #cursor = db.cursor()
+        #print(setting_row)
+        #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_ID, 7:settingID, 8:equipment_name, 9:SN_name
+        col = setting_row["value_name"]
+        uplimit = float(setting_row["up_limit"])
+        downlimit = float(setting_row["down_limit"])
+        #
+        sql_cmd = "SELECT " + col + " "\
+            "FROM table_current, table_sn "\
+            "WHERE table_current.SN = "+str(setting_row["SN_ID"])+" AND table_sn.location = 'HQ' "\
+            "ORDER BY table_current.ID DESC LIMIT 1"
+        #cursor.execute(sql_cmd)
+        #data = cursor.fetchone()
+        #db.close()
+        #print(data)
+        data = db.query(sql_cmd)
+        v = float(data[0][col])
+        if (v > uplimit or v < downlimit):
+            print(col, ":", v, "不在范围内")
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #cursor = db.cursor()
+            sql_cmd = "SELECT * FROM warning_log WHERE resolved_user IS NULL AND warning_setting = '" + str(setting_row[7]) + "'"
+            #cursor.execute(sql_cmd)
+            #result = cursor.fetchone()
+            #data_len = result.__len__()
+            result = db.query(sql_cmd)
+            if (result != None):
+                sql_cmd = "UPDATE warning_log "\
+                    "SET warning_status = warning_status+1 "\
+                    "WHERE warning_setting = '" + str(setting_row["ID"]) + "'"
+                #cursor.execute(sql_cmd)
+                db.query(sql_cmd)
+            else:
+                sql_cmd = "INSERT INTO warning_log "\
+                    "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`) "\
+                    "VALUES "\
+                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
+                #cursor.execute(sql_cmd)
+                db.query(sql_cmd)
+                #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_ID, 7:settingID, 8:equipment_name, 9:SN_name
+            #db.commit()
+            #db.close()
+        else:
+            print(col, ":", v, "正常！")
+def run_mysql_HL():
+    mysql = MySQL()
+    warning_table = mysql.Get_Warning_Value_HL()
+    #print(warning_table)
+    for setting_row in warning_table:
+        #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+        #cursor = db.cursor()
+        #print(setting_row)
+        #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_ID, 7:settingID, 8:equipment_name, 9:SN_name
+        col = setting_row["value_name"]
+        uplimit = float(setting_row["up_limit"])
+        downlimit = float(setting_row["down_limit"])
+        #
+        sql_cmd = "SELECT " + col + " "\
+            "FROM table_current, table_sn "\
+            "WHERE table_current.SN = "+str(setting_row["SN_ID"])+" AND table_sn.location = 'HL' "\
+            "ORDER BY table_current.ID DESC LIMIT 1"
+        #cursor.execute(sql_cmd)
+        #data = cursor.fetchone()
+        #db.close()
+        #print(data)
+        data = db.query(sql_cmd)
+        v = float(data[0][col])
+        if (v > uplimit or v < downlimit):
+            print(col, ":", v, "不在范围内")
+            #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
+            #cursor = db.cursor()
+            sql_cmd = "SELECT * FROM warning_log WHERE resolved_user IS NULL AND warning_setting = '" + str(setting_row["ID"]) + "'"
+            #cursor.execute(sql_cmd)
+            #result = cursor.fetchone()
+            #data_len = result.__len__()
+            result = db.query(sql_cmd)
+            if (result != None):
+                sql_cmd = "UPDATE warning_log "\
+                    "SET warning_status = warning_status+1 "\
+                    "WHERE warning_setting = '" + str(setting_row["ID"]) + "'"
+                #cursor.execute(sql_cmd)
+                db.query(sql_cmd)
+            else:
+                sql_cmd = "INSERT INTO warning_log "\
+                    "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`) "\
+                    "VALUES "\
+                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
+                #cursor.execute(sql_cmd)
+                db.query(sql_cmd)
+            #db.commit()
+            #db.close()
+        else:
+            print(col, ":", v, "正常！")
+
