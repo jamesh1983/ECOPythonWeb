@@ -1,4 +1,4 @@
-$def with (username,column_data,his_data)
+$def with (username,column_data,his_data,title_name)
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -8,11 +8,11 @@ $def with (username,column_data,his_data)
     <title>铱钶环保</title>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
-    <script src="/static/js/modernizr-2.6.2.js"></script>
-    <script src="/static/js/echarts.js"></script>
+    <!--<script src="/static/js/modernizr-2.6.2.js"></script>-->
+    <!--<script src="/static/js/respond.js"></script>-->
     <script src="/static/js/jquery-1.10.2.js"></script>
     <script src="/static/js/bootstrap-4.4.1.js"></script>
-    <script src="/static/js/respond.js"></script>
+    <script src="/static/js/echarts.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -34,10 +34,10 @@ $def with (username,column_data,his_data)
             </div>
         </div>
     </div>
-    <table width="1080px" border="0">
+    <table width="1920px" border="0">
         <tbody>
             <tr>
-                <td width="1080px">
+                <td width="1920px">
                     <form action="historical" method="post" class="form-horizontal">
                         <p>
                             <label for="date1">开始日期:</label>
@@ -53,24 +53,27 @@ $def with (username,column_data,his_data)
                         </p>
                         <label for="select">查询字段名</label>
                         <select name="select" id="select">
-                            $for name in column_data.values():
+                        $for name in column_data.values():
+                            $if name!="空":
                                 <option>$name</option>
                         </select>
-                            $if (username=='111')|(username=='222'):
-                                <label for="select2">查询机组</label>
-                                <select name="select2" id="select2">
-                                    <option>鹤淇一号机组</option>
-                                    <option>鹤淇二号机组</option>
-                                </select>
+                        $if (username=='111')|(username=='222'):
+                            <label for="select2">查询机组</label>
+                            <select name="select2" id="select2">
+                                <option>鹤淇一号机组</option>
+                                <option>鹤淇二号机组</option>
+                            </select>
                         <button id="Button1" type="submit">查询</button>
                     </form>
                 </td>
             </tr>
         </tbody>
     </table>
-    <table width="1080px" border="0">
+    <h3 align="center">$title_name</h3>
+    <table width="1092px" border="0">
         <tbody>
-            <tr id="chart1" style="height: 450px;"></tr>
+            <tr id="chart1" style="height: 380px;" align="center">
+            </tr>
         </tbody>
     </table>
     <div class="container body-content">
@@ -84,14 +87,14 @@ $def with (username,column_data,his_data)
         function today() {
             let d = new Date();
             let currDate = d.getDate();
-            let currMonth = d.getMonth()+1;
+            let currMonth = d.getMonth() + 1;
             let currYear = d.getFullYear();
             return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
         }
         function yesterday() {
             let d = new Date();
             let currDate = d.getDate() - 1;
-            let currMonth = d.getMonth()+1;
+            let currMonth = d.getMonth() + 1;
             let currYear = d.getFullYear();
             return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
         }
@@ -113,10 +116,13 @@ $def with (username,column_data,his_data)
                     return [pt[0], '10%'];
                 }
             },
+            
             toolbox: {
                 feature: {
                     dataView: {},
-                    saveAsImage: {}
+                    saveAsImage: {},
+                    dataZoom: {},
+                    restore: {}
                 }
             },
             xAxis: {
@@ -124,7 +130,8 @@ $def with (username,column_data,his_data)
                 data: $his_data["TIMETAG"]
             },
             yAxis: {
-                type: 'value'
+                type: 'value',
+                title: '查询结果'
             },
             series: [
                 {

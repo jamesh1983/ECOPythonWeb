@@ -66,7 +66,7 @@ class CurrentData:
             else:
                 results = None
             for result in results:
-                datetime_inf = int(result.TIMETAG.strftime('%Y%m%d%H%M'))
+                datetime_inf = int(result.TIMETAG.strftime('%Y%m%d%H'))
                 FH_value = result.result1
                 DX_value = result.result2
                 k_value = result.result3
@@ -155,15 +155,15 @@ class Msg_REC(object):
         self.MsgType = xmlData.find('MsgType').text
 class TextMsg_REC(Msg_REC):
     def __init__(self, xmlData):
-        Msg.__init__(self, xmlData)
+        Msg_REC.__init__(self, xmlData)
         self.MsgId = xmlData.find('MsgId').text
         self.recText = xmlData.find('Content').text
 class ImageMsg_REC(Msg_REC):
     def __init__(self, xmlData):
-        Msg.__init__(self, xmlData)
+        Msg_REC.__init__(self, xmlData)
 class EventMsg_REC(Msg_REC):
     def __init__(self, xmlData):
-        Msg.__init__(self, xmlData)
+        Msg_REC.__init__(self, xmlData)
         self.Event = xmlData.find('Event').text
         self.EventKey = xmlData.find('EventKey').text
 class Handle(object):
@@ -461,11 +461,11 @@ def parse_xml(web_data):
     xmlData = ET.fromstring(web_data)
     msg_type = xmlData.find('MsgType').text
     if msg_type == 'text':
-        return TextMsg(xmlData)
+        return TextMsg_REC(xmlData)
     elif msg_type == 'image':
-        return ImageMsg(xmlData)
+        return ImageMsg_REC(xmlData)
     elif msg_type == 'event':
-        return EventMsg(xmlData)
+        return EventMsg_REC(xmlData)
 def run_weixin(wechat_info):
     #str_connection = ("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
     #wechat_info = Wechat_Info()

@@ -8,7 +8,9 @@ $def with (username,data,predata)
     <title>铱钶环保</title>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
-    <script src="/static/js/modernizr-2.6.2.js"></script>
+    <!--<script src="/static/js/modernizr-2.6.2.js"></script>-->
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap-4.4.1.js"></script>
     <script src="/static/js/echarts.js"></script>
 </head>
 <body>
@@ -28,10 +30,10 @@ $def with (username,data,predata)
         </div>
     </div>
     <header id="1" align="center"><h1>OZAST高效水处理监控大屏</h1></header>
-    <table width="1080px" border="0">
+    <table width="100%" border="0">
         <tbody>
             <tr style="height: 250px;">
-                <td id="td1" width="195px" style="height: 250px; ">
+                <td id="td1" width="25%" style="height: 250px; ">
                     <p>凝汽器前ORP：$data["Value8"]</p>
                     <p>塔前ORP：$data["Value9"]</p>
                     <p>pH值：$data["Value19"]</p>
@@ -39,8 +41,8 @@ $def with (username,data,predata)
                     <p>凝汽器前SS：$data["Value15"]</p>
                     <p>塔前SS：$data["Value16"]</p>
                 </td>
-                <td id="chart1" width="690px" style="height: 250px; "></td>
-                <td id="td2" width="195px" style="height: 250px; ">
+                <td id="chart1" width="50%" style="height: 250px; "></td>
+                <td id="td2" width="25%" style="height: 250px; ">
                     <p>端差：$data["Value3"]</p>
                     <p>负荷：$data["Value5"]</p>
                     <p>进水水温：$data["Value1"]</p>
@@ -50,7 +52,7 @@ $def with (username,data,predata)
                 </td>
             </tr>
             <tr style="height: 230px;">
-                <td id="td3" width="195px" style="height: 230px; ">
+                <td id="td3" width="25%" style="height: 230px; ">
                     <p id ="p1">臭氧投加模式：$data["Value1"]</p>
                     <p id ="p2">一号取水阀：$data["bool9"]/$data["bool10"]</p>
                     <p id ="p3">二号取水阀：$data["bool11"]/$data["bool12"]</p>
@@ -58,21 +60,21 @@ $def with (username,data,predata)
                     <p id ="p5">二号注水阀：$data["bool15"]/$data["bool16"]</p>
                     <p id ="p6">代斯米泵1/2：$data["bool17"]/$data["bool18"]</p>
                     <p id ="p7">格兰富泵1/2：$data["bool19"]/$data["bool20"]</p>
-                    <p id ="p8">sv1/2/3：$data["bool1"]/$data["bool2"]/$data["bool3"]</p>
-                    <p id ="p9">sv7/8/9：$data["bool4"]/$data["bool5"]/$data["bool6"]</p>
+                    <p id ="p8">SV1/2/3：$data["bool1"]/$data["bool2"]/$data["bool3"]</p>
+                    <p id ="p9">SV7/8/9：$data["bool4"]/$data["bool5"]/$data["bool6"]</p>
                 </td>
-                <td id="td4" width="690px" style="height: 230px; ">
-                    <table width="690px" border="0" align="center">
+                <td id="td4" width="50%" style="height: 230px; ">
+                    <table width=960px border="0" align="center">
                         <tbody>
-                            <tr align="center">
-                                <td id="chart2" style="width: 230px; height: 230px; "></td>
-                                <td id="chart3" style="width: 230px; height: 230px; "></td>
-                                <td id="chart4" style="width: 230px; height: 230px; "></td>
+                            <tr>
+                                <td id="chart2" style="width: 300px; height: 300px; "></td>
+                                <td id="chart3" style="width: 300px; height: 300px; "></td>
+                                <td id="chart4" style="width: 300px; height: 300px; "></td>
                             </tr>
                         </tbody>
                     </table>
                 </td>
-                <td id="td5" width="195px" style="height: 230px; ">
+                <td id="td5" width="25%" style="height: 230px; ">
                     <p>凝汽器支路</p>
                     <p>调节阀开度：$data["int_13"]</p>
                     <p>冷却塔支路</p>
@@ -92,9 +94,9 @@ $def with (username,data,predata)
         </footer>
     </div>
 
-    <script src="/static/js/jquery-3.7.0.js"></script>
+    <!--<script src="/static/js/jquery-3.7.0.js"></script>
     <script src="/static/js/bootstrap-4.4.1.js"></script>
-    <script src="/static/js/respond.js"></script>
+    <script src="/static/js/respond.js"></script>-->
 
     <script type="text/javascript">
         var myChart1 = echarts.init(document.getElementById('chart1'));
@@ -181,12 +183,13 @@ $def with (username,data,predata)
                 // shape: 'circle',
                 indicator: [
                     { name: '发生量', max: 2700 },
-                    { name: '气流量', max: 350 },
+                    { name: '流量', max: 350 },
                     { name: '功率', max: 27700 },
-                    { name: '冷却水进水', max: 30 },
-                    { name: '冷却水出水', max: 30 },
-                    { name: '氧气浓度', max: 1000 }
-                ]
+                    { name: '进水温', max: 30 },
+                    { name: '出水温', max: 30 },
+                    { name: '氧气', max: 1000 }
+                ],
+                radius: ["0%", "65%"]
             },
             series: [
                 {
@@ -210,12 +213,13 @@ $def with (username,data,predata)
                 // shape: 'circle',
                 indicator: [
                     { name: '发生量', max: 2700 },
-                    { name: '气流量', max: 350 },
+                    { name: '流量', max: 350 },
                     { name: '功率', max: 27700 },
-                    { name: '冷却水进水', max: 30 },
-                    { name: '冷却水出水', max: 30 },
-                    { name: '氧气浓度', max: 1000 }
-                ]
+                    { name: '进水温', max: 30 },
+                    { name: '出水温', max: 30 },
+                    { name: '氧气', max: 1000 }
+                ],
+                radius: ["0%", "65%"]
             },
             series: [
                 {
@@ -239,12 +243,13 @@ $def with (username,data,predata)
                 // shape: 'circle',
                 indicator: [
                     { name: '发生量', max: 2700 },
-                    { name: '气流量', max: 350 },
+                    { name: '流量', max: 350 },
                     { name: '功率', max: 27700 },
-                    { name: '冷却水进水', max: 30 },
-                    { name: '冷却水出水', max: 30 },
-                    { name: '氧气浓度', max: 1000 }
-                ]
+                    { name: '进水温', max: 30 },
+                    { name: '出水温', max: 30 },
+                    { name: '氧气', max: 1000 }
+                ],
+                radius: ["0%", "65%"]
             },
             series: [
                 {

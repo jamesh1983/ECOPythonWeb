@@ -116,9 +116,9 @@ class historical:
                     }
         if loginuser:
             if (loginuser=='111') | (loginuser=='222'):
-                return render.historical(loginuser, ColumnList12, his_data)
+                return render.historical(loginuser, ColumnList12, his_data, "历史记录查询")
             if loginuser=='333':
-                return render.historical(loginuser, ColumnList3, his_data)
+                return render.historical(loginuser, ColumnList3, his_data, "历史记录查询")
         else:
             return render.login('欢迎，请登录...')
     def POST(self):
@@ -138,12 +138,14 @@ class historical:
                 selected_column = list(ColumnList12.keys())[list(ColumnList12.values()).index(column_name)]
                 his_data = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
                 #show_data = dict(his_data['result'])
-                return render.historical(loginuser, ColumnList12, his_data)
+                tilte_name = i.get('select2')+"-"+column_name
+                return render.historical(loginuser, ColumnList12, his_data, tilte_name)
             if loginuser=='333':
                 sn = 3
                 selected_column = list(ColumnList3.keys())[list(ColumnList3.values()).index(column_name)]
                 hisdata = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
-                return render.historical(loginuser, ColumnList3, hisdata)
+                tilte_name = column_name
+                return render.historical(loginuser, ColumnList3, hisdata, tilte_name)
         else:
             return render.login('欢迎，请登录...')
 
