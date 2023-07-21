@@ -34,34 +34,34 @@ $def with (username,data,predata)
         <tbody>
             <tr style="height: 250px;">
                 <td id="td1" width="25%" style="height: 250px; ">
-                    <p>凝汽器前ORP：$data["Value8"]</p>
-                    <p>塔前ORP：$data["Value9"]</p>
-                    <p>pH值：$data["Value19"]</p>
-                    <p>电导率：$data["Value20"]</p>
-                    <p>凝汽器前SS：$data["Value15"]</p>
-                    <p>塔前SS：$data["Value16"]</p>
+                    <p id ="p12">凝汽器前ORP：$data["Value8"]</pid>
+                    <p id ="p13">塔前ORP：$data["Value9"]</p>
+                    <p id ="p14">pH值：$data["Value19"]</p>
+                    <p id ="p15">电导率：$data["Value20"]</p>
+                    <p id ="p16">凝汽器前SS：$data["Value15"]</p>
+                    <p id ="p17">塔前SS：$data["Value16"]</p>
                 </td>
                 <td id="chart1" width="50%" style="height: 250px; "></td>
                 <td id="td2" width="25%" style="height: 250px; ">
-                    <p>端差：$data["Value3"]</p>
-                    <p>负荷：$data["Value5"]</p>
-                    <p>进水水温：$data["Value1"]</p>
-                    <p>出水水温：$data["Value2"]</p>
-                    <p>循泵1：$data["bool21"]</p>
-                    <p>循泵2：$data["bool22"]</p>
+                    <p id ="p18">端差：$data["Value3"]</p>
+                    <p id ="p19">负荷：$data["Value5"]</p>
+                    <p id ="p20">进水水温：$data["Value1"]</p>
+                    <p id ="p21">出水水温：$data["Value2"]</p>
+                    <p id ="p22">循泵1：$data["bool21"]</p>
+                    <p id ="p23">循泵2：$data["bool22"]</p>
                 </td>
             </tr>
             <tr style="height: 230px;">
                 <td id="td3" width="25%" style="height: 230px; ">
-                    <p id ="p1">臭氧投加模式：$data["Value1"]</p>
-                    <p id ="p2">一号取水阀：$data["bool9"]/$data["bool10"]</p>
-                    <p id ="p3">二号取水阀：$data["bool11"]/$data["bool12"]</p>
-                    <p id ="p4">一号注水阀：$data["bool13"]/$data["bool14"]</p>
-                    <p id ="p5">二号注水阀：$data["bool15"]/$data["bool16"]</p>
-                    <p id ="p6">代斯米泵1/2：$data["bool17"]/$data["bool18"]</p>
-                    <p id ="p7">格兰富泵1/2：$data["bool19"]/$data["bool20"]</p>
-                    <p id ="p8">SV1/2/3：$data["bool1"]/$data["bool2"]/$data["bool3"]</p>
-                    <p id ="p9">SV7/8/9：$data["bool4"]/$data["bool5"]/$data["bool6"]</p>
+                    <p id ="p1"></p>
+                    <p id ="p2"></p>
+                    <p id ="p3"></p>
+                    <p id ="p4"></p>
+                    <p id ="p5"></p>
+                    <p id ="p6"></p>
+                    <p id ="p7"></p>
+                    <p id ="p8"></p>
+                    <p id ="p9"></p>
                 </td>
                 <td id="td4" width="50%" style="height: 230px; ">
                     <table width=960px border="0" align="center">
@@ -80,9 +80,9 @@ $def with (username,data,predata)
                     <p>冷却塔支路</p>
                     <p>调节阀开度：$data["int_14"]</p>
                     <p>本地支路</p>
-                    <p>水压/气压：$data["Value11"]/$data["Value17"]</p>
+                    <p id ="p10">水压/气压：$data["Value11"]/$data["Value17"]</p>
                     <p>远调支路</p>
-                    <p>水压/气压：$data["Value10"]/$data["Value18"]</p>
+                    <p id ="p11">水压/气压：$data["Value10"]/$data["Value18"]</p>
                 </td>
             </tr>
         </tbody>
@@ -112,6 +112,8 @@ $def with (username,data,predata)
         var p7 = document.getElementById('p7');
         var p8 = document.getElementById('p8');
         var p9 = document.getElementById('p9');
+        var p10 = document.getElementById('p10');
+        var p11 = document.getElementById('p11');
         var option = {
             tooltip: {
                 trigger: 'axis',
@@ -364,6 +366,61 @@ $def with (username,data,predata)
             p1.innerHTML = '臭氧投加模式：本地运行';
         else
             p1.innerHTML = '臭氧投加模式：模式切换中';
+        var pressure1 = $data["Value11"];
+        var pressure2 = $data["Value17"];
+        var pr1 = pressure1.toFixed(2).toString();
+        var pr2 = pressure2.toFixed(2).toString();
+        p10.innerHTML = '水压/气压：' + pr1 + '/' + pr2;
+        pressure1 = $data["Value10"];
+        pressure2 = $data["Value18"];
+        pr1 = pressure1.toFixed(2).toString();
+        pr2 = pressure2.toFixed(2).toString();
+        p11.innerHTML = '水压/气压：' + pr1 + '/' + pr2;
+        pressure1 = $data["Value8"];
+        pr1 = pressure1.toFixed(2).toString();
+        p12.innerHTML = '凝汽器前ORP：' + pr1;
+        pressure1 = $data["Value9"];
+        pr1 = pressure1.toFixed(2).toString();
+        p13.innerHTML = '塔前ORP：' + pr1;
+        pressure1 = $data["Value19"];
+        pr1 = pressure1.toFixed(2).toString();
+        p14.innerHTML = 'pH值：' + pr1;
+        pressure1 = $data["Value20"];
+        pr1 = pressure1.toFixed(2).toString();
+        p15.innerHTML = '电导率：' + pr1;
+        pressure1 = $data["Value15"];
+        pr1 = pressure1.toFixed(2).toString();
+        p16.innerHTML = '凝汽器前SS：' + pr1;
+        pressure1 = $data["Value16"];
+        pr1 = pressure1.toFixed(2).toString();
+        p17.innerHTML = '塔前SS：' + pr1;
+        pressure1 = $data["Value3"];
+        pr1 = pressure1.toFixed(2).toString();
+        p18.innerHTML = '端差：' + pr1;
+        pressure1 = $data["Value5"];
+        pr1 = pressure1.toFixed(2).toString();
+        p19.innerHTML = '负荷：' + pr1;
+        pressure1 = $data["Value1"];
+        pr1 = pressure1.toFixed(2).toString();
+        p20.innerHTML = '进水水温：' + pr1;
+        pressure1 = $data["Value2"];
+        pr1 = pressure1.toFixed(2).toString();
+        p21.innerHTML = '出水水温：' + pr1;
+        pressure1 = $data["bool21"];
+        pr1 = pressure1.toFixed(2).toString();
+        p21.innerHTML = '出水水温：' + pr1;
+        temp1 = $data["bool21"];
+        p22.innerHTML = '循泵1：';
+        if (temp1 == 1)
+            p22.innerHTML += '运行中';
+        else
+            p22.innerHTML += '未运行';
+        temp1 = $data["bool22"];
+        p23.innerHTML = '循泵2：';
+        if (temp1 == 1)
+            p23.innerHTML += '运行中';
+        else
+            p23.innerHTML += '未运行';
     </script>
 </body>
 </html>

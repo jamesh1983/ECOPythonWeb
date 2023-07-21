@@ -43,10 +43,10 @@ $def with (username,data,predata)
                 </td>
                 <td id="chart1" width="1080px" style="height: 250px; "></td>
                 <td id="td2" width="420px" style="height: 250px; ">
-                    <p id ="p7">排气温度：$data["Value5"]</p>
-                    <p id ="p8">出水水温：$data["Value6"]</p>
-                    <p id ="p9">进水压力：$data["Value7"]</p>
-                    <p id ="p10">出水压力：$data["Value8"]</p>
+                    <p id ="p7"></p>
+                    <p id ="p8"></p>
+                    <p id ="p9"></p>
+                    <p id ="p10"></p>
                     <p id ="p11"></p>
                 </td>
             </tr>
@@ -59,7 +59,7 @@ $def with (username,data,predata)
                     <p id ="p16"></p>
                     <p id ="p17"></p>
                     <p id ="p18"></p>
-                    <p id ="p19">变频水泵工作频率：$data["Value3"]</p>
+                    <p id ="p19"><p>
                 </td>
                 <td id="chart2" width="690px" style="height: 230px; ">
                 </td>
@@ -68,10 +68,10 @@ $def with (username,data,predata)
                     <p id ="p21">调节阀开度：$data["int_4"]</p>
                     <p id ="p22">冷却塔支路</p>
                     <p id ="p23">调节阀开度：$data["int_5"]</p>
-                    <p id ="p24">吸气口水压/气压：$data["Value15"]/$data["Value14"]</p>
-                    <p id ="p25">吸入器后水压：$data["Value16"]</p>
-                    <p id ="p26">脱气塔前水压：$data["Value18"]</p>
-                    <p id ="p27">脱气塔后水压：$data["Value19"]</p>
+                    <p id ="p24"></p>
+                    <p id ="p25"></p>
+                    <p id ="p26"></p>
+                    <p id ="p27"></p>
                 </td>
             </tr>
         </tbody>
@@ -82,9 +82,6 @@ $def with (username,data,predata)
             <p>&copy; ECOTECH</p>
         </footer>
     </div>
-
-    
-
     <script type="text/javascript">
         var myChart1 = echarts.init(document.getElementById('chart1'));
         var myChart2 = echarts.init(document.getElementById('chart2'));
@@ -115,15 +112,8 @@ $def with (username,data,predata)
                     type: 'value'
                 },
                 {
-                    type: 'value',
-                    name: "端差"
-                },
-                {
-                    type: 'value',
-                    name: "预测",
-                    axisLabel: {
-                        show: false
-                    }
+                    name: "端差",
+                    type: 'value'
                 }
             ],
             series: [
@@ -145,7 +135,6 @@ $def with (username,data,predata)
                     name: '预测',
                     type: 'line',
                     data: $predata["result3"],
-                    yAxisIndex: 2,
                     lineStyle: {
                         type: [5, 10],
                         dashOffset: 5
@@ -198,6 +187,10 @@ $def with (username,data,predata)
         var p3 = document.getElementById('p3');
         var p5 = document.getElementById('p5');
         var p6 = document.getElementById('p6');
+        var p7 = document.getElementById('p7');
+        var p8 = document.getElementById('p8');
+        var p9 = document.getElementById('p9');
+        var p10 = document.getElementById('p10');
         var p11 = document.getElementById('p11');
         var p12 = document.getElementById('p12');
         var p13 = document.getElementById('p13');
@@ -209,7 +202,6 @@ $def with (username,data,predata)
         p3.innerHTML = 'pH值：' + $data["int_33"]/100;
         p5.innerHTML = '凝汽器前水温1：' + $data["int_9"] / 10;
         p6.innerHTML = '凝汽器前水温2：' + $data["int_11"] / 10;
-        p11.innerHTML = '发电负荷：' + $data["Value4"] * 100;
         var temp1 = $data["bool6"];
         var temp2 = $data["bool7"];
         if (temp1 == 1) {
@@ -267,6 +259,39 @@ $def with (username,data,predata)
         else {
             p18.innerHTML = '循泵3未运行';
         }
+        var pressure1 = $data["Value15"];
+        var pressure2 = $data["Value14"];
+        var pr1 = pressure1.toFixed(2).toString();
+        var pr2 = pressure2.toFixed(2).toString();
+        p24.innerHTML = '吸气口水压/气压：' + pr1 + '/' + pr2;
+        pressure1 = $data["Value16"];
+        pr1 = pressure1.toFixed(2).toString();
+        p25.innerHTML = '吸入器后水压：' + pr1;
+        pressure1 = $data["Value18"];
+        pr1 = pressure1.toFixed(2).toString();
+        p26.innerHTML = '脱气塔前水压：' + pr1;
+        pressure1 = $data["Value19"];
+        pr1 = pressure1.toFixed(2).toString();
+        p27.innerHTML = '脱气塔后水压：' + pr1;
+        pressure1 = $data["Value5"];
+        pr1 = pressure1.toFixed(2).toString();
+        p7.innerHTML = '排气温度：' + pr1;
+        pressure1 = $data["Value6"];
+        pr1 = pressure1.toFixed(2).toString();
+        p8.innerHTML = '出水水温：' + pr1;
+        pressure1 = $data["Value7"];
+        pr1 = pressure1.toFixed(2).toString();
+        p9.innerHTML = '进水压力：' + pr1;
+        pressure1 = $data["Value8"];
+        pr1 = pressure1.toFixed(2).toString();
+        p10.innerHTML = '出水压力：' + pr1;
+        pressure1 = $data["Value4"];
+        pr1 = pressure1.toFixed(2).toString();
+        p11.innerHTML = '负荷：' + pr1;
+        pressure1 = $data["Value3"];
+        pr1 = pressure1.toFixed(2).toString();
+        p19.innerHTML = '变频水泵工作频率：' + pr1;
+        
     </script>
 </body>
 </html>
