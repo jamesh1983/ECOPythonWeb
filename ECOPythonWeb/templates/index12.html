@@ -1,22 +1,28 @@
 $def with (username,data,predata)
 <!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>铱钶环保</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
     <!--<script src="/static/js/modernizr-2.6.2.js"></script>-->
-    <script src="/static/js/jquery-1.10.2.js"></script>
-    <script src="/static/js/bootstrap-4.4.1.js"></script>
+    <!--<script src="/static/js/respond.js"></script>-->
+    <!--<script src="/static/js/jquery-1.10.2.min.js"></script>-->
+    <!--<script src="/static/js/bootstrap.min.js"></script>-->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="/static/js/echarts.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-collapse collapse">
+            <nav class="navbar-collapse navbar-transparent collapse" role="navigation">
                 <ul class="nav navbar-nav">
                     <li><a href="/?sn=1">一号机组实时数据展示</a></li>
                     <li><a href="/?sn=2">二号机组实时数据展示</a></li>
@@ -26,78 +32,57 @@ $def with (username,data,predata)
                     <li><a>您好！$username</a></li>
                     <li><a href="logout">登出</a></li>
                 </ul>
-            </div>
+            </nav>
         </div>
     </div>
-    <header id="1" align="center"><h1>OZAST高效水处理监控大屏</h1></header>
-    <table width="100%" border="0">
-        <tbody>
-            <tr style="height: 250px;">
-                <td id="td1" width="25%" style="height: 250px; ">
-                    <p id ="p12">凝汽器前ORP：$data["Value8"]</pid>
-                    <p id ="p13">塔前ORP：$data["Value9"]</p>
-                    <p id ="p14">pH值：$data["Value19"]</p>
-                    <p id ="p15">电导率：$data["Value20"]</p>
-                    <p id ="p16">凝汽器前SS：$data["Value15"]</p>
-                    <p id ="p17">塔前SS：$data["Value16"]</p>
-                </td>
-                <td id="chart1" width="50%" style="height: 250px; "></td>
-                <td id="td2" width="25%" style="height: 250px; ">
-                    <p id ="p18">端差：$data["Value3"]</p>
-                    <p id ="p19">负荷：$data["Value5"]</p>
-                    <p id ="p20">进水水温：$data["Value1"]</p>
-                    <p id ="p21">出水水温：$data["Value2"]</p>
-                    <p id ="p22">循泵1：$data["bool21"]</p>
-                    <p id ="p23">循泵2：$data["bool22"]</p>
-                </td>
-            </tr>
-            <tr style="height: 230px;">
-                <td id="td3" width="25%" style="height: 230px; ">
-                    <p id ="p1"></p>
-                    <p id ="p2"></p>
-                    <p id ="p3"></p>
-                    <p id ="p4"></p>
-                    <p id ="p5"></p>
-                    <p id ="p6"></p>
-                    <p id ="p7"></p>
-                    <p id ="p8"></p>
-                    <p id ="p9"></p>
-                </td>
-                <td id="td4" width="50%" style="height: 230px; ">
-                    <table width=960px border="0" align="center">
-                        <tbody>
-                            <tr>
-                                <td id="chart2" style="width: 300px; height: 300px; "></td>
-                                <td id="chart3" style="width: 300px; height: 300px; "></td>
-                                <td id="chart4" style="width: 300px; height: 300px; "></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td id="td5" width="25%" style="height: 230px; ">
-                    <p>凝汽器支路</p>
-                    <p>调节阀开度：$data["int_13"]</p>
-                    <p>冷却塔支路</p>
-                    <p>调节阀开度：$data["int_14"]</p>
-                    <p>本地支路</p>
-                    <p id ="p10">水压/气压：$data["Value11"]/$data["Value17"]</p>
-                    <p>远调支路</p>
-                    <p id ="p11">水压/气压：$data["Value10"]/$data["Value18"]</p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <header id="1" align="center" style="color: #d6ecf0;"><h1>OZAST高效水处理监控大屏</h1></header>
+    <div class="row">
+        <div class="col-sm-2">
+            <p id="p18"></p>
+            <p id="p19"></p>
+            <p id="p20"></p>
+            <p id="p21"></p>
+            <p id="p22"></p>
+            <p id="p6"></p>
+            <p id="p7"></p>
+            <p>凝汽器/冷却塔支路</p>
+            <p id="p23"></p>
+        </div>
+        <div class="col-sm-8" id="chart1" style="height: 300px; "></div>
+        <div class="col-sm-2">
+            <p id="p12"></p>
+            <p id="p13"></p>
+            <p id="p14"></p>
+            <p id="p15"></p>
+            <p id="p16"></p>
+            <p id="p17"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <p id="p1"></p>
+            <p id="p10"></p>
+            <p id="p11"></p>
+            <p id="p8"></p>
+            <p id="p9"></p>
+            <p id="p2"></p>
+            <p id="p4"></p>
+            <p id="p3"></p>
+            <p id="p5"></p>
+        </div>
+        <div class="col-sm-3" id="chart2" style="height: 300px; "></div>
+        <div class="col-sm-3" id="chart3" style="height: 300px; "></div>
+        <div class="col-sm-3" id="chart4" style="height: 300px; "></div>
+    </div>
     <div class="container body-content">
         <hr />
         <footer>
             <p>&copy; ECOTECH</p>
         </footer>
     </div>
-
     <!--<script src="/static/js/jquery-3.7.0.js"></script>
     <script src="/static/js/bootstrap-4.4.1.js"></script>
     <script src="/static/js/respond.js"></script>-->
-
     <script type="text/javascript">
         var myChart1 = echarts.init(document.getElementById('chart1'));
         var myChart2 = echarts.init(document.getElementById('chart2'));
@@ -123,7 +108,11 @@ $def with (username,data,predata)
             },
             title: {
                 left: 'center',
-                text: '预测运维数据'
+                text: '预测运维数据',
+                textStyle: {
+                    fontSize: 15,
+                    color: "#d6ecf0"
+                }
             },
             toolbox: {
                 feature: {
@@ -137,30 +126,30 @@ $def with (username,data,predata)
             },
             yAxis: [
                 {
-                    name: "负荷",
+                    name: "负荷(MW)",
                     type: 'value'
                 },
                 {
-                    type: 'value',
-                    name: "端差"
+                    name: "端差(℃)",
+                    type: 'value'
                 }
             ],
             series: [
                 {
-                    name: '负荷',
+                    name: '负荷(MW)',
                     type: 'line',
                     data: $predata["result1"],
                     yAxisIndex: 1,
                     smooth: true
                 },
                 {
-                    name: '端差',
+                    name: '端差(℃)',
                     type: 'line',
                     data: $predata["result2"],
                     smooth: true
                 },
                 {
-                    name: '预测',
+                    name: '预测(℃)',
                     type: 'line',
                     data: $predata["result3"],
                     lineStyle: {
@@ -169,7 +158,7 @@ $def with (username,data,predata)
                     }
                 },
                 {
-                    name: '警戒值',
+                    name: '警戒值(℃)',
                     type: 'line',
                     data: $predata["warningvalue"],
                     lineStyle: {
@@ -185,11 +174,13 @@ $def with (username,data,predata)
                 // shape: 'circle',
                 indicator: [
                     { name: '发生量', max: 2700 },
+                    { name: '臭浓', max: 300 },
                     { name: '流量', max: 350 },
                     { name: '功率', max: 27700 },
                     { name: '进水温', max: 30 },
                     { name: '出水温', max: 30 },
-                    { name: '氧气', max: 1000 }
+                    { name: '氧浓', max: 100 },
+                    { name: '工作模块', max: 48 }
                 ],
                 radius: ["0%", "65%"]
             },
@@ -199,7 +190,7 @@ $def with (username,data,predata)
                     type: 'radar',
                     data: [
                         {
-                            value: [$data["int_15"], $data["int_9"], $data["int_5"], $data["int_19"], $data["int_23"], $data["int_50"]],
+                            value: [$data["int_44"], $data["int_51"], $data["int_9"], $data["int_5"], $data["int_19"], $data["int_23"], $data["int_50"] / 10, 48 - $data["int_36"]],
                             name: '1'
                         }
                     ],
@@ -215,11 +206,13 @@ $def with (username,data,predata)
                 // shape: 'circle',
                 indicator: [
                     { name: '发生量', max: 2700 },
+                    { name: '臭浓', max: 300 },
                     { name: '流量', max: 350 },
                     { name: '功率', max: 27700 },
                     { name: '进水温', max: 30 },
                     { name: '出水温', max: 30 },
-                    { name: '氧气', max: 1000 }
+                    { name: '氧浓', max: 100 },
+                    { name: '工作模块', max: 48 }
                 ],
                 radius: ["0%", "65%"]
             },
@@ -229,7 +222,7 @@ $def with (username,data,predata)
                     type: 'radar',
                     data: [
                         {
-                            value: [$data["int_16"], $data["int_10"], $data["int_6"], $data["int_20"], $data["int_24"], $data["int_49"]],
+                            value: [$data["int_45"], $data["int_52"], $data["int_10"], $data["int_6"], $data["int_20"], $data["int_24"], $data["int_49"] / 10, 48 - $data["int_38"]],
                             name: '2'
                         }
                     ],
@@ -245,11 +238,13 @@ $def with (username,data,predata)
                 // shape: 'circle',
                 indicator: [
                     { name: '发生量', max: 2700 },
+                    { name: '臭浓', max: 300 },
                     { name: '流量', max: 350 },
                     { name: '功率', max: 27700 },
                     { name: '进水温', max: 30 },
                     { name: '出水温', max: 30 },
-                    { name: '氧气', max: 1000 }
+                    { name: '氧弄', max: 100 },
+                    { name: '工作模块', max: 48 }
                 ],
                 radius: ["0%", "65%"]
             },
@@ -259,7 +254,7 @@ $def with (username,data,predata)
                     type: 'radar',
                     data: [
                         {
-                            value: [$data["int_17"], $data["int_11"], $data["int_7"], $data["int_21"], $data["int_25"], $data["int_48"]],
+                            value: [$data["int_46"], $data["int_53"], $data["int_11"], $data["int_7"], $data["int_21"], $data["int_25"], $data["int_48"] / 10, 48 - $data["int_40"]],
                             name: '3'
                         }
                     ],
@@ -304,7 +299,7 @@ $def with (username,data,predata)
             p5.innerHTML = '二号注水阀 动作中';
         temp1 = $data["bool17"];
         temp2 = $data["bool18"];
-        p6.innerHTML = '代斯米泵1/2：';
+        p6.innerHTML = '取水泵1/2：';
         if (temp1 == 1)
             p6.innerHTML += '运行中/';
         else
@@ -315,7 +310,7 @@ $def with (username,data,predata)
             p6.innerHTML += '未运行';
         temp1 = $data["bool19"];
         temp2 = $data["bool20"];
-        p7.innerHTML = '格兰富泵1/2：';
+        p7.innerHTML = '增压泵1/2：';
         if (temp1 == 1)
             p7.innerHTML += '运行中/';
         else
@@ -353,14 +348,14 @@ $def with (username,data,predata)
             p9.innerHTML += '关/';
         temp1 = $data["bool6"];
         temp2 = $data["bool5"];
-        if (temp1 == 1) 
+        if (temp1 == 1)
             p9.innerHTML += '开';
         else
             p9.innerHTML += '关';
         var temp3 = $data["bool4"];
         if ((temp3 == 1) & (temp2 == 1) & (temp1 == 0))
             p1.innerHTML = '臭氧投加模式：远程调入';
-        else if ((temp3 ==0) & (temp2 == 0) & (temp1 == 1))
+        else if ((temp3 == 0) & (temp2 == 0) & (temp1 == 1))
             p1.innerHTML = '臭氧投加模式：远程调出';
         else if ((temp1 == 0) & (temp3 == 0) & (temp2 == 1))
             p1.innerHTML = '臭氧投加模式：本地运行';
@@ -370,57 +365,58 @@ $def with (username,data,predata)
         var pressure2 = $data["Value17"];
         var pr1 = pressure1.toFixed(2).toString();
         var pr2 = pressure2.toFixed(2).toString();
-        p10.innerHTML = '水压/气压：' + pr1 + '/' + pr2;
+        p10.innerHTML = '本地支路水压/气压：' + pr1 + '/' + pr2 + ' bar';
         pressure1 = $data["Value10"];
         pressure2 = $data["Value18"];
         pr1 = pressure1.toFixed(2).toString();
         pr2 = pressure2.toFixed(2).toString();
-        p11.innerHTML = '水压/气压：' + pr1 + '/' + pr2;
+        p11.innerHTML = '远调支路水压/气压：' + pr1 + '/' + pr2 + ' bar';
         pressure1 = $data["Value8"];
         pr1 = pressure1.toFixed(2).toString();
-        p12.innerHTML = '凝汽器前ORP：' + pr1;
+        p12.innerHTML = '凝汽器前ORP：' + pr1 + ' mV';
         pressure1 = $data["Value9"];
         pr1 = pressure1.toFixed(2).toString();
-        p13.innerHTML = '塔前ORP：' + pr1;
+        p13.innerHTML = '塔前ORP：' + pr1 + ' mV';
         pressure1 = $data["Value19"];
         pr1 = pressure1.toFixed(2).toString();
         p14.innerHTML = 'pH值：' + pr1;
         pressure1 = $data["Value20"];
         pr1 = pressure1.toFixed(2).toString();
-        p15.innerHTML = '电导率：' + pr1;
+        p15.innerHTML = '电导率：' + pr1 + ' uS/cm';
         pressure1 = $data["Value15"];
         pr1 = pressure1.toFixed(2).toString();
-        p16.innerHTML = '凝汽器前SS：' + pr1;
+        p16.innerHTML = '凝汽器前SS：' + pr1 + ' mg/L';
         pressure1 = $data["Value16"];
         pr1 = pressure1.toFixed(2).toString();
-        p17.innerHTML = '塔前SS：' + pr1;
+        p17.innerHTML = '塔前SS：' + pr1 + ' mg/L';
         pressure1 = $data["Value3"];
         pr1 = pressure1.toFixed(2).toString();
-        p18.innerHTML = '端差：' + pr1;
+        p18.innerHTML = '端差：' + pr1 + ' ℃';
         pressure1 = $data["Value5"];
         pr1 = pressure1.toFixed(2).toString();
-        p19.innerHTML = '负荷：' + pr1;
+        p19.innerHTML = '负荷：' + pr1 + ' MW';
         pressure1 = $data["Value1"];
         pr1 = pressure1.toFixed(2).toString();
-        p20.innerHTML = '进水水温：' + pr1;
+        p20.innerHTML = '进水水温：' + pr1 + ' ℃';
         pressure1 = $data["Value2"];
         pr1 = pressure1.toFixed(2).toString();
-        p21.innerHTML = '出水水温：' + pr1;
-        pressure1 = $data["bool21"];
-        pr1 = pressure1.toFixed(2).toString();
-        p21.innerHTML = '出水水温：' + pr1;
+        p21.innerHTML = '出水水温：' + pr1 + ' ℃';
         temp1 = $data["bool21"];
-        p22.innerHTML = '循泵1：';
+        p22.innerHTML = '循泵1/2：';
+        if (temp1 == 1)
+            p22.innerHTML += '运行中/';
+        else
+            p22.innerHTML += '未运行/';
+        temp1 = $data["bool22"];
         if (temp1 == 1)
             p22.innerHTML += '运行中';
         else
             p22.innerHTML += '未运行';
-        temp1 = $data["bool22"];
-        p23.innerHTML = '循泵2：';
-        if (temp1 == 1)
-            p23.innerHTML += '运行中';
-        else
-            p23.innerHTML += '未运行';
+        pressure1 = $data["int_14"];
+        pressure2 = $data["int_13"];
+        pr1 = pressure1.toString();
+        pr2 = pressure2.toString();
+        p23.innerHTML = '调节阀开度：' + pr1 + '/' + pr2 + ' %';
     </script>
 </body>
 </html>

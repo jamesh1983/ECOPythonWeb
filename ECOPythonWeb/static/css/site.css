@@ -1,12 +1,27 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url("../images/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center 0;
+}
+
+.row {
+    color: #d6ecf0;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    color: #d6ecf0;
+}
+
+.navbar {
+    color: #d6ecf0;
+    opacity: 0.5;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
