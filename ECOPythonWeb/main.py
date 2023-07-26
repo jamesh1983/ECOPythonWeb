@@ -9,11 +9,13 @@ from threading import Timer
 from model import Handle
 loginuser=''
 web.config.debug = True
+
 app = web.application(settings.urls, globals())
 render = web.template.render('templates')
 ColumnData = model.CurrentData.getColumnList()
 ColumnList12 = dict(zip(ColumnData["column_name"], ColumnData["comments"]))
 ColumnList3 = dict(zip(ColumnData["column_name"], ColumnData["comments_for_HL"]))
+
 #render = render_jinja(
 #    'templates',
 #    encoding = 'utf-8',
@@ -28,7 +30,7 @@ ColumnList3 = dict(zip(ColumnData["column_name"], ColumnData["comments_for_HL"])
 #        print ("退出线程：" + self.threadID)
 def TimeCounter_5():
     # 打印时间函数
-    print('T1现在时间：',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    #print('T1现在时间：',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     #具体触发内容
     ###
     #mysql.run_mysql()
@@ -40,7 +42,7 @@ def TimeCounter_5():
 
 def TimeCounter_10():
     # 打印时间函数
-    print('T2现在时间：',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    #print('T2现在时间：',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     #具体触发内容
     ###
     #weixin.repeat_weixin(9)
@@ -49,7 +51,7 @@ def TimeCounter_10():
     t2.start()
 def TimeCounter_60():
     # 打印时间函数
-    print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    #print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     #具体触发内容
     ###
     model.run_mysql()
@@ -64,11 +66,11 @@ class UIThread (threading.Thread):
         threading.Thread.__init__(self)
         self.threadID = threadID
     def run(self):
-        print ("开始线程：" + self.threadID)
+        #print ("开始线程：" + self.threadID)
         # 创建UI
         UIModule.ui_create()
         #root.mainloop()
-        print ("退出线程：" + self.threadID)
+        #print ("退出线程：" + self.threadID)
 
 class login:
     def GET(self):
@@ -150,6 +152,6 @@ class historical:
             return render.login('欢迎，请登录...')
 
 if __name__ == '__main__':
-    #model.conn_weixin()
     #TimeCounter_60()
+    #model.conn_weixin()
     app.run()

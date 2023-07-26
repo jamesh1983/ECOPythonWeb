@@ -177,7 +177,7 @@ class Handle(object):
             timestamp = data.timestamp
             nonce = data.nonce
             echostr = data.echostr
-            print (data)
+            #print (data)
             token = "Ecotech1661"
             list = [token, timestamp, nonce]
             list.sort()
@@ -186,17 +186,18 @@ class Handle(object):
             sha1.update(list[1].encode("utf-8"))
             sha1.update(list[2].encode("utf-8"))
             hashcode = sha1.hexdigest()
-            print ("handle/GET func: hashcode, signature: ", hashcode, signature)
+            #print ("handle/GET func: hashcode, signature: ", hashcode, signature)
             if hashcode == signature:
                 return ""
             else:
                 return "success"
         except Exception as Argument:
+            print(Argment)
             return None
     def POST(self):
         try:
             webData = web.data()
-            print ("Handle Post webdata is ", webData)
+            #print ("Handle Post webdata is ", webData)
    #后台打日志
             recMsg = parse_xml(webData)
             if isinstance(recMsg, Msg_REC) and recMsg.MsgType == 'text':
@@ -224,7 +225,7 @@ class Handle(object):
                     result = db.query(cmd)
                     #db_connect.commit()
                     #db_connect.close()
-                    print (result)
+                    #print (result)
                     content = "确认成功！"
                 elif(len(keyword)>1 and keyword[0] == "消除"):
                     settingID = keyword[1]
@@ -236,7 +237,7 @@ class Handle(object):
                     #db_connect.commit()
                     #db_connect.close()
                     result = db.query(cmd)
-                    print (result)
+                    #print (result)
                     content = "消除成功！"
                 elif(recContent.isdigit()):
                     settingID = recContent
@@ -248,7 +249,7 @@ class Handle(object):
                     #db_connect.commit()
                     #db_connect.close()
                     result = db.query(cmd)
-                    print (result)
+                    #print (result)
                     content = "确认成功！"
                 else:
                     content = "点击按钮'绑定账号'确认绑定操作，并生成报警ID"
@@ -280,7 +281,7 @@ class Handle(object):
                 return "success"
         except Exception as Argment:
             print(Argment)
-            return Argment
+            return None
 class Wechat_Info:
     def __init__(self):
         self.appid = 'wx326ea151e11df0a0'
@@ -296,6 +297,7 @@ class Wechat_Info:
         r = requests.get(url=Url, params=Data)
         try:
             token = r.json()['access_token']
+            #print("the token return as: " + token)
             return token
         except Exception as Argment:
             print(Argment)
@@ -361,13 +363,14 @@ class MySQL(object):
             #data = cursor.fetchall()
             cmd = "SELECT TABLE_NAME from information_schema.TABLES where TABLE_SCHEMA = 'prodict_database'"
             data = db.query(cmd)
-            for name in data:
-                print ("table_name:", name)
+            #for name in data:
+                #print ("table_name:", name)
             # 关闭数据库连接
             #db.close()
             return data
         except Exception as Argment:
-            return Argment
+            print(Argment)
+            return None
     def tableSQL(self, tablename):
         # 打开数据库连接
         try:
@@ -380,7 +383,8 @@ class MySQL(object):
             data = db.query(cmd)
             return data
         except Exception as Argment:
-            return Argment
+            print(Argment)
+            return None
     def Get_Warning_Value(self):
         # 打开数据库连接
         try:
@@ -400,7 +404,8 @@ class MySQL(object):
             data = db.query(sql_cmd)
             return data
         except Exception as Argment:
-            return Argment
+            print(Argment)
+            return None
     def Get_Value(self, value_name):
         # 打开数据库连接
         try:
@@ -417,7 +422,8 @@ class MySQL(object):
             data = db.query(sql_cmd)
             return data
         except Exception as Argment:
-            return Argment
+            print(Argment)
+            return None
     def Get_Warning_Value_HL(self):
         # 打开数据库连接
         try:
@@ -437,7 +443,8 @@ class MySQL(object):
             data = db.query(sql_cmd)
             return data
         except Exception as Argment:
-            return Argment
+            print(Argment)
+            return None
     def Get_Value_HL(self, value_name):
         # 打开数据库连接
         try:
@@ -454,7 +461,8 @@ class MySQL(object):
             data = db.query(sql_cmd)
             return data
         except Exception as Argment:
-            return Argment
+            print(Argment)
+            return None
 def parse_xml(web_data):
     if len(web_data) == 0:
         return None
@@ -485,8 +493,8 @@ def run_weixin(wechat_info):
                 message['SN'] = row["SN"]#模块
                 message['equipment'] = row["equipment"]#设备
                 message['warning_setting'] = row["warning_setting"]#报警设置
-                message['warning_status'] = row["warning_status"]#报警状态
-                if(row[5] != None):
+                message['warning_status'] = "报警已持续" + row["warning_status"] + "分钟,未被确认"#报警状态
+                if(row["user_list"] != None):
                     userID_List = row["user_list"].split(',')#报警用户
                 else:
                     userID_List = ""
@@ -497,12 +505,14 @@ def run_weixin(wechat_info):
                         user_cmd = "select weixinID from table_user where user_ID = '" + userID + "'"
                         #user_cursor.execute(user_cmd)
                         #user_data = user_cursor.fetchall()
-                        user_data = db.query(user_cmd)
-                        weixinID = user_data[0]["weixinID"]
-                        wechat_info.send_message(weixinID, message)
+                        result = db.query(user_cmd)
+                        for user_data in result:
+                            weixin = user_data["weixinID"]
+                            wechat_info.send_message(weixin, message)
                     #userDB.close()
     except Exception as Argment:
         print(Argment)
+        return None
 def repeat_weixin(wechat_info,count):
     #str_connection = ("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
     #wechat_info = Wechat_Info()
@@ -510,9 +520,10 @@ def repeat_weixin(wechat_info,count):
     try:
         #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
         #cursor = db.cursor()
-        sqlcmd = "SELECT warningcode, SN, equipment, warning_setting, warning_status, user_list "\
-            "FROM warning_log, warning_setting "\
-            "WHERE (warning_log.warning_ack IS NOT NULL AND warning_log.warning_resolved IS NULL) AND warning_log.warning_status > " + str(count) + " AND warning_setting.ID = warning_log.warning_setting"
+        sqlcmd = "SELECT warningcode, SN, equipment, warning_setting, warning_status, user_list, table_user.user_name, log_time "\
+            "FROM warning_log, warning_setting, table_user "\
+            "WHERE (warning_log.warning_ack IS NOT NULL AND warning_log.warning_resolved IS NULL) AND warning_log.warning_status > " + str(count) + " AND "\
+            "warning_setting.ID = warning_log.warning_setting AND table_user.user_ID = warning_log.ack_user"
         #cursor.execute(sqlcmd)
         #data = cursor.fetchall()
         #db.close()
@@ -524,8 +535,8 @@ def repeat_weixin(wechat_info,count):
                 message['SN'] = str(row["SN"])#模块
                 message['equipment'] = str(row["equipment"])#设备
                 message['warning_setting'] = str(row["warning_setting"])#报警设置
-                message['warning_status'] = str(row["warning_status"])#报警状态
-                if(row[5] != None):
+                message['warning_status'] = "报警已持续" + str(row["warning_status"]) + "分钟，已被" + str(row["user_name"]) + "确认"#报警状态
+                if(row["user_list"] != None):
                     userID_List = row["user_list"].split(',')#报警用户
                 else:
                     userID_List = ""
@@ -536,12 +547,14 @@ def repeat_weixin(wechat_info,count):
                         user_cmd = "select weixinID from table_user where user_ID = '" + userID + "'"
                         #user_cursor.execute(user_cmd)
                         #user_data = user_cursor.fetchall()
-                        user_data = db.query(user_cmd)
-                        weixinID = user_data[0]["weixinID"]
-                        wechat_info.send_message(weixinID, message)
+                        result = db.query(user_cmd)
+                        for user_data in result:
+                            weixin = user_data["weixinID"]
+                            wechat_info.send_message(weixin, message)
                     #userDB.close()
     except Exception as Argment:
         print(Argment)
+        return None
 def TimeCounter_run(wechat_info):
     run_weixin(wechat_info)
     global t_run
@@ -559,7 +572,7 @@ def TimeCounter_token(wechat_info):
     t_token.start()
 def get_token(wechat_info):
     wechat_info.token = wechat_info.get_token(wechat_info.appid,wechat_info.secret)
-    print(wechat_info.token)
+    #print(wechat_info.token)
 def insert_user(userID, weixinID):
 # 打开数据库连接
     try:
@@ -572,12 +585,11 @@ def insert_user(userID, weixinID):
         if exist_id_list == None:
             # 使用execute方法执行SQL语句 replace into table( col1, col2, col3 ) values ( val1, val2, val3 )
             result = cursor.execute("REPLACE INTO table_user (user_ID, weixinID) VALUE (" + userID + ", '" + weixinID + "')")
-            print (result)
+            #print (result)
             #db.commit()
             return "success"
         else:
             exist_id = exist_id_list[0]
-            print (exist_id)
             return str(exist_id)
 # 关闭数据库连接
         #db.close()
@@ -677,14 +689,14 @@ def run_mysql_HL():
                     "SET warning_status = warning_status+1 "\
                     "WHERE warning_setting = '" + str(setting_row["ID"]) + "'"
                 #cursor.execute(sql_cmd)
-                db.query(sql_cmd)
+                result = db.query(sql_cmd)
             else:
                 sql_cmd = "INSERT INTO warning_log "\
                     "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`) "\
                     "VALUES "\
                     "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
                 #cursor.execute(sql_cmd)
-                db.query(sql_cmd)
+                result = db.query(sql_cmd)
             #db.commit()
             #db.close()
         else:
