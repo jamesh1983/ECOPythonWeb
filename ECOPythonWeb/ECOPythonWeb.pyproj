@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="static\images\background.png" />
+    <Content Include="static\images\favicon_circle.ico" />
     <Content Include="static\images\favicon.ico" />
     <Content Include="static\js\bootstrap-4.4.1.js" />
     <Content Include="static\js\bootstrap.js" />

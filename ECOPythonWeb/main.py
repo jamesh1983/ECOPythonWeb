@@ -4,7 +4,7 @@ import web
 import threading
 import settings
 import model
-from datetime import datetime
+import datetime
 from threading import Timer
 from model import Handle
 loginuser=''
@@ -112,15 +112,21 @@ class logout:
 class historical:
     def GET(self):
         loginuser=web.cookies().get('user_id')
-        his_data = {
-                    "TIMETAG":[202310011000, 202310011001, 202310011002, 202310011003, 202310011004, 202310011005, 202310011006], 
-                    "result":[820, 932, 901, 934, 1290, 1330, 1320]
-                    }
         if loginuser:
+            oneday=datetime.timedelta(days=1)
+            yesterday = datetime.datetime.today() - oneday
+            startdate = yesterday.strftime("%Y-%m-%d")
+            enddate = datetime.datetime.today().strftime("%Y-%m-%d")
             if (loginuser=='111') | (loginuser=='222'):
-                return render.historical(loginuser, ColumnList12, his_data, "历史记录查询")
+                sn = 1
+                selected_column = "Value8"
+                his_data = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.historical(loginuser, ColumnList12, his_data, "凝汽器前ORP")
             if loginuser=='333':
-                return render.historical(loginuser, ColumnList3, his_data, "历史记录查询")
+                sn = 3
+                selected_column = "int_8"
+                his_data = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.historical(loginuser, ColumnList3, his_data, "凝汽器前ORP值1")
         else:
             return render.login('欢迎，请登录...')
     def POST(self):

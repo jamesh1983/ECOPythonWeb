@@ -2,15 +2,16 @@ $def with (loginData1)
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>铱钶环保</title>
-    <link href="/static/images/favicon.ico" rel="shortcut icon"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
+    <!--<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />-->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
-    <!--<script src="static/js/modernizr-2.6.2.js"></script>-->
-    <!--<script src="static/js/respond.js"></script>-->
-    <!--<script src="static/js/jquery-1.10.2.min.js"></script>
-    <script src="static/js/bootstrap.js"></script>-->
+    <!--<script src="/static/js/modernizr-2.6.2.js"></script>-->
+    <!--<script src="/static/js/respond.js"></script>-->
+    <!--<script src="/static/js/jquery-1.10.2.min.js"></script>-->
+    <!--<script src="/static/js/bootstrap.min.js"></script>-->
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
@@ -20,39 +21,32 @@ $def with (loginData1)
 </head>
 <body>
     <div class="container body-content">
-        <div class="row">
-            <div class="col-md-8">
-                <section id="loginForm">
-                    <form action="." method="post" class="form-horizontal">
-                        <h4>$loginData1</h4>
-                        <hr />
-                        <div class="form-group">
-                            <label for="id_username" class="col-md-2 control-label">用户名</label>
-                            <div class="col-md-10">
-                                <input type="text" name="username">
-                            </div>
+        <section id="loginForm">
+            <form action="." method="post" class="form-horizontal">
+                <h4>$loginData1</h4>
+                <div class="form-group">
+                    <div class="row">
+                        <label for="id_username" class="col-1 control-label">用户名</label>
+                        <div class="col-11">
+                            <input type="text" name="username">
                         </div>
-                        <div class="form-group">
-                            <label for="id_password" class="col-md-2 control-label">密码</label>
-                            <div class="col-md-10">
-                                <input type="password" name="passwd">
-                            </div>
+                        <label for="id_password" class="col-1 control-label">密码</label>
+                        <div class="col-11">
+                            <input type="password" name="passwd">
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="hidden" name="next" value="/" />
-                                <input type="submit" value="Log in" class="btn btn-default" />
-                            </div>
+                        <div class="col-offset-1 col-11">
+                            <input type="submit" value="登录" class="btn btn-secondary btn-lg" />
                         </div>
-                    </form>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section id="socialLoginForm"></section>
-            </div>
-        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+        
+    </div>
+    <div class="container body-content">
+        <hr />
         <footer>
-            <p>&copy;EcoTech</p>
+            <p>&copy; ECOTECH</p>
         </footer>
     </div>
 </body>

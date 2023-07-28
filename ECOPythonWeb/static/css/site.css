@@ -8,6 +8,10 @@ body {
     background-position: center 0;
 }
 
+p {
+    margin-left: 10px;
+    font-size: large;
+}
 .row {
     color: #d6ecf0;
 }
@@ -18,9 +22,21 @@ body {
     padding-right: 15px;
     color: #d6ecf0;
 }
+.nav-link {
+    color: #d6ecf0;
+    font-size: x-large;
+}
+.navbar-text {
+    color: #d6ecf0;
+    font-size: x-large;
+}
+
+.control-label {
+    font-size: large;
+    color: #d6ecf0;
+}
 
 .navbar {
-    color: #d6ecf0;
     opacity: 0.5;
 }
 

@@ -3,9 +3,11 @@ $def with (username,data,predata)
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="120">
     <title>铱钶环保</title>
     <link rel="shortcut icon" href="/static/images/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />-->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
     <!--<script src="/static/js/modernizr-2.6.2.js"></script>-->
     <!--<script src="/static/js/respond.js"></script>-->
@@ -20,59 +22,60 @@ $def with (username,data,predata)
     <script src="/static/js/echarts.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/?sn=3">实时数据展示</a></li>
-                    <li><a href="/historical">历史数据展示</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a>您好！$username</a></li>
-                    <li><a href="logout">登出</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <nav class="navbar navbar-expand-xl bg-dark navbar-dark fixed-top">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="logout">登出</a></li>
+        </ul>
+        <span class="navbar-text">您好！$username</span>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/?sn=3">实时数据展示</a></li>
+            <li class="nav-item"><a class="nav-link" href="/historical">历史数据展示</a></li>
+        </ul>
+    </nav>
     <header id="1" align="center" style="color: #d6ecf0;"><h1>OZAST高效水处理监控大屏</h1></header>
     <div class="row">
         <div class="col-sm-2">
-            <p id="p5"></p>
-            <p id="p6"></p>
-            <p id="p7"></p>
-            <p id="p8"></p>
-            <p id="p9"></p>
-            <p id="p10"></p>
-            <p id="p11"></p>
+            <p>凝汽器前水温1<span class="badge badge-info" id="p5"></span>℃</p>
+            <p>凝汽器前水温2<span class="badge badge-info" id="p6"></span>℃</p>
+            <p>排气温度<span class="badge badge-info" id="p7"></span>℃</p>
+            <p>出水水温<span class="badge badge-info" id="p8"></span>℃</p>
+            <p>进水压力<span class="badge badge-info" id="p9"></span>MPa</p>
+            <p>出水压力<span class="badge badge-info" id="p10"></span>MPa</p>
+            <p>负荷<span class="badge badge-info" id="p11"></span>%</p>
         </div>
         <div class="col-sm-6" id="chart1" style="height: 300px; "></div>
         <div class="col-sm-4" id="chart2" style="height: 300px; "></div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <p id="p1"></p>
-            <p id="p2"></p>
-            <p id="p3"></p>
-            <p id="p4"></p>
+            <p>凝汽器前ORP1<span class="badge badge-info" id="p1"></span>mV</p>
+            <p>凝汽器前ORP2<span class="badge badge-info" id="p2"></span>mV</p>
+            <p>pH值<span class="badge badge-info" id="p3"></span></p>
+            <p>电导率<span class="badge badge-info" id="p4"></span>uS / cm</p>
+        </div>
+        <div class="col-sm-3"><p>取水阀<span class="badge" id="p12"></span></p>
+            <p>气路快开阀<span class="badge" id="p13"></span></p>
+            <p>凝汽器支路调节阀开度</p>
+            <div class="progress">
+                <div id="p20" class="progress-bar progress-bar-striped progress-bar-animated"></div>
+            </div>
+            <p>冷却塔支路调节阀开度</p>
+            <div class="progress">
+                <div id="p21" class="progress-bar progress-bar-striped progress-bar-animated"></div>
+            </div>
         </div>
         <div class="col-sm-3">
-            <p id="p20">凝汽器/冷却塔支路</p>
-            <p id="p21">调节阀开度：$data["int_4"]/$data["int_5"] %</p>
-            <p id="p12"></p>
-            <p id="p13"></p>
+            <p>循泵1/2/3<span class="badge" id="p16"></span>/<span class="badge " id="sp16"></span>/<span class="badge" id="s16"></span></p>
+            <p>变频循泵2工作频率<span class="badge badge-info" id="p19"></span>Hz<p>
+            <p>取水泵1<span class="badge" id="p14"></span></p>
+            <p>取水泵2<span class="badge" id="p15"></span></p>
+            <p>取水泵1工作频率<span class="badge badge-info" id="p17"></span>Hz</p>
         </div>
         <div class="col-sm-3">
-            <p id="p16"></p>
-            <p id="p19"><p>
-            <p id="p14"></p>
-            <p id="p15"></p>
-            <p id="p17"></p>
-        </div>
-        <div class="col-sm-3">
-            <p id="p24"></p>
-            <p id="p25"></p>
-            <p id="p26"></p>
-            <p id="p27"></p>
+            <p>吸气口水压/气压<span class="badge badge-info" id="p24"></span>/<span class="badge badge-info" id="sp24"></span>bar</p>
+            <p>吸入器后水压<span class="badge badge-info" id="p25"></span>bar</p>
+            <p>脱气塔前水压<span class="badge badge-info" id="p26"></span>bar</p>
+            <p>脱气塔后水压<span class="badge badge-info" id="p27"></span>bar</p>
         </div>
     </div>
     <div class="container body-content">
@@ -107,16 +110,25 @@ $def with (username,data,predata)
             },
             xAxis: {
                 type: 'category',
-                data: $predata["TIMETAG"]
+                data: $predata["TIMETAG"],
+                splitLine: {
+                    show: false
+                }
             },
             yAxis: [
                 {
-                    name: "负荷",
-                    type: 'value'
+                    name: "端差(℃)",
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    }
                 },
                 {
-                    name: "端差",
-                    type: 'value'
+                    name: "负荷(%)",
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    }
                 }
             ],
             series: [
@@ -203,109 +215,139 @@ $def with (username,data,predata)
         var p14 = document.getElementById('p14');
         var p15 = document.getElementById('p15');
         var p16 = document.getElementById('p16');
+        var sp16 = document.getElementById('sp16');
+        var s16 = document.getElementById('s16');
         var p17 = document.getElementById('p17');
         var p19 = document.getElementById('p19');
+        var p20 = document.getElementById('p20');
+        var p21 = document.getElementById('p21');
         var p24 = document.getElementById('p24');
+        var sp24 = document.getElementById('sp24');
         var p25 = document.getElementById('p25');
         var p26 = document.getElementById('p26');
         var p27 = document.getElementById('p27');
-        p1.innerHTML = '凝汽器前ORP1：' + $data["int_8"] + ' mV';
-        p2.innerHTML = '凝汽器前ORP2：' + $data["int_10"] + ' mV';
-        p3.innerHTML = 'pH值：' + $data["int_33"] / 100;
-        p4.innerHTML = '电导率：' + $data["int_34"] + ' uS / cm';
-        p5.innerHTML = '凝汽器前水温1：' + $data["int_9"] / 10 + ' ℃';
-        p6.innerHTML = '凝汽器前水温2：' + $data["int_11"] / 10 + ' ℃';
+        p1.innerHTML = $data["int_8"];
+        p2.innerHTML = $data["int_10"];
+        p3.innerHTML = $data["int_33"] / 100;
+        p4.innerHTML = $data["int_34"];
+        p5.innerHTML = $data["int_9"] / 10;
+        p6.innerHTML = $data["int_11"] / 10;
         var temp1 = $data["bool6"];
         var temp2 = $data["bool7"];
         if (temp1 == 1) {
-            p12.innerHTML = '取水阀：打开';
+            p12.className = "badge badge-success";
+            p12.innerHTML = '打开';
         }
         else if (temp2 == 1) {
-            p12.innerHTML = '取水阀：关闭';
+            p12.className = "badge badge-secondary";
+            p12.innerHTML = '关闭';
         }
         else {
-            p12.innerHTML = '取水阀：动作中';
+            p12.className = "badge badge-warning";
+            p12.innerHTML = '动作中';
         }
         temp1 = $data["bool8"];
         temp2 = $data["bool9"];
         if (temp1 == 1) {
-            p13.innerHTML = '气路快开阀：打开';
+            p13.className = "badge badge-success";
+            p13.innerHTML = '打开';
         }
         else if (temp2 == 1) {
-            p13.innerHTML = '气路快开阀：关闭';
+            p13.className = "badge badge-secondary";
+            p13.innerHTML = '关闭';
         }
         else {
-            p13.innerHTML = '气路快开阀：动作中';
+            p13.className = "badge badge-warning";
+            p13.innerHTML = '动作中';
         }
         temp1 = $data["bool15"];
         if (temp1 == 1) {
-            p14.innerHTML = '取水泵1：运行中';
+            p14.className = "badge badge-success";
+            p14.innerHTML = '运行中';
         }
         else {
-            p14.innerHTML = '取水泵1：未运行';
+            p14.className = "badge badge-secondary";
+            p14.innerHTML = '未运行';
         }
         temp1 = $data["bool18"];
         if (temp1 == 1) {
-            p15.innerHTML = '取水泵2：运行中';
+            p15.className = "badge badge-success";
+            p15.innerHTML = '运行中';
         }
         else {
-            p15.innerHTML = '取水泵2：未运行';
+            p15.className = "badge badge-secondary";
+            p15.innerHTML = '未运行';
         }
         temp1 = $data["bool1"];
         if (temp1 == 1) {
-            p16.innerHTML = '循泵1/2/3：运行中';
+            p16.className = "badge badge-success";
+            p16.innerHTML = '运行中';
         }
         else {
-            p16.innerHTML = '循泵1/2/3：未运行';
+            p16.className = "badge badge-secondary";
+            p16.innerHTML = '未运行';
         }
         temp1 = $data["bool2"];
         if (temp1 == 1) {
-            p16.innerHTML += '/运行中';
+            sp16.className = "badge badge-success";
+            sp16.innerHTML += '运行中';
         }
         else {
-            p16.innerHTML += '/未运行';
+            sp16.className = "badge badge-secondary";
+            sp16.innerHTML += '未运行';
         }
         temp1 = $data["bool3"];
         if (temp1 == 1) {
-            p16.innerHTML += '/运行中';
+            s16.className = "badge badge-success";
+            s16.innerHTML += '运行中';
         }
         else {
-            p16.innerHTML += '/未运行';
+            s16.className = "badge badge-secondary";
+            s16.innerHTML += '未运行';
         }
         var pressure1 = $data["Value15"];
         var pressure2 = $data["Value14"];
         var pr1 = pressure1.toFixed(2).toString();
         var pr2 = pressure2.toFixed(2).toString();
-        p24.innerHTML = '吸气口水压/气压：' + pr1 + '/' + pr2 + ' bar';
+        p24.innerHTML = pr1;
+        sp24.innerHTML = pr2;
         pressure1 = $data["Value16"];
         pr1 = pressure1.toFixed(2).toString();
-        p25.innerHTML = '吸入器后水压：' + pr1 + ' bar';
+        p25.innerHTML = pr1;
         pressure1 = $data["Value18"];
         pr1 = pressure1.toFixed(2).toString();
-        p26.innerHTML = '脱气塔前水压：' + pr1 + ' bar';
+        p26.innerHTML = pr1;
         pressure1 = $data["Value19"];
         pr1 = pressure1.toFixed(2).toString();
-        p27.innerHTML = '脱气塔后水压：' + pr1 + ' bar';
+        p27.innerHTML = pr1;
         pressure1 = $data["Value5"];
         pr1 = pressure1.toFixed(2).toString();
-        p7.innerHTML = '排气温度：' + pr1 + ' ℃';
+        p7.innerHTML = pr1;
         pressure1 = $data["Value6"];
         pr1 = pressure1.toFixed(2).toString();
-        p8.innerHTML = '出水水温：' + pr1 + ' ℃';
+        p8.innerHTML = pr1;
         pressure1 = $data["Value7"];
         pr1 = pressure1.toFixed(2).toString();
-        p9.innerHTML = '进水压力：' + pr1 + ' MPa';
+        p9.innerHTML = pr1;
         pressure1 = $data["Value8"];
         pr1 = pressure1.toFixed(2).toString();
-        p10.innerHTML = '出水压力：' + pr1 + ' MPa';
+        p10.innerHTML = pr1;
         pressure1 = $data["Value4"];
         pr1 = pressure1.toFixed(2).toString();
-        p11.innerHTML = '负荷：' + pr1 + ' %';
+        p11.innerHTML = pr1;
         pressure1 = $data["Value3"];
         pr1 = pressure1.toFixed(2).toString();
-        p19.innerHTML = '变频循泵2工作频率：' + pr1 + ' Hz';
+        p19.innerHTML = pr1;
         pressure1 = $data["int_13"];
         pr1 = pressure1.toString();
-        p17.innerHTML = '取水泵1工作频率：' + pr1 + ' Hz';
+        p17.innerHTML = pr1;
+        pressure1 = $data["int_4"];
+        pressure2 = $data["int_5"];
+        pr1 = pressure1.toString();
+        pr2 = pressure2.toString();
+        p23.style.width = pr1 + '%';
+        d23.style.width = pr2 + '%';
+        p23.innerHTML = pr1 + '%';
+        d23.innerHTML = pr2 + '%';
     </script>
 </body>
