@@ -335,7 +335,7 @@ class Wechat_Info:
                     "color":"#173177"
                 },
                 "keyword4":{
-                    "value":message['warning_setting'] + message['warning_status'],
+                    "value":"故障码:" + message['warning_setting'] + "-" + message['warning_status'],
                     "color":"#173177"
                 }
             }
@@ -392,7 +392,7 @@ class MySQL(object):
             #cursor = db.cursor()
             # 使用execute方法执行SQL语句 #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_name, 7:settingID, 8:equipment_name, 9:SN_name
             sql_cmd = "SELECT warning_setting.value_name, warning_setting.up_limit, warning_setting.down_limit, warning_setting.user_list, table_sn.SN_ID, "\
-                      "table_warningcode.content, warning_setting.equipment_ID, warning_setting.ID, table_equipment.name as equipment_name, table_sn.name as SN_name "\
+                      "table_warningcode.content, warning_setting.equipment_ID, warning_setting.ID, concat(table_equipment.name,'-',table_equipment.spec) as equipment_name, table_sn.name as SN_name "\
                       "FROM warning_setting, table_equipment, table_sn, table_warningcode "\
                       "WHERE table_warningcode.code_ID = warning_setting.warningcode_content AND "\
                       "warning_setting.equipment_ID = table_equipment.equipment_ID AND "\
@@ -431,7 +431,7 @@ class MySQL(object):
             #cursor = db.cursor()
             # 使用execute方法执行SQL语句 #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_name, 7:settingID, 8:equipment_name, 9:SN_name
             sql_cmd = "SELECT warning_setting.value_name, warning_setting.up_limit, warning_setting.down_limit, warning_setting.user_list, table_sn.SN_ID, "\
-                      "table_warningcode.content, warning_setting.equipment_ID, warning_setting.ID, table_equipment.name as equipment_name, table_sn.name as SN_name "\
+                      "table_warningcode.content, warning_setting.equipment_ID, warning_setting.ID, concat(table_equipment.name,'-',table_equipment.spec) as equipment_name, table_sn.name as SN_name "\
                       "FROM warning_setting, table_equipment, table_sn, table_warningcode "\
                       "WHERE table_warningcode.code_ID = warning_setting.warningcode_content AND "\
                       "warning_setting.equipment_ID = table_equipment.equipment_ID AND "\
@@ -489,11 +489,11 @@ def run_weixin(wechat_info):
         if (len(data)>=1):
             for row in data:
                 message['Date'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                message['warningcode'] = row["warningcode"]#故障码
-                message['SN'] = row["SN"]#模块
-                message['equipment'] = row["equipment"]#设备
-                message['warning_setting'] = row["warning_setting"]#报警设置
-                message['warning_status'] = "报警已持续" + row["warning_status"] + "分钟,未被确认"#报警状态
+                message['warningcode'] = str(row["warningcode"])#故障码
+                message['SN'] = str(row["SN"])#模块
+                message['equipment'] = str(row["equipment"])#设备
+                message['warning_setting'] = str(row["warning_setting"])#报警设置
+                message['warning_status'] = "报警已持续" + str(row["warning_status"]) + "分钟,未被确认"#报警状态
                 if(row["user_list"] != None):
                     userID_List = row["user_list"].split(',')#报警用户
                 else:
@@ -629,12 +629,12 @@ def run_mysql():
             print(col, ":", v, "不在范围内")
             #db = pymysql.connect(str_connection[0], str_connection[1], str_connection[2], str_connection[3])
             #cursor = db.cursor()
-            sql_cmd = "SELECT * FROM warning_log WHERE resolved_user IS NULL AND warning_setting = '" + str(setting_row[7]) + "'"
+            sql_cmd = "SELECT * FROM warning_log WHERE resolved_user IS NULL AND warning_setting = '" + str(setting_row["ID"]) + "'"
             #cursor.execute(sql_cmd)
             #result = cursor.fetchone()
             #data_len = result.__len__()
-            result = db.query(sql_cmd)
-            if (result != None):
+            results = db.query(sql_cmd)
+            if (results.cursor.rowcount != 0):
                 sql_cmd = "UPDATE warning_log "\
                     "SET warning_status = warning_status+1 "\
                     "WHERE warning_setting = '" + str(setting_row["ID"]) + "'"
@@ -644,7 +644,7 @@ def run_mysql():
                 sql_cmd = "INSERT INTO warning_log "\
                     "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`) "\
                     "VALUES "\
-                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
+                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "-" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
                 #cursor.execute(sql_cmd)
                 db.query(sql_cmd)
                 #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_ID, 7:settingID, 8:equipment_name, 9:SN_name
@@ -683,8 +683,8 @@ def run_mysql_HL():
             #cursor.execute(sql_cmd)
             #result = cursor.fetchone()
             #data_len = result.__len__()
-            result = db.query(sql_cmd)
-            if (result != None):
+            results = db.query(sql_cmd)
+            if (results.cursor.rowcount != 0):
                 sql_cmd = "UPDATE warning_log "\
                     "SET warning_status = warning_status+1 "\
                     "WHERE warning_setting = '" + str(setting_row["ID"]) + "'"
@@ -694,11 +694,12 @@ def run_mysql_HL():
                 sql_cmd = "INSERT INTO warning_log "\
                     "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`) "\
                     "VALUES "\
-                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
+                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
                 #cursor.execute(sql_cmd)
                 result = db.query(sql_cmd)
             #db.commit()
             #db.close()
         else:
             print(col, ":", v, "正常！")
+
 

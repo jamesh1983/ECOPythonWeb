@@ -91,8 +91,8 @@ class login:
             return render.login('欢迎访问，请先登录...')
     def POST(self):
         i = web.input()
-        username = i.get('username')
-        passwd = i.get('passwd')
+        username = i.get('user_id')
+        passwd = i.get('password')
         if (username,passwd) in settings.allowed:
             loginuser = username
             usertype = settings.auth[loginuser]

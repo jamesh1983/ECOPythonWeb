@@ -22,60 +22,68 @@ $def with (username,data,predata)
     <script src="/static/js/echarts.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-xl bg-dark navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark">
         <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="logout">登出</a></li>
+            <li class="nav-item"><a class="nav-item nav-link" style="color: #d6ecf0;">您好！$username</a></li>
+            <li class="nav-item"><a class="nav-item nav-link" href="logout">登出</a></li>
         </ul>
-        <span class="navbar-text">您好！$username</span>
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="/?sn=3">实时数据展示</a></li>
-            <li class="nav-item"><a class="nav-link" href="/historical">历史数据展示</a></li>
-        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/?sn=3">实时数据展示</a></li>
+                <li class="nav-item"><a class="nav-link" href="/historical">历史数据展示</a></li>
+            </ul>
+        </div>
     </nav>
     <header id="1" align="center" style="color: #d6ecf0;"><h1>OZAST高效水处理监控大屏</h1></header>
     <div class="row">
         <div class="col-sm-2">
-            <p>凝汽器前水温1<span class="badge badge-info" id="p5"></span>℃</p>
-            <p>凝汽器前水温2<span class="badge badge-info" id="p6"></span>℃</p>
-            <p>排气温度<span class="badge badge-info" id="p7"></span>℃</p>
-            <p>出水水温<span class="badge badge-info" id="p8"></span>℃</p>
-            <p>进水压力<span class="badge badge-info" id="p9"></span>MPa</p>
-            <p>出水压力<span class="badge badge-info" id="p10"></span>MPa</p>
-            <p>负荷<span class="badge badge-info" id="p11"></span>%</p>
+            <p class="text">凝汽器前水温1<span class="badge badge-info" id="p5"></span>℃</p>
+            <p class="text">凝汽器前水温2<span class="badge badge-info" id="p6"></span>℃</p>
+            <p class="text">排气温度<span class="badge badge-info" id="p7"></span>℃</p>
+            <p class="text">出水水温<span class="badge badge-info" id="p8"></span>℃</p>
+            <p class="text">进水压力<span class="badge badge-info" id="p9"></span>MPa</p>
+            <p class="text">出水压力<span class="badge badge-info" id="p10"></span>MPa</p>
+            <p class="text">负荷<span class="badge badge-info" id="p11"></span>%</p>
         </div>
         <div class="col-sm-6" id="chart1" style="height: 300px; "></div>
         <div class="col-sm-4" id="chart2" style="height: 300px; "></div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <p>凝汽器前ORP1<span class="badge badge-info" id="p1"></span>mV</p>
-            <p>凝汽器前ORP2<span class="badge badge-info" id="p2"></span>mV</p>
-            <p>pH值<span class="badge badge-info" id="p3"></span></p>
-            <p>电导率<span class="badge badge-info" id="p4"></span>uS / cm</p>
+            <p class="text">凝汽器前ORP1<span class="badge badge-info" id="p1"></span>mV</p>
+            <p class="text">凝汽器前ORP2<span class="badge badge-info" id="p2"></span>mV</p>
+            <p class="text">pH值<span class="badge badge-info" id="p3"></span></p>
+            <p class="text">电导率<span class="badge badge-info" id="p4"></span>uS / cm</p>
         </div>
-        <div class="col-sm-3"><p>取水阀<span class="badge" id="p12"></span></p>
-            <p>气路快开阀<span class="badge" id="p13"></span></p>
-            <p>凝汽器支路调节阀开度</p>
+        <div class="col-sm-3">
+            <p class="text">取水阀<span class="badge" id="p12"></span></p>
+            <p class="text">气路快开阀<span class="badge" id="p13"></span></p>
+            <p class="text">凝汽器支路调节阀开度</p>
             <div class="progress">
                 <div id="p20" class="progress-bar progress-bar-striped progress-bar-animated"></div>
             </div>
-            <p>冷却塔支路调节阀开度</p>
+            <p class="text">冷却塔支路调节阀开度</p>
             <div class="progress">
                 <div id="p21" class="progress-bar progress-bar-striped progress-bar-animated"></div>
             </div>
         </div>
         <div class="col-sm-3">
-            <p>循泵1/2/3<span class="badge" id="p16"></span>/<span class="badge " id="sp16"></span>/<span class="badge" id="s16"></span></p>
-            <p>变频循泵2工作频率<span class="badge badge-info" id="p19"></span>Hz<p>
-            <p>取水泵1<span class="badge" id="p14"></span></p>
-            <p>取水泵2<span class="badge" id="p15"></span></p>
-            <p>取水泵1工作频率<span class="badge badge-info" id="p17"></span>Hz</p>
+            <p class="text">循泵1/2/3<span class="badge" id="p16"></span>/<span class="badge " id="sp16"></span>/<span class="badge" id="s16"></span></p>
+            <p class="text">变频循泵2工作频率<span class="badge badge-info" id="p19"></span>Hz<p>
+            <p class="text">取水泵1<span class="badge" id="p14"></span></p>
+            <p class="text">取水泵2<span class="badge" id="p15"></span></p>
+            <p class="text">取水泵1工作频率<span class="badge badge-info" id="p17"></span>Hz</p>
+            <p class="text">空压机<span class="badge" id="p28"></span></p>
+            <p class="text">冷冻机<span class="badge" id="p29"></span></p>
         </div>
         <div class="col-sm-3">
-            <p>吸气口水压/气压<span class="badge badge-info" id="p24"></span>/<span class="badge badge-info" id="sp24"></span>bar</p>
-            <p>吸入器后水压<span class="badge badge-info" id="p25"></span>bar</p>
-            <p>脱气塔前水压<span class="badge badge-info" id="p26"></span>bar</p>
-            <p>脱气塔后水压<span class="badge badge-info" id="p27"></span>bar</p>
+            <p class="text">吸气口水压/气压<span class="badge badge-info" id="p24"></span>/<span class="badge badge-info" id="sp24"></span>bar</p>
+            <p class="text">吸入器后水压<span class="badge badge-info" id="p25"></span>bar</p>
+            <p class="text">脱气塔前水压<span class="badge badge-info" id="p26"></span>bar</p>
+            <p class="text">脱气塔后水压<span class="badge badge-info" id="p27"></span>bar</p>
         </div>
     </div>
     <div class="container body-content">
@@ -226,6 +234,8 @@ $def with (username,data,predata)
         var p25 = document.getElementById('p25');
         var p26 = document.getElementById('p26');
         var p27 = document.getElementById('p27');
+        var p28 = document.getElementById('p28');
+        var p29 = document.getElementById('p29');
         p1.innerHTML = $data["int_8"];
         p2.innerHTML = $data["int_10"];
         p3.innerHTML = $data["int_33"] / 100;
@@ -305,6 +315,34 @@ $def with (username,data,predata)
             s16.className = "badge badge-secondary";
             s16.innerHTML += '未运行';
         }
+        temp1 = $data["bool10"];
+        temp2 = $data["bool11"];
+        if (temp1 == 1) {
+            p28.className = "badge badge-success";
+            p28.innerHTML += '运行中';
+        }
+        else if (temp2 == 1) {
+            p28.className = "badge badge-danger";
+            p28.innerHTML += '故障';
+        }
+        else {
+            p28.className = "badge badge-secondary";
+            p28.innerHTML += '未运行';
+        }
+        temp1 = $data["bool21"];
+        temp2 = $data["bool13"];
+        if (temp1 == 1) {
+            p29.className = "badge badge-success";
+            p29.innerHTML += '运行中';
+        }
+        else if (temp2 == 1) {
+            p29.className = "badge badge-danger";
+            p29.innerHTML += '故障';
+        }
+        else {
+            p29.className = "badge badge-secondary";
+            p29.innerHTML += '未运行';
+        }
         var pressure1 = $data["Value15"];
         var pressure2 = $data["Value14"];
         var pr1 = pressure1.toFixed(2).toString();
@@ -335,7 +373,7 @@ $def with (username,data,predata)
         pressure1 = $data["Value4"];
         pr1 = pressure1.toFixed(2).toString();
         p11.innerHTML = pr1;
-        pressure1 = $data["Value3"];
+        pressure1 = $data["Value3"]; 2
         pr1 = pressure1.toFixed(2).toString();
         p19.innerHTML = pr1;
         pressure1 = $data["int_13"];
@@ -345,9 +383,9 @@ $def with (username,data,predata)
         pressure2 = $data["int_5"];
         pr1 = pressure1.toString();
         pr2 = pressure2.toString();
-        p23.style.width = pr1 + '%';
-        d23.style.width = pr2 + '%';
-        p23.innerHTML = pr1 + '%';
-        d23.innerHTML = pr2 + '%';
+        p20.style.width = pr1 + '%';
+        p21.style.width = pr2 + '%';
+        p20.innerHTML = pr1 + '%';
+        p21.innerHTML = pr2 + '%';
     </script>
 </body>
