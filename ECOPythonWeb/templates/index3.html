@@ -6,18 +6,10 @@ $def with (username,data,predata)
     <meta http-equiv="refresh" content="120">
     <title>铱钶环保</title>
     <link rel="shortcut icon" href="/static/images/favicon.ico" />
-    <!--<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
-    <!--<script src="/static/js/modernizr-2.6.2.js"></script>-->
-    <!--<script src="/static/js/respond.js"></script>-->
-    <!--<script src="/static/js/jquery-1.10.2.min.js"></script>-->
-    <!--<script src="/static/js/bootstrap.min.js"></script>-->
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="/static/js/echarts.js"></script>
 </head>
@@ -80,6 +72,8 @@ $def with (username,data,predata)
             <p class="text">冷冻机<span class="badge" id="p29"></span></p>
         </div>
         <div class="col-sm-3">
+            <p class="text">当前臭氧发生器<span class="badge badge-info" id="p30"></span></p>
+            <p class="text">吸入器后水压<span class="badge badge-info" id="p25"></span>bar</p>
             <p class="text">吸气口水压/气压<span class="badge badge-info" id="p24"></span>/<span class="badge badge-info" id="sp24"></span>bar</p>
             <p class="text">吸入器后水压<span class="badge badge-info" id="p25"></span>bar</p>
             <p class="text">脱气塔前水压<span class="badge badge-info" id="p26"></span>bar</p>
@@ -89,7 +83,7 @@ $def with (username,data,predata)
     <div class="container body-content">
         <hr />
         <footer>
-            <p>&copy; ECOTECH</p>
+            <p class="text">&copy; ECOTECH</p>
         </footer>
     </div>
     <script type="text/javascript">
@@ -176,6 +170,8 @@ $def with (username,data,predata)
             ]
         };
         myChart1.setOption(option);
+        var Value12_t = $data["Value12"];
+        var Value12 = Value12_t.toFixed(2);
         option = {
             radar: {
                 // shape: 'circle',
@@ -196,7 +192,7 @@ $def with (username,data,predata)
                     type: 'radar',
                     data: [
                         {
-                            value: [$data["int_32"] / 10, $data["int_15"], $data["int_16"] / 10, $data["int_17"] * 10, $data["int_18"] / 10, $data["int_19"] / 10, $data["Value12"]],
+                            value: [$data["int_32"] / 10, $data["int_15"], $data["int_16"] / 10, $data["int_17"] * 10, $data["int_18"] / 10, $data["int_19"] / 10, Value12],
                             name: '1'
                         }
                     ],
@@ -236,6 +232,7 @@ $def with (username,data,predata)
         var p27 = document.getElementById('p27');
         var p28 = document.getElementById('p28');
         var p29 = document.getElementById('p29');
+        var p30 = document.getElementById('p30');
         p1.innerHTML = $data["int_8"];
         p2.innerHTML = $data["int_10"];
         p3.innerHTML = $data["int_33"] / 100;
@@ -314,6 +311,40 @@ $def with (username,data,predata)
         else {
             s16.className = "badge badge-secondary";
             s16.innerHTML += '未运行';
+        }
+        temp1 = $data["bool31"];
+        temp2 = $data["bool22"];
+        if (temp1 == 1) {
+            p30.className = "badge badge-success";
+            p30.innerHTML += '运行中';
+        }
+        else if (temp2 == 1) {
+            p30.className = "badge badge-secondary";
+            p30.innerHTML += '待机中';
+        }
+        else {
+            p30.className = "badge badge-warning";
+            p30.innerHTML += '未运行';
+        }
+        temp1 = $data["bool34"];
+        if (temp1 == 1) {
+            p30.className = "badge badge-success";
+            p30.innerHTML += '/前吹扫';
+        }
+        temp1 = $data["bool35"];
+        if (temp1 == 1) {
+            p30.className = "badge badge-success";
+            p30.innerHTML += '/爬升';
+        }
+        temp1 = $data["bool36"];
+        if (temp1 == 1) {
+            p30.className = "badge badge-success";
+            p30.innerHTML += '/臭氧生成中';
+        }
+        temp1 = $data["bool37"];
+        if (temp1 == 1) {
+            p30.className = "badge badge-success";
+            p30.innerHTML += '/后吹扫';
         }
         temp1 = $data["bool10"];
         temp2 = $data["bool11"];

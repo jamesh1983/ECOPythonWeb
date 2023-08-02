@@ -6,18 +6,10 @@ $def with (username,data,predata)
     <meta http-equiv="refresh" content="120">
     <title>铱钶环保</title>
     <link rel="shortcut icon" href="/static/images/favicon.ico" />
-    <!--<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/site.css" />
-    <!--<script src="/static/js/modernizr-2.6.2.js"></script>-->
-    <!--<script src="/static/js/respond.js"></script>-->
-    <!--<script src="/static/js/jquery-1.10.2.min.js"></script>-->
-    <!--<script src="/static/js/bootstrap.min.js"></script>-->
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
     <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="/static/js/echarts.js"></script>
 </head>
@@ -39,7 +31,7 @@ $def with (username,data,predata)
         </div>
     </nav>
     <header id="header" align="center" style="color: #d6ecf0;"><h1>OZAST高效水处理监控大屏</h1></header>
-    <div class="row">
+    <div class="row" style="height: 250px;">
         <div class="col-sm-2">
             <p class="text">端差<span class="badge badge-info" id="p18"></span>℃</p>
             <p class="text">负荷<span class="badge badge-info" id="p19"></span>MW</p>
@@ -48,16 +40,8 @@ $def with (username,data,predata)
             <p class="text">循泵1/2<span class="badge" id="p22"></span>/<span class="badge" id="sp22"></span></p>
             <p class="text">取水泵1/2<span class="badge" id="p6"></span>/<span class="badge" id="sp6"></span></p>
             <p class="text">增压泵1/2<span class="badge" id="p7"></span>/<span class="badge" id="sp7"></span></p>
-            <p class="text">凝汽器支路调节阀开度</p>
-            <div class="progress">
-                <div id="p23" class="progress-bar progress-bar-striped progress-bar-animated"></div>
-            </div>
-            <p class="text">冷却塔支路调节阀开度</p>
-            <div class="progress">
-                <div id="d23" class="progress-bar progress-bar-striped progress-bar-animated"></div>
-            </div>
         </div>
-        <div class="col-sm-8" id="chart1" style="height: 300px; "></div>
+        <div class="col-sm-8" id="chart1" style="height: 120%;"></div>
         <div class="col-sm-2">
             <p class="text">凝前ORP<span class="badge badge-info" id="p12"></span>mV</p>
             <p class="text">塔前ORP<span class="badge badge-info" id="p13"></span>mV</p>
@@ -67,21 +51,27 @@ $def with (username,data,predata)
             <p class="text">塔前SS<span class="badge badge-info" id="p17"></span>mg/L</p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-3">
+    <div class="row" style="height: 300px;">
+        <div class="col-sm-2">
             <p class="text">臭氧投加模式<span class="badge" id="p1"></span></p>
-            <p class="text">本地支路水压/气压<span class="badge" id="p10"></span>/<span class="badge" id="sp10"></span>bar</p>
-            <p class="text">本地支路水压/气压<span class="badge" id="p11"></span>/<span class="badge" id="sp11"></span>bar</p>
+            <p class="text">本地支路水压/气压<span class="badge badge-info" id="p10"></span>/<span class="badge badge-info" id="sp10"></span>bar</p>
+            <p class="text">本地支路水压/气压<span class="badge badge-info" id="p11"></span>/<span class="badge badge-info" id="sp11"></span>bar</p>
             <p class="text">SV1/2/3<span class="badge" id="p8"></span>/<span class="badge" id="sp8"></span>/<span class="badge" id="s8"></span></p>
             <p class="text">SV7/8/9<span class="badge" id="p9"></span>/<span class="badge" id="sp9"></span>/<span class="badge" id="s9"></span></p>
-            <p class="text">一号取水阀<span class="badge" id="p2"></span></p>
-            <p class="text">二号取水阀<span class="badge" id="p3"></span></p>
-            <p class="text">一号注水阀<span class="badge" id="p4"></span></p>
-            <p class="text">二号注水阀<span class="badge" id="p5"></span></p>
+            <p class="text">一号取水阀<span class="badge" id="p2"></span>一号注水阀<span class="badge" id="p4"></span></p>
+            <p class="text">二号取水阀<span class="badge" id="p3"></span>二号注水阀<span class="badge" id="p5"></span></p>
+            <p class="text">凝汽器支路调节阀开度</p>
+            <div class="progress" style="width: 80%;">
+                <div id="p23" class="progress-bar progress-bar-striped progress-bar-animated"></div>
+            </div>
+            <p class="text">冷却塔支路调节阀开度</p>
+            <div class="progress" style="width: 80%;">
+                <div id="d23" class="progress-bar progress-bar-striped progress-bar-animated"></div>
+            </div>
         </div>
-        <div class="col-sm-3" id="chart2" style="height: 300px; "></div>
-        <div class="col-sm-3" id="chart3" style="height: 300px; "></div>
-        <div class="col-sm-3" id="chart4" style="height: 300px; "></div>
+        <div class="col-sm-3" id="chart2" style="height: 100%; "></div>
+        <div class="col-sm-3" id="chart3" style="height: 100%; "></div>
+        <div class="col-sm-3" id="chart4" style="height: 100%; "></div>
     </div>
     <div class="row">
         <div class="col-sm-3">
@@ -97,83 +87,63 @@ $def with (username,data,predata)
             <p class="text">2#增压泵故障报警<span class="badge" id="li10"></span></p>
         </div>
         <div class="col-sm-3">
-            <p><span class="badge" id="li11"></span></p>
-            <p><span class="badge" id="li12"></span></p>
-            <p><span class="badge" id="li13"></span></p>
-            <p><span class="badge" id="li14"></span></p>
+            <p class="text"><span class="badge" id="li11"></span></p>
+            <p class="text"><span class="badge" id="li12"></span></p>
+            <p class="text"><span class="badge" id="li13"></span></p>
+            <p class="text"><span class="badge" id="li14"></span></p>
         </div>
         <div class="col-sm-3">
-            <p><span class="badge" id="li15"></span></p>
-            <p><span class="badge" id="li16"></span></p>
-            <p><span class="badge" id="li17"></span></p>
-            <p><span class="badge" id="li18"></span></p>
+            <p class="text"><span class="badge" id="li15"></span></p>
+            <p class="text"><span class="badge" id="li16"></span></p>
+            <p class="text"><span class="badge" id="li17"></span></p>
+            <p class="text"><span class="badge" id="li18"></span></p>
         </div>
         <div class="col-sm-3">
-            <p><span class="badge" id="li19"></span></p>
-            <p><span class="badge" id="li20"></span></p>
-            <p><span class="badge" id="li21"></span></p>
-            <p><span class="badge" id="li22"></span></p>
+            <p class="text"><span class="badge" id="li19"></span></p>
+            <p class="text"><span class="badge" id="li20"></span></p>
+            <p class="text"><span class="badge" id="li21"></span></p>
+            <p class="text"><span class="badge" id="li22"></span></p>
         </div>
     </div>
     <div class="container body-content">
         <hr />
         <footer>
-            <p>&copy; ECOTECH</p>
+            <p class="text">&copy; ECOTECH</p>
         </footer>
     </div>
-    <!--<script src="/static/js/jquery-3.7.0.js"></script>
-    <script src="/static/js/bootstrap-4.4.1.js"></script>
-    <script src="/static/js/respond.js"></script>-->
     <script type="text/javascript">
-        var myChart1 = echarts.init(document.getElementById('chart1'));
-        var myChart2 = echarts.init(document.getElementById('chart2'));
-        var myChart3 = echarts.init(document.getElementById('chart3'));
-        var myChart4 = echarts.init(document.getElementById('chart4'));
-        var p1 = document.getElementById('p1');
-        var p2 = document.getElementById('p2');
-        var p3 = document.getElementById('p3');
-        var p4 = document.getElementById('p4');
-        var p5 = document.getElementById('p5');
-        var p6 = document.getElementById('p6');
-        var sp6 = document.getElementById('sp6');
-        var p7 = document.getElementById('p7');
-        var sp7 = document.getElementById('sp7');
-        var p8 = document.getElementById('p8');
-        var sp8 = document.getElementById('sp8');
-        var s8 = document.getElementById('s8');
-        var p9 = document.getElementById('p9');
-        var sp9 = document.getElementById('sp9');
-        var s9 = document.getElementById('s9');
-        var p10 = document.getElementById('p10');
-        var sp10 = document.getElementById('sp10');
-        var p11 = document.getElementById('p11');
-        var sp11 = document.getElementById('sp11');
-        var p22 = document.getElementById('p22');
-        var sp22 = document.getElementById('sp22');
-        var p23 = document.getElementById('p23');
-        var d23 = document.getElementById('d23');
-        var li1 = document.getElementById('li1');
-        var li2 = document.getElementById('li2');
-        var li3 = document.getElementById('li3');
-        var li4 = document.getElementById('li4');
-        var li5 = document.getElementById('li5');
-        var li6 = document.getElementById('li6');
-        var li7 = document.getElementById('li7');
-        var li8 = document.getElementById('li8');
-        var li9 = document.getElementById('li9');
-        var li10 = document.getElementById('li10');
-        var li11 = document.getElementById('li11');
-        var li12 = document.getElementById('li12');
-        var li13 = document.getElementById('li13');
-        var li14 = document.getElementById('li14');
-        var li15 = document.getElementById('li15');
-        var li16 = document.getElementById('li16');
-        var li17 = document.getElementById('li17');
-        var li18 = document.getElementById('li18');
-        var li19 = document.getElementById('li19');
-        var li20 = document.getElementById('li20');
-        var li21 = document.getElementById('li21');
-        var li22 = document.getElementById('li22');
+        function set_option_to_chart(ChartName, Option) {
+            myEChart = echarts.init(ChartName);
+            myEChart.setOption(Option);
+        }
+        function flags_to_element(ElementName, Flag1, Flag2, Option) {
+            if (Flag1 == 1) {
+                ElementName.className = Option["ClassName"][0];
+                ElementName.innerHTML = Option["HTMLText"][0];
+            }
+            else if (Flag2 == 1) {
+                ElementName.className = Option["ClassName"][1];
+                ElementName.innerHTML = Option["HTMLText"][1];
+            }
+            else {
+                ElementName.className = Option["ClassName"][2];
+                ElementName.innerHTML = Option["HTMLText"][2];
+            }
+        }
+        function flag_to_element(ElementName, Flag, Option) {
+            if (Flag == 1) {
+                ElementName.className = Option["ClassName"][0];
+                ElementName.innerHTML = Option["HTMLText"][0];
+            }
+            else {
+                ElementName.className = Option["ClassName"][1];
+                ElementName.innerHTML = Option["HTMLText"][1];
+            }
+        }
+        function value_to_element(ElementName, Value) {
+            var temp_string = Value.toFixed(2).toString();
+            ElementName.innerHTML = temp_string;
+        }
         var option = {
             tooltip: {
                 trigger: 'axis',
@@ -181,6 +151,10 @@ $def with (username,data,predata)
                     return [pt[0], '10%'];
                 }
             },
+            //grid: {
+            //    left: "3%",
+            //    right: "3%",
+            //},
             title: {
                 left: 'center',
                 text: '预测运维数据',
@@ -252,8 +226,16 @@ $def with (username,data,predata)
                 }
             ]
         };
-        myChart1.setOption(option);
+        set_option_to_chart(document.getElementById('chart1'), option);
         option = {
+            title: {
+                text: "GM48-1",
+                left: "left",
+                top: "bottom",
+                textStyle: {
+                    color: "#d6ecf0"
+                }
+            },
             radar: {
                 // shape: 'circle',
                 indicator: [
@@ -266,7 +248,7 @@ $def with (username,data,predata)
                     { name: '氧浓', max: 100 },
                     { name: '工作模块', max: 48 }
                 ],
-                radius: ["0%", "65%"]
+                radius: ["0%", "80%"]
             },
             series: [
                 {
@@ -284,8 +266,16 @@ $def with (username,data,predata)
                 }
             ]
         };
-        myChart2.setOption(option);
+        set_option_to_chart(document.getElementById('chart2'), option);
         option = {
+            title: {
+                text: "GM48-2",
+                left: "left",
+                top: "bottom",
+                textStyle: {
+                    color: "#d6ecf0"
+                }
+            },
             radar: {
                 // shape: 'circle',
                 indicator: [
@@ -298,7 +288,7 @@ $def with (username,data,predata)
                     { name: '氧浓', max: 100 },
                     { name: '工作模块', max: 48 }
                 ],
-                radius: ["0%", "65%"]
+                radius: ["0%", "80%"]
             },
             series: [
                 {
@@ -316,9 +306,22 @@ $def with (username,data,predata)
                 }
             ]
         };
-        myChart3.setOption(option);
+        set_option_to_chart(document.getElementById('chart3'), option);
         option = {
+            title: {
+                text: "GM48-3",
+                left: "left",
+                top: "bottom",
+                textStyle: {
+                    color: "#d6ecf0"
+                }
+            },
             radar: {
+                title: {
+                    text: "GM48-2",
+                    left: "left",
+                    top: "bottom"
+                },
                 // shape: 'circle',
                 indicator: [
                     { name: '发生量', max: 2700 },
@@ -330,7 +333,7 @@ $def with (username,data,predata)
                     { name: '氧浓', max: 100 },
                     { name: '工作模块', max: 48 }
                 ],
-                radius: ["0%", "65%"]
+                radius: ["0%", "80%"]
             },
             series: [
                 {
@@ -348,464 +351,167 @@ $def with (username,data,predata)
                 }
             ]
         };
-        myChart4.setOption(option);
-        //一号取水阀
-        var temp1 = $data["bool9"];
-        var temp2 = $data["bool10"];
-        if (temp1 == 1) {
-            p2.className = "badge badge-success";
-            p2.innerHTML = '开';
-        }
-        else if (temp2 == 1) {
-            p2.className = "badge badge-secondary";
-            p2.innerHTML = '关';
-        }
-        else {
-            p2.className = "badge badge-warning";
-            p2.innerHTML = '动作中';
-        }
-        //二号取水阀
-        temp1 = $data["bool11"];
-        temp2 = $data["bool12"];
-        if (temp1 == 1) {
-            p3.className = "badge badge-success";
-            p3.innerHTML = '开';
-        }
-        else if (temp2 == 1) {
-            p3.className = "badge badge-secondary";
-            p3.innerHTML = '关';
-        }
-        else {
-            p3.className = "badge badge-warning";
-            p3.innerHTML = '动作中';
-        }
-        //一号注水阀
-        temp1 = $data["bool13"];
-        temp2 = $data["bool14"];
-        if (temp1 == 1) {
-            p4.className = "badge badge-success";
-            p4.innerHTML = '开';
-        }
-        else if (temp2 == 1) {
-            p4.className = "badge badge-secondary";
-            p4.innerHTML = '关';
-        }
-        else {
-            p4.className = "badge badge-warning";
-            p4.innerHTML = '动作中';
-        }
-        //二号注水阀
-        temp1 = $data["bool15"];
-        temp2 = $data["bool16"];
-        if (temp1 == 1) {
-            p5.className = "badge badge-success";
-            p5.innerHTML = '开';
-        }
-        else if (temp2 == 1) {
-            p5.className = "badge badge-secondary";
-            p5.innerHTML = '关';
-        }
-        else {
-            p5.className = "badge badge-warning";
-            p5.innerHTML = '动作中';
-        }
-        //取水泵1/2
-        temp1 = $data["bool17"];
-        temp2 = $data["bool18"];
-        if (temp1 == 1) {
-            p6.className = "badge badge-success";
-            p6.innerHTML = '运行中';
-        }
-        else {
-            p6.className = "badge badge-secondary";
-            p6.innerHTML = '未运行';
-        }
-        if (temp2 == 1) {
-            sp6.className = "badge badge-success";
-            sp6.innerHTML = '运行中';
-        }
-        else {
-            sp6.className = "badge badge-secondary";
-            sp6.innerHTML = '未运行';
-        }
-        //增压泵1/2
-        temp1 = $data["bool19"];
-        temp2 = $data["bool20"];
-        if (temp1 == 1) {
-            p7.className = 'badge badge-success';
-            p7.innerHTML = '运行中';
-        }
-        else {
-            p7.className = 'badge badge-secondary';
-            p7.innerHTML = '未运行';
-        }
-        if (temp2 == 1) {
-            sp7.className = 'badge badge-success';
-            sp7.innerHTML = '运行中';
-        }
-        else {
-            sp7.className = 'badge badge-secondary';
-            sp7.innerHTML = '未运行';
-        }
-        //SV1/2/3
-        temp1 = $data["bool1"];
-        if (temp1 == 1) {
-            p8.className = 'badge badge-success'
-            p8.innerHTML = '开';
-        }
-        else {
-            p8.className = 'badge badge-secondary'
-            p8.innerHTML = '关';
-        }
-        temp1 = $data["bool2"];
-        if (temp1 == 1) {
-            sp8.className = 'badge badge-success'
-            sp8.innerHTML = '开';
-        }
-        else {
-            sp8.className = 'badge badge-secondary'
-            sp8.innerHTML = '关';
-        }
-        temp1 = $data["bool3"];
-        if (temp1 == 1) {
-            s8.className = 'badge badge-success'
-            s8.innerHTML = '开';
-        }
-        else {
-            s8.className = 'badge badge-secondary'
-            s8.innerHTML = '关';
-        }
-        //SV7/8/9
-        temp1 = $data["bool4"];
-        if (temp1 == 1) {
-            p9.className = 'badge badge-success'
-            p9.innerHTML = '开';
-        }
-        else {
-            p9.className = 'badge badge-secondary'
-            p9.innerHTML = '关';
-        }
-        temp1 = $data["bool5"];
-        if (temp1 == 1) {
-            sp9.className = 'badge badge-success'
-            sp9.innerHTML = '开';
-        }
-        else {
-            sp9.className = 'badge badge-secondary'
-            sp9.innerHTML = '关';
-        }
-        temp1 = $data["bool6"];
-        if (temp1 == 1) {
-            s9.className = 'badge badge-success'
-            s9.innerHTML = '开';
-        }
-        else {
-            s9.className = 'badge badge-secondary'
-            s9.innerHTML = '关';
-        }
+        set_option_to_chart(document.getElementById('chart4'), option);
         //臭氧投加模式
-        temp1 = $data["bool6"];
-        temp2 = $data["bool5"];
+        var ElementId = document.getElementById('p1');
+        var temp1 = $data["bool6"];
+        var temp2 = $data["bool5"];
         var temp3 = $data["bool4"];
         if ((temp3 == 1) & (temp2 == 1) & (temp1 == 0)) {
-            p1.className = "badge badge-success";
-            p1.innerHTML = '远程调入';
+            ElementId.className = "badge badge-success";
+            ElementId.innerHTML = '远程调入';
         }
         else if ((temp3 == 0) & (temp2 == 0) & (temp1 == 1)) {
-            p1.className = "badge badge-secondary";
-            p1.innerHTML = '远程调出';
+            ElementId.className = "badge badge-secondary";
+            ElementId.innerHTML = '远程调出';
         }
         else if ((temp1 == 0) & (temp3 == 0) & (temp2 == 1)) {
-            p1.className = "badge badge-primary";
-            p1.innerHTML = '本地运行';
+            ElementId.className = "badge badge-primary";
+            ElementId.innerHTML = '本地运行';
         }
         else {
-            p1.className = "badge badge-warning";
-            p1.innerHTML = '模式切换中';
+            ElementId.className = "badge badge-warning";
+            ElementId.innerHTML = '模式切换中';
         }
-        //本地支路水压 / 气压
-        var pressure1 = $data["Value11"];
-        var pressure2 = $data["Value17"];
-        var pr1 = pressure1.toFixed(2).toString();
-        var pr2 = pressure2.toFixed(2).toString();
-        p10.innerHTML = pr1;
-        p10.className = "badge badge-success";
-        sp10.innerHTML = pr2;
-        sp10.className = "badge badge-success";
-        //远调支路水压 / 气压
-        pressure1 = $data["Value10"];
-        pressure2 = $data["Value18"];
-        pr1 = pressure1.toFixed(2).toString();
-        pr2 = pressure2.toFixed(2).toString();
-        p11.innerHTML = pr1;
-        p11.className = "badge badge-success";
-        sp11.innerHTML = pr2;
-        sp11.className = "badge badge-success";
-        //凝前ORP
-        pressure1 = $data["Value8"];
-        pr1 = pressure1.toFixed(2).toString();
-        p12.innerHTML = pr1;
-        //塔前ORP
-        pressure1 = $data["Value9"];
-        pr1 = pressure1.toFixed(2).toString();
-        p13.innerHTML = pr1;
-        //pH值
-        pressure1 = $data["Value19"];
-        pr1 = pressure1.toFixed(2).toString();
-        p14.innerHTML = pr1;
-        //电导率
-        pressure1 = $data["Value20"];
-        pr1 = pressure1.toFixed(2).toString();
-        p15.innerHTML = pr1;
-        //凝前SS
-        pressure1 = $data["Value15"];
-        pr1 = pressure1.toFixed(2).toString();
-        p16.innerHTML = pr1;
-        //塔前SS
-        pressure1 = $data["Value16"];
-        pr1 = pressure1.toFixed(2).toString();
-        p17.innerHTML = pr1;
-        //端差
-        pressure1 = $data["Value3"];
-        pr1 = pressure1.toFixed(2).toString();
-        p18.innerHTML = pr1;
-        //负荷
-        pressure1 = $data["Value5"];
-        pr1 = pressure1.toFixed(2).toString();
-        p19.innerHTML = pr1;
-        //进水水温
-        pressure1 = $data["Value1"];
-        pr1 = pressure1.toFixed(2).toString();
-        p20.innerHTML = pr1;
-        //出水水温
-        pressure1 = $data["Value2"];
-        pr1 = pressure1.toFixed(2).toString();
-        p21.innerHTML = pr1;
+        //一号取水阀
+        var Element_Option = {
+            ClassName: ["badge badge-success", "badge badge-secondary", "badge badge-warning"],
+            HTMLText: ["开", "关", "动作中"]
+        }
+        flags_to_element(document.getElementById('p2'), $data["bool9"], $data["bool10"], Element_Option);
+        //二号取水阀
+        flags_to_element(document.getElementById('p3'), $data["bool11"], $data["bool12"], Element_Option);
+        //一号注水阀
+        flags_to_element(document.getElementById('p4'), $data["bool13"], $data["bool14"], Element_Option);
+        //二号注水阀
+        flags_to_element(document.getElementById('p5'), $data["bool15"], $data["bool16"], Element_Option);
+        //取水泵1/2
+        Element_Option = {
+            ClassName: ["badge badge-success", "badge badge-secondary"],
+            HTMLText: ["运行中", "未运行"]
+        };
+        flag_to_element(document.getElementById('p6'), $data["bool17"], Element_Option);
+        flag_to_element(document.getElementById('sp6'), $data["bool18"], Element_Option);
+        
+        //增压泵1/2
+        flag_to_element(document.getElementById('p7'), $data["bool19"], Element_Option);
+        flag_to_element(document.getElementById('sp7'), $data["bool20"], Element_Option);
+
         //循泵1 / 2
-        temp1 = $data["bool21"];
-        temp2 = $data["bool22"];
-        if (temp1 == 1) {
-            p22.className = 'badge badge-success';
-            p22.innerHTML = '运行中';
-        }
-        else {
-            p22.className = 'badge badge-secondary';
-            p22.innerHTML = '未运行';
-        }
-        if (temp2 == 1) {
-            sp22.className = 'badge badge-success';
-            sp22.innerHTML = '运行中';
-        }
-        else {
-            sp22.className = 'badge badge-secondary';
-            sp22.innerHTML = '未运行';
-        }
+        flag_to_element(document.getElementById('p22'), $data["bool21"], Element_Option);
+        flag_to_element(document.getElementById('sp22'), $data["bool22"], Element_Option);
+
+        Element_Option = {
+            ClassName: ["badge badge-success", "badge badge-secondary"],
+            HTMLText: ["开", "关"]
+        };
+        //SV1/2/3
+        flag_to_element(document.getElementById('p8'), $data["bool1"], Element_Option);
+        flag_to_element(document.getElementById('sp8'), $data["bool2"], Element_Option);
+        flag_to_element(document.getElementById('s8'), $data["bool3"], Element_Option);
+        
+        //SV7/8/9
+        flag_to_element(document.getElementById('p9'), $data["bool4"], Element_Option);
+        flag_to_element(document.getElementById('sp9'), $data["bool5"], Element_Option);
+        flag_to_element(document.getElementById('s9'), $data["bool6"], Element_Option);
+        
+        //本地支路水压 / 气压
+        value_to_element(document.getElementById('p10'), $data["Value11"]);
+        value_to_element(document.getElementById('sp10'), $data["Value17"]);
+        
+        //远调支路水压 / 气压
+        value_to_element(document.getElementById('p11'), $data["Value10"]);
+        value_to_element(document.getElementById('sp11'), $data["Value18"]);
+        
+        //凝前ORP
+        value_to_element(document.getElementById('p12'), $data["Value8"]);
+        
+        //塔前ORP
+        value_to_element(document.getElementById('p13'), $data["Value9"]);
+        
+        //pH值
+        value_to_element(document.getElementById('p14'), $data["Value19"]);
+        
+        //电导率
+        value_to_element(document.getElementById('p15'), $data["Value20"]);
+        
+        //凝前SS
+        value_to_element(document.getElementById('p16'), $data["Value15"]);
+        
+        //塔前SS
+        value_to_element(document.getElementById('p17'), $data["Value16"]);
+        
+        //端差
+        value_to_element(document.getElementById('p18'), $data["Value3"]);
+        
+        //负荷
+        value_to_element(document.getElementById('p19'), $data["Value5"]);
+        
+        //进水水温
+        value_to_element(document.getElementById('p20'), $data["Value1"]);
+        
+        //出水水温
+        value_to_element(document.getElementById('p21'), $data["Value2"]);
+        
         //调节阀开度
-        pressure1 = $data["int_14"];
-        pressure2 = $data["int_13"];
+        var ElementId = document.getElementById('p23');
+        var pressure1 = $data["int_14"];
+        var pr1 = pressure1.toString();
+        ElementId.style.width = pr1 + '%';
+        ElementId.innerHTML = pr1 + '%';
+        ElementId = document.getElementById('d23');
+        pressure1 = $data["int_13"];
         pr1 = pressure1.toString();
-        pr2 = pressure2.toString();
-        p23.style.width = pr1 + '%';
-        d23.style.width = pr2 + '%';
-        p23.innerHTML = pr1 + '%';
-        d23.innerHTML = pr2 + '%';
-        temp1 = $data["bool27"];
-        temp2 = $data["bool28"];
-        temp3 = $data["bool29"];
-        if (temp1 == 1) {
-            li1.className = 'badge badge-danger';
-            li1.innerHTML = '故障';
-        }
-        else {
-            li1.className = 'badge badge-success';
-            li1.innerHTML = '无故障';
-        }
-        if (temp2 == 1) {
-            li2.className = 'badge badge-danger';
-            li2.innerHTML = '故障';
-        }
-        else {
-            li2.className = 'badge badge-success';
-            li2.innerHTML = '无故障';
-        }
-        if (temp3 == 1) {
-            li3.className = 'badge badge-danger';
-            li3.innerHTML = '故障';
-        }
-        else {
-            li3.className = 'badge badge-success';
-            li3.innerHTML = '无故障';
-        }
-        temp1 = $data["bool30"];
-        temp2 = $data["bool31"];
-        temp3 = $data["bool32"];
-        if (temp1 == 1) {
-            li4.className = 'badge badge-danger';
-            li4.innerHTML = '故障';
-        }
-        else {
-            li4.className = 'badge badge-success';
-            li4.innerHTML = '无故障';
-        }
-        if (temp2 == 1) {
-            li5.className = 'badge badge-danger';
-            li5.innerHTML = '故障';
-        }
-        else {
-            li5.className = 'badge badge-success';
-            li5.innerHTML = '无故障';
-        }
-        if (temp3 == 1) {
-            li6.className = 'badge badge-danger';
-            li6.innerHTML = '故障';
-        }
-        else {
-            li6.className = 'badge badge-success';
-            li6.innerHTML = '无故障';
-        }
-        temp1 = $data["bool58"];
-        temp2 = $data["bool59"];
-        if (temp1 == 1) {
-            li7.className = 'badge badge-danger';
-            li7.innerHTML = '故障';
-        }
-        else {
-            li7.className = 'badge badge-success';
-            li7.innerHTML = '无故障';
-        }
-        if (temp2 == 1) {
-            li8.className = 'badge badge-danger';
-            li8.innerHTML = '故障';
-        }
-        else {
-            li8.className = 'badge badge-success';
-            li8.innerHTML = '无故障';
-        }
-        temp1 = $data["bool60"];
-        temp2 = $data["bool61"];
-        if (temp1 == 1) {
-            li9.className = 'badge badge-danger';
-            li9.innerHTML = '故障';
-        }
-        else {
-            li9.className = 'badge badge-success';
-            li9.innerHTML = '无故障';
-        }
-        if (temp2 == 1) {
-            li10.className = 'badge badge-danger';
-            li10.innerHTML = '故障';
-        }
-        else {
-            li10.className = 'badge badge-success';
-            li10.innerHTML = '无故障';
-        }
-        temp1 = $data["bool23"];
-        if (temp1 == 1) {
-            li11.className = 'badge badge-success';
-            li11.innerHTML = '运行中';
-        }
-        else {
-            li11.className = 'badge badge-secondary';
-            li11.innerHTML = '停机中';
-        }
-        temp1 = $data["bool34"];
-        if (temp1 == 1) {
-            li12.className = 'badge badge-danger';
-            li12.innerHTML = '水温高故障';
-        }
-        else {
-            li12.className = 'badge badge-success';
-            li12.innerHTML = '水温正常';
-        }
-        temp1 = $data["bool36"];
-        if (temp1 == 1) {
-            li13.className = 'badge badge-danger';
-            li13.innerHTML = 'BFP进水';
-        }
-        else {
-            li13.className = 'badge badge-success';
-            li13.innerHTML = 'BFP正常';
-        }
-        temp1 = $data["bool37"];
-        if (temp1 == 1) {
-            li14.className = 'badge badge-danger';
-            li14.innerHTML = '氧气流量低';
-        }
-        else {
-            li14.className = 'badge badge-success';
-            li14.innerHTML = '氧气流量正常';
-        }
-        temp1 = $data["bool24"];
-        if (temp1 == 1) {
-            li15.className = 'badge badge-success';
-            li15.innerHTML = '运行中';
-        }
-        else {
-            li15.className = 'badge badge-secondary';
-            li15.innerHTML = '停机中';
-        }
-        temp1 = $data["bool38"];
-        if (temp1 == 1) {
-            li16.className = 'badge badge-danger';
-            li16.innerHTML = '水温高故障';
-        }
-        else {
-            li16.className = 'badge badge-success';
-            li16.innerHTML = '水温正常';
-        }
-        temp1 = $data["bool40"];
-        if (temp1 == 1) {
-            li17.className = 'badge badge-danger';
-            li17.innerHTML = 'BFP进水';
-        }
-        else {
-            li17.className = 'badge badge-success';
-            li17.innerHTML = 'BFP正常';
-        }
-        temp1 = $data["bool41"];
-        if (temp1 == 1) {
-            li18.className = 'badge badge-danger';
-            li18.innerHTML = '氧气流量低';
-        }
-        else {
-            li18.className = 'badge badge-success';
-            li18.innerHTML = '氧气流量正常';
-        }
-        temp1 = $data["bool25"];
-        if (temp1 == 1) {
-            li19.className = 'badge badge-success';
-            li19.innerHTML = '运行中';
-        }
-        else {
-            li19.className = 'badge badge-secondary';
-            li19.innerHTML = '停机中';
-        }
-        temp1 = $data["bool42"];
-        if (temp1 == 1) {
-            li20.className = 'badge badge-danger';
-            li20.innerHTML = '水温高故障';
-        }
-        else {
-            li20.className = 'badge badge-success';
-            li20.innerHTML = '水温正常';
-        }
-        temp1 = $data["bool44"];
-        if (temp1 == 1) {
-            li21.className = 'badge badge-danger';
-            li21.innerHTML = 'BFP进水';
-        }
-        else {
-            li21.className = 'badge badge-success';
-            li21.innerHTML = 'BFP正常';
-        }
-        temp1 = $data["bool45"];
-        if (temp1 == 1) {
-            li22.className = 'badge badge-danger';
-            li22.innerHTML = '氧气流量低';
-        }
-        else {
-            li22.className = 'badge badge-success';
-            li22.innerHTML = '氧气流量正常';
-        }
+        ElementId.style.width = pr1 + '%';
+        ElementId.innerHTML = pr1 + '%';
+
+        //故障信息
+        Element_Option = {
+            ClassName: ["badge badge-danger", "badge badge-success"],
+            HTMLText: ["故障", "无故障"]
+        };
+        flag_to_element(document.getElementById('li1'), $data["bool27"], Element_Option);
+        flag_to_element(document.getElementById('li2'), $data["bool28"], Element_Option);
+        flag_to_element(document.getElementById('li3'), $data["bool29"], Element_Option);
+        flag_to_element(document.getElementById('li4'), $data["bool30"], Element_Option);
+        flag_to_element(document.getElementById('li5'), $data["bool31"], Element_Option);
+        flag_to_element(document.getElementById('li6'), $data["bool32"], Element_Option);
+        flag_to_element(document.getElementById('li7'), $data["bool58"], Element_Option);
+        flag_to_element(document.getElementById('li8'), $data["bool59"], Element_Option);
+        flag_to_element(document.getElementById('li9'), $data["bool60"], Element_Option);
+        flag_to_element(document.getElementById('li10'), $data["bool61"], Element_Option);
+
+        Element_Option = {
+            ClassName: ["badge badge-success", "badge badge-secondary"],
+            HTMLText: ["运行中", "停机中"]
+        };
+        flag_to_element(document.getElementById('li11'), $data["bool23"], Element_Option);
+        flag_to_element(document.getElementById('li15'), $data["bool24"], Element_Option);
+        flag_to_element(document.getElementById('li19'), $data["bool25"], Element_Option);
+
+        Element_Option = {
+            ClassName: ["badge badge-danger", "badge badge-success"],
+            HTMLText: ["水温高故障", "水温正常"]
+        };
+        flag_to_element(document.getElementById('li12'), $data["bool34"], Element_Option);
+        flag_to_element(document.getElementById('li16'), $data["bool38"], Element_Option);
+        flag_to_element(document.getElementById('li20'), $data["bool42"], Element_Option);
+        
+        Element_Option = {
+            ClassName: ["badge badge-danger", "badge badge-success"],
+            HTMLText: ["进水", "正常"]
+        };
+        flag_to_element(document.getElementById('li13'), $data["bool36"], Element_Option);
+        flag_to_element(document.getElementById('li17'), $data["bool40"], Element_Option);
+        flag_to_element(document.getElementById('li21'), $data["bool44"], Element_Option);
+
+        Element_Option = {
+            ClassName: ["badge badge-danger", "badge badge-success"],
+            HTMLText: ["氧气流量低", "氧气流量正常"]
+        };
+        flag_to_element(document.getElementById('li14'), $data["bool37"], Element_Option);
+        flag_to_element(document.getElementById('li18'), $data["bool41"], Element_Option);
+        flag_to_element(document.getElementById('li22'), $data["bool45"], Element_Option);
+
     </script>
 </body>
