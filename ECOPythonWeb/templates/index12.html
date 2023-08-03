@@ -13,7 +13,7 @@ $def with (username,data,predata)
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="/static/js/echarts.js"></script>
 </head>
-<body>
+<body style="width:1920px;height:1024px;">
     <nav class="navbar navbar-expand-md navbar-dark">
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-item nav-link" style="color: #d6ecf0;">您好！$username</a></li>
@@ -31,7 +31,7 @@ $def with (username,data,predata)
         </div>
     </nav>
     <header id="header" align="center" style="color: #d6ecf0;"><h1>OZAST高效水处理监控大屏</h1></header>
-    <div class="row" style="height: 250px;">
+    <div class="row" style="height: 35%;">
         <div class="col-sm-2">
             <p class="text">端差<span class="badge badge-info" id="p18"></span>℃</p>
             <p class="text">负荷<span class="badge badge-info" id="p19"></span>MW</p>
@@ -41,7 +41,7 @@ $def with (username,data,predata)
             <p class="text">取水泵1/2<span class="badge" id="p6"></span>/<span class="badge" id="sp6"></span></p>
             <p class="text">增压泵1/2<span class="badge" id="p7"></span>/<span class="badge" id="sp7"></span></p>
         </div>
-        <div class="col-sm-8" id="chart1" style="height: 120%;"></div>
+        <div class="col-sm-8" id="chart1" style="height: 110%;"></div>
         <div class="col-sm-2">
             <p class="text">凝前ORP<span class="badge badge-info" id="p12"></span>mV</p>
             <p class="text">塔前ORP<span class="badge badge-info" id="p13"></span>mV</p>
@@ -51,7 +51,7 @@ $def with (username,data,predata)
             <p class="text">塔前SS<span class="badge badge-info" id="p17"></span>mg/L</p>
         </div>
     </div>
-    <div class="row" style="height: 300px;">
+    <div class="row" style="height: 35%;">
         <div class="col-sm-2">
             <p class="text">臭氧投加模式<span class="badge" id="p1"></span></p>
             <p class="text">本地支路水压/气压<span class="badge badge-info" id="p10"></span>/<span class="badge badge-info" id="sp10"></span>bar</p>
@@ -60,6 +60,14 @@ $def with (username,data,predata)
             <p class="text">SV7/8/9<span class="badge" id="p9"></span>/<span class="badge" id="sp9"></span>/<span class="badge" id="s9"></span></p>
             <p class="text">一号取水阀<span class="badge" id="p2"></span>一号注水阀<span class="badge" id="p4"></span></p>
             <p class="text">二号取水阀<span class="badge" id="p3"></span>二号注水阀<span class="badge" id="p5"></span></p>
+            
+        </div>
+        <div class="col-sm-3" id="chart2" style="height: 100%; "></div>
+        <div class="col-sm-3" id="chart3" style="height: 100%; "></div>
+        <div class="col-sm-3" id="chart4" style="height: 100%; "></div>
+    </div>
+    <div class="row" style="height: 20%;">
+        <div class="col-sm-3">
             <p class="text">凝汽器支路调节阀开度</p>
             <div class="progress" style="width: 80%;">
                 <div id="p23" class="progress-bar progress-bar-striped progress-bar-animated"></div>
@@ -68,23 +76,7 @@ $def with (username,data,predata)
             <div class="progress" style="width: 80%;">
                 <div id="d23" class="progress-bar progress-bar-striped progress-bar-animated"></div>
             </div>
-        </div>
-        <div class="col-sm-3" id="chart2" style="height: 100%; "></div>
-        <div class="col-sm-3" id="chart3" style="height: 100%; "></div>
-        <div class="col-sm-3" id="chart4" style="height: 100%; "></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <p class="text">1#空压机故障报警<span class="badge" id="li1"></span></p>
-            <p class="text">2#空压机故障报警<span class="badge" id="li2"></span></p>
-            <p class="text">3#空压机故障报警<span class="badge" id="li3"></span></p>
-            <p class="text">1#冷冻机故障报警<span class="badge" id="li4"></span></p>
-            <p class="text">2#冷冻机故障报警<span class="badge" id="li5"></span></p>
-            <p class="text">3#冷冻机故障报警<span class="badge" id="li6"></span></p>
-            <p class="text">1#取水泵故障报警<span class="badge" id="li7"></span></p>
-            <p class="text">2#取水泵故障报警<span class="badge" id="li8"></span></p>
-            <p class="text">1#增压泵故障报警<span class="badge" id="li9"></span></p>
-            <p class="text">2#增压泵故障报警<span class="badge" id="li10"></span></p>
+            
         </div>
         <div class="col-sm-3">
             <p class="text"><span class="badge" id="li11"></span></p>
@@ -103,6 +95,11 @@ $def with (username,data,predata)
             <p class="text"><span class="badge" id="li20"></span></p>
             <p class="text"><span class="badge" id="li21"></span></p>
             <p class="text"><span class="badge" id="li22"></span></p>
+        </div>
+    </div>
+    <div class="container" style="width:100%;" id="warning">
+        <div class="alert alert-success" id="li1">
+            一切正常!
         </div>
     </div>
     <div class="container body-content">
@@ -464,22 +461,140 @@ $def with (username,data,predata)
         pr1 = pressure1.toString();
         ElementId.style.width = pr1 + '%';
         ElementId.innerHTML = pr1 + '%';
-
+        
         //故障信息
         Element_Option = {
             ClassName: ["badge badge-danger", "badge badge-success"],
             HTMLText: ["故障", "无故障"]
         };
-        flag_to_element(document.getElementById('li1'), $data["bool27"], Element_Option);
-        flag_to_element(document.getElementById('li2'), $data["bool28"], Element_Option);
-        flag_to_element(document.getElementById('li3'), $data["bool29"], Element_Option);
-        flag_to_element(document.getElementById('li4'), $data["bool30"], Element_Option);
-        flag_to_element(document.getElementById('li5'), $data["bool31"], Element_Option);
-        flag_to_element(document.getElementById('li6'), $data["bool32"], Element_Option);
-        flag_to_element(document.getElementById('li7'), $data["bool58"], Element_Option);
-        flag_to_element(document.getElementById('li8'), $data["bool59"], Element_Option);
-        flag_to_element(document.getElementById('li9'), $data["bool60"], Element_Option);
-        flag_to_element(document.getElementById('li10'), $data["bool61"], Element_Option);
+        ElementId = document.getElementById('li1');
+        var ElementADD = ElementId;
+        var ElementWarning = document.getElementById('warning');
+        temp1 = $data["bool27"];
+        if (temp1 == 1) {
+            ElementId.className = "alert alert-danger";
+            ElementId.innerHTML = "1#空压机故障报警";
+        }
+        temp1 = $data["bool28"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "2#空压机故障报警";
+                ElementWarning.appendChild(ElementADD);
+                //document.body.insertAfter(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "2#空压机故障报警";
+            }
+        }
+        temp1 = $data["bool29"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "3#空压机故障报警";
+                ElementWarning.appendChild(ElementADD);
+                //document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "3#空压机故障报警";
+            }
+        }
+        temp1 = $data["bool30"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "1#冷冻机故障报警";
+                ElementWarning.appendChild(ElementADD);
+                //document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "1#冷冻机故障报警";
+            }
+        }
+        temp1 = $data["bool31"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "2#冷冻机故障报警";
+                document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "2#冷冻机故障报警";
+            }
+        }
+        temp1 = $data["bool32"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "3#冷冻机故障报警";
+                document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "3#冷冻机故障报警";
+            }
+        }
+        temp1 = $data["bool58"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "1#取水泵故障报警";
+                document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "1#取水泵故障报警";
+            }
+        }
+        temp1 = $data["bool59"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-dangere";
+                ElementADD.innerHTML = "2#取水泵故障报警";
+                document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "2#取水泵故障报警";
+            }
+        }
+        temp1 = $data["bool60"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "1#增压泵故障报警";
+                document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "1#增压泵故障报警";
+            }
+        }
+        temp1 = $data["bool61"];
+        if (temp1 == 1) {
+            if (ElementId.className == "alert alert-danger") {
+                ElementADD = document.createElement("div");
+                ElementADD.className = "alert alert-danger";
+                ElementADD.innerHTML = "2#增压泵故障报警";
+                document.body.insertBefore(ElementADD, ElementId);
+            }
+            else {
+                ElementId.className = "alert alert-danger";
+                ElementId.innerHTML = "2#增压泵故障报警";
+            }
+        }
 
         Element_Option = {
             ClassName: ["badge badge-success", "badge badge-secondary"],

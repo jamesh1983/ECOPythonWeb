@@ -642,9 +642,9 @@ def run_mysql():
                 db.query(sql_cmd)
             else:
                 sql_cmd = "INSERT INTO warning_log "\
-                    "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`) "\
+                    "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`, log_time) "\
                     "VALUES "\
-                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "-" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
+                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "-" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0', '" + datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"')"
                 #cursor.execute(sql_cmd)
                 db.query(sql_cmd)
                 #0:value, 1:uplimit, 2:downlimit, 3:userlist, 4:SN_ID, 5:warningcode_content, 6:equipment_ID, 7:settingID, 8:equipment_name, 9:SN_name
@@ -692,9 +692,9 @@ def run_mysql_HL():
                 result = db.query(sql_cmd)
             else:
                 sql_cmd = "INSERT INTO warning_log "\
-                    "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`) "\
+                    "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`, log_time) "\
                     "VALUES "\
-                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0')"
+                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "-" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0', '" + datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"')"
                 #cursor.execute(sql_cmd)
                 result = db.query(sql_cmd)
             #db.commit()
