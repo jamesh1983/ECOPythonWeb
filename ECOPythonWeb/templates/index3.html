@@ -51,14 +51,21 @@ $def with (username,data,predata)
             <p class="text">电导率<span class="badge badge-info" id="p4"></span>uS / cm</p>
         </div>
         <div class="col-sm-3">
-            <p class="text">取水阀<span class="badge" id="p12"></span></p>
-            <p class="text">气路快开阀<span class="badge" id="p13"></span></p>
+            <p class="text">取水阀<span class="badge" id="p12"></span>气路快开阀<span class="badge" id="p13"></span></p>
+            <p class="text">气水混合总水流量</p>
+            <div class="progress" style="width: 50%;">
+                <div id="p31" class="progress-bar progress-bar-striped progress-bar-animated"></div>
+            </div>
+            <p class="text">凝汽器支路水流量</p>
+            <div class="progress" style="width: 50%;">
+                <div id="p32" class="progress-bar progress-bar-striped progress-bar-animated"></div>
+            </div>
             <p class="text">凝汽器支路调节阀开度</p>
-            <div class="progress">
+            <div class="progress" style="width: 50%;">
                 <div id="p20" class="progress-bar progress-bar-striped progress-bar-animated"></div>
             </div>
             <p class="text">冷却塔支路调节阀开度</p>
-            <div class="progress">
+            <div class="progress" style="width: 50%;">
                 <div id="p21" class="progress-bar progress-bar-striped progress-bar-animated"></div>
             </div>
         </div>
@@ -87,8 +94,43 @@ $def with (username,data,predata)
         </footer>
     </div>
     <script type="text/javascript">
-        var myChart1 = echarts.init(document.getElementById('chart1'));
-        var myChart2 = echarts.init(document.getElementById('chart2'));
+        function set_option_to_chart(ChartName, Option) {
+            myEChart = echarts.init(ChartName);
+            myEChart.setOption(Option);
+        }
+        function flags_to_element(ElementName, Flag1, Flag2, Option) {
+            if (Flag1 == 1) {
+                ElementName.className = Option["ClassName"][0];
+                ElementName.innerHTML = Option["HTMLText"][0];
+            }
+            else if (Flag2 == 1) {
+                ElementName.className = Option["ClassName"][1];
+                ElementName.innerHTML = Option["HTMLText"][1];
+            }
+            else {
+                ElementName.className = Option["ClassName"][2];
+                ElementName.innerHTML = Option["HTMLText"][2];
+            }
+        }
+        function flag_to_element(ElementName, Flag, Option) {
+            if (Flag == 1) {
+                ElementName.className = Option["ClassName"][0];
+                ElementName.innerHTML = Option["HTMLText"][0];
+            }
+            else {
+                ElementName.className = Option["ClassName"][1];
+                ElementName.innerHTML = Option["HTMLText"][1];
+            }
+        }
+        function int_to_element(ElementName, num) {
+            var temp_string = num.toString();
+            ElementName.innerHTML = temp_string;
+        }
+        function value_to_element(ElementName, Value) {
+            var temp_string = Value.toFixed(2).toString();
+            ElementName.innerHTML = temp_string;
+        }
+        
         var option = {
             tooltip: {
                 trigger: 'axis',
@@ -169,9 +211,10 @@ $def with (username,data,predata)
                 }
             ]
         };
-        myChart1.setOption(option);
-        var Value12_t = $data["Value12"];
-        var Value12 = Value12_t.toFixed(2);
+        set_option_to_chart(document.getElementById('chart1'), option);
+        
+        var temp = $data["Value12"];                                                                                                                                                                                                                                                                                                                                
+        var temp_num = temp.toFixed(2);
         option = {
             radar: {
                 // shape: 'circle',
@@ -192,7 +235,7 @@ $def with (username,data,predata)
                     type: 'radar',
                     data: [
                         {
-                            value: [$data["int_32"] / 10, $data["int_15"], $data["int_16"] / 10, $data["int_17"] * 10, $data["int_18"] / 10, $data["int_19"] / 10, Value12],
+                            value: [$data["int_32"] / 10, $data["int_15"], $data["int_16"] / 10, $data["int_17"] * 10, $data["int_18"] / 10, $data["int_19"] / 10, temp_num],
                             name: '1'
                         }
                     ],
@@ -202,221 +245,117 @@ $def with (username,data,predata)
                 }
             ]
         };
-        myChart2.setOption(option);
-        var p1 = document.getElementById('p1');
-        var p2 = document.getElementById('p2');
-        var p3 = document.getElementById('p3');
-        var p4 = document.getElementById('p4');
-        var p5 = document.getElementById('p5');
-        var p6 = document.getElementById('p6');
-        var p7 = document.getElementById('p7');
-        var p8 = document.getElementById('p8');
-        var p9 = document.getElementById('p9');
-        var p10 = document.getElementById('p10');
-        var p11 = document.getElementById('p11');
-        var p12 = document.getElementById('p12');
-        var p13 = document.getElementById('p13');
-        var p14 = document.getElementById('p14');
-        var p15 = document.getElementById('p15');
-        var p16 = document.getElementById('p16');
-        var sp16 = document.getElementById('sp16');
-        var s16 = document.getElementById('s16');
-        var p17 = document.getElementById('p17');
-        var p19 = document.getElementById('p19');
-        var p20 = document.getElementById('p20');
-        var p21 = document.getElementById('p21');
-        var p24 = document.getElementById('p24');
-        var sp24 = document.getElementById('sp24');
-        var p25 = document.getElementById('p25');
-        var p26 = document.getElementById('p26');
-        var p27 = document.getElementById('p27');
-        var p28 = document.getElementById('p28');
-        var p29 = document.getElementById('p29');
-        var p30 = document.getElementById('p30');
-        p1.innerHTML = $data["int_8"];
-        p2.innerHTML = $data["int_10"];
-        p3.innerHTML = $data["int_33"] / 100;
-        p4.innerHTML = $data["int_34"];
-        p5.innerHTML = $data["int_9"] / 10;
-        p6.innerHTML = $data["int_11"] / 10;
-        var temp1 = $data["bool6"];
-        var temp2 = $data["bool7"];
+        set_option_to_chart(document.getElementById('chart2'), option);
+
+        int_to_element(document.getElementById('p1'), $data["int_8"]);
+        int_to_element(document.getElementById('p2'), $data["int_10"]);
+        temp = $data["int_33"] / 100;
+        int_to_element(document.getElementById('p3'), temp);
+        int_to_element(document.getElementById('p4'), $data["int_34"]);
+        temp = $data["int_9"] / 10;
+        int_to_element(document.getElementById('p5'), temp);
+        temp = $data["int_11"] / 10;
+        int_to_element(document.getElementById('p6'), temp);
+        int_to_element(document.getElementById('p17'), $data["int_13"]);
+
+        value_to_element(document.getElementById('p7'), $data["Value5"]);
+        value_to_element(document.getElementById('p8'), $data["Value6"]);
+        value_to_element(document.getElementById('p9'), $data["Value7"]);
+        value_to_element(document.getElementById('p10'), $data["Value8"]);
+        value_to_element(document.getElementById('p11'), $data["Value4"]);
+        value_to_element(document.getElementById('p19'), $data["Value3"]);
+        value_to_element(document.getElementById('p24'), $data["Value15"]);
+        value_to_element(document.getElementById('sp24'), $data["Value14"]);
+        value_to_element(document.getElementById('p25'), $data["Value16"]);
+        value_to_element(document.getElementById('p26'), $data["Value18"]);
+        value_to_element(document.getElementById('p27'), $data["Value19"]);
+
+        var Element_Option = {
+            ClassName: ["badge badge-success", "badge badge-secondary", "badge badge-warning"],
+            HTMLText: ["开", "关", "动作中"]
+        }
+        flags_to_element(document.getElementById('p12'), $data["bool6"], $data["bool7"], Element_Option);
+        flags_to_element(document.getElementById('p13'), $data["bool8"], $data["bool9"], Element_Option);
+
+        Element_Option = {
+            ClassName: ["badge badge-success", "badge badge-danger", "badge badge-secondary"],
+            HTMLText: ["运行中", "故障", "未运行"]
+        }
+        flags_to_element(document.getElementById('p28'), $data["bool10"], $data["bool11"], Element_Option);
+        flags_to_element(document.getElementById('p29'), $data["bool21"], $data["bool13"], Element_Option);
+
+        Element_Option = {
+            ClassName: ["badge badge-success", "badge badge-secondary"],
+            HTMLText: ["运行中", "未运行"]
+        }
+        flag_to_element(document.getElementById('p14'), $data["bool15"], Element_Option);
+        flag_to_element(document.getElementById('p15'), $data["bool18"], Element_Option);
+        flag_to_element(document.getElementById('p16'), $data["bool1"], Element_Option);
+        flag_to_element(document.getElementById('sp16'), $data["bool2"], Element_Option);
+        flag_to_element(document.getElementById('s16'), $data["bool3"], Element_Option);
+        
+        var myElement = document.getElementById('p30');
+        var temp1 = $data["bool31"];
+        var temp2 = $data["bool22"];
         if (temp1 == 1) {
-            p12.className = "badge badge-success";
-            p12.innerHTML = '打开';
+            myElement.className = "badge badge-success";
+            myElement.innerHTML += '运行中';
         }
         else if (temp2 == 1) {
-            p12.className = "badge badge-secondary";
-            p12.innerHTML = '关闭';
+            myElement.className = "badge badge-secondary";
+            myElement.innerHTML += '待机中';
         }
         else {
-            p12.className = "badge badge-warning";
-            p12.innerHTML = '动作中';
-        }
-        temp1 = $data["bool8"];
-        temp2 = $data["bool9"];
-        if (temp1 == 1) {
-            p13.className = "badge badge-success";
-            p13.innerHTML = '打开';
-        }
-        else if (temp2 == 1) {
-            p13.className = "badge badge-secondary";
-            p13.innerHTML = '关闭';
-        }
-        else {
-            p13.className = "badge badge-warning";
-            p13.innerHTML = '动作中';
-        }
-        temp1 = $data["bool15"];
-        if (temp1 == 1) {
-            p14.className = "badge badge-success";
-            p14.innerHTML = '运行中';
-        }
-        else {
-            p14.className = "badge badge-secondary";
-            p14.innerHTML = '未运行';
-        }
-        temp1 = $data["bool18"];
-        if (temp1 == 1) {
-            p15.className = "badge badge-success";
-            p15.innerHTML = '运行中';
-        }
-        else {
-            p15.className = "badge badge-secondary";
-            p15.innerHTML = '未运行';
-        }
-        temp1 = $data["bool1"];
-        if (temp1 == 1) {
-            p16.className = "badge badge-success";
-            p16.innerHTML = '运行中';
-        }
-        else {
-            p16.className = "badge badge-secondary";
-            p16.innerHTML = '未运行';
-        }
-        temp1 = $data["bool2"];
-        if (temp1 == 1) {
-            sp16.className = "badge badge-success";
-            sp16.innerHTML += '运行中';
-        }
-        else {
-            sp16.className = "badge badge-secondary";
-            sp16.innerHTML += '未运行';
-        }
-        temp1 = $data["bool3"];
-        if (temp1 == 1) {
-            s16.className = "badge badge-success";
-            s16.innerHTML += '运行中';
-        }
-        else {
-            s16.className = "badge badge-secondary";
-            s16.innerHTML += '未运行';
-        }
-        temp1 = $data["bool31"];
-        temp2 = $data["bool22"];
-        if (temp1 == 1) {
-            p30.className = "badge badge-success";
-            p30.innerHTML += '运行中';
-        }
-        else if (temp2 == 1) {
-            p30.className = "badge badge-secondary";
-            p30.innerHTML += '待机中';
-        }
-        else {
-            p30.className = "badge badge-warning";
-            p30.innerHTML += '未运行';
+            myElement.className = "badge badge-warning";
+            myElement.innerHTML += '未运行';
         }
         temp1 = $data["bool34"];
         if (temp1 == 1) {
-            p30.className = "badge badge-success";
-            p30.innerHTML += '/前吹扫';
+            myElement.className = "badge badge-success";
+            myElement.innerHTML += '/前吹扫';
         }
         temp1 = $data["bool35"];
         if (temp1 == 1) {
-            p30.className = "badge badge-success";
-            p30.innerHTML += '/爬升';
+            myElement.className = "badge badge-success";
+            myElement.innerHTML += '/爬升';
         }
         temp1 = $data["bool36"];
         if (temp1 == 1) {
-            p30.className = "badge badge-success";
-            p30.innerHTML += '/臭氧生成中';
+            myElement.className = "badge badge-success";
+            myElement.innerHTML += '/臭氧生成中';
         }
         temp1 = $data["bool37"];
         if (temp1 == 1) {
-            p30.className = "badge badge-success";
-            p30.innerHTML += '/后吹扫';
+            myElement.className = "badge badge-success";
+            myElement.innerHTML += '/后吹扫';
         }
-        temp1 = $data["bool10"];
-        temp2 = $data["bool11"];
-        if (temp1 == 1) {
-            p28.className = "badge badge-success";
-            p28.innerHTML += '运行中';
-        }
-        else if (temp2 == 1) {
-            p28.className = "badge badge-danger";
-            p28.innerHTML += '故障';
-        }
-        else {
-            p28.className = "badge badge-secondary";
-            p28.innerHTML += '未运行';
-        }
-        temp1 = $data["bool21"];
-        temp2 = $data["bool13"];
-        if (temp1 == 1) {
-            p29.className = "badge badge-success";
-            p29.innerHTML += '运行中';
-        }
-        else if (temp2 == 1) {
-            p29.className = "badge badge-danger";
-            p29.innerHTML += '故障';
-        }
-        else {
-            p29.className = "badge badge-secondary";
-            p29.innerHTML += '未运行';
-        }
-        var pressure1 = $data["Value15"];
-        var pressure2 = $data["Value14"];
-        var pr1 = pressure1.toFixed(2).toString();
-        var pr2 = pressure2.toFixed(2).toString();
-        p24.innerHTML = pr1;
-        sp24.innerHTML = pr2;
-        pressure1 = $data["Value16"];
-        pr1 = pressure1.toFixed(2).toString();
-        p25.innerHTML = pr1;
-        pressure1 = $data["Value18"];
-        pr1 = pressure1.toFixed(2).toString();
-        p26.innerHTML = pr1;
-        pressure1 = $data["Value19"];
-        pr1 = pressure1.toFixed(2).toString();
-        p27.innerHTML = pr1;
-        pressure1 = $data["Value5"];
-        pr1 = pressure1.toFixed(2).toString();
-        p7.innerHTML = pr1;
-        pressure1 = $data["Value6"];
-        pr1 = pressure1.toFixed(2).toString();
-        p8.innerHTML = pr1;
-        pressure1 = $data["Value7"];
-        pr1 = pressure1.toFixed(2).toString();
-        p9.innerHTML = pr1;
-        pressure1 = $data["Value8"];
-        pr1 = pressure1.toFixed(2).toString();
-        p10.innerHTML = pr1;
-        pressure1 = $data["Value4"];
-        pr1 = pressure1.toFixed(2).toString();
-        p11.innerHTML = pr1;
-        pressure1 = $data["Value3"]; 2
-        pr1 = pressure1.toFixed(2).toString();
-        p19.innerHTML = pr1;
-        pressure1 = $data["int_13"];
-        pr1 = pressure1.toString();
-        p17.innerHTML = pr1;
+
+        myElement = document.getElementById('p20');
         pressure1 = $data["int_4"];
-        pressure2 = $data["int_5"];
         pr1 = pressure1.toString();
-        pr2 = pressure2.toString();
-        p20.style.width = pr1 + '%';
-        p21.style.width = pr2 + '%';
-        p20.innerHTML = pr1 + '%';
-        p21.innerHTML = pr2 + '%';
+        myElement.style.width = pr1 + '%';
+        myElement.innerHTML = pr1 + '%';
+
+        myElement = document.getElementById('p21');
+        pressure1 = $data["int_5"];
+        pr1 = pressure1.toString();
+        myElement.style.width = pr1 + '%';
+        myElement.innerHTML = pr1 + '%';
+
+        myElement = document.getElementById('p31');
+        pressure1 = $data["int_6"];
+        pr1 = pressure1.toString();
+        myElement.innerHTML = pr1 + 'm³/h';
+        pressure1 = $data["int_6"] * 100 / 90;
+        pr1 = pressure1.toFixed(2).toString();
+        myElement.style.width = pr1 + '%';
+
+        myElement = document.getElementById('p32');
+        pressure1 = $data["int_7"];
+        pr1 = pressure1.toString();
+        myElement.innerHTML = pr1 + 'm³/h';
+        pressure1 = $data["int_7"] * 100 / 90;
+        pr1 = pressure1.toFixed(2).toString();
+        myElement.style.width = pr1 + '%';
     </script>
 </body>
