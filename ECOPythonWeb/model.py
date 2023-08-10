@@ -217,39 +217,30 @@ class Handle(object):
                         content = "用户已经绑定！ID为：" + result
                 elif(len(keyword)>1 and keyword[0] == "确认"):
                     settingID = keyword[1]
-                    #db_connect = pymysql.connect("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
-                    #cursor = db_connect.cursor()
                     cmd = "UPDATE warning_log, table_user SET warning_ack = CURRENT_TIMESTAMP, warning_log.ack_user = table_user.user_ID "\
-                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "'"
-                    #result = cursor.execute(cmd)
+                        "WHERE warning_log.warning_setting = '" + settingID + "' AND table_user.weixinID = '" + toUser + "' "\
+                        "AND warning_log.ack_user IS NULL"
                     result = db.query(cmd)
-                    #db_connect.commit()
-                    #db_connect.close()
-                    #print (result)
-                    content = "确认成功！"
+                    if result == 0:
+                        content = "报警确认失败！无此报警或报警已被确认！"
+                    else:
+                        content = "报警确认成功！"
                 elif(len(keyword)>1 and keyword[0] == "消除"):
                     settingID = keyword[1]
-                    #db_connect = pymysql.connect("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
-                    #cursor = db_connect.cursor()
-                    cmd = "UPDATE warning_log, table_user SET warning_resolved = CURRENT_TIMESTAMP, warning_log.resloved_user = table_user.user_ID "\
-                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "'"
-                    #result = cursor.execute(cmd)
-                    #db_connect.commit()
-                    #db_connect.close()
+                    cmd = "UPDATE warning_log, table_user SET warning_resolved = CURRENT_TIMESTAMP, warning_log.resolved_user = table_user.user_ID "\
+                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "' AND "\
+                        "warning_log.resolved_user IS NULL AND warning_log.ack_user IS NOT NULL"
                     result = db.query(cmd)
-                    #print (result)
-                    content = "消除成功！"
+                    if result == 0:
+                        content = "报警消除失败！无此报警或报警未确认或报警已被消除！"
+                    else:
+                        content = "报警消除成功！"
                 elif(recContent.isdigit()):
                     settingID = recContent
-                    #db_connect = pymysql.connect("rm-uf608104z06w867v86o.mysql.rds.aliyuncs.com", "admin_user", "Abc123xyz", "prodict_database")
-                    #cursor = db_connect.cursor()
                     cmd = "UPDATE warning_log, table_user SET warning_ack = CURRENT_TIMESTAMP, warning_log.ack_user = table_user.user_ID "\
-                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "'"
-                    #result = cursor.execute(cmd)
-                    #db_connect.commit()
-                    #db_connect.close()
+                        "WHERE warning_log.warning_setting = '" + settingID + "' and table_user.weixinID = '" + toUser + "' AND "\
+                        "warning_log.ack_user IS NULL"
                     result = db.query(cmd)
-                    #print (result)
                     content = "确认成功！"
                 else:
                     content = "点击按钮'绑定账号'确认绑定操作，并生成报警ID"
@@ -563,7 +554,7 @@ def TimeCounter_run(wechat_info):
 def TimeCounter_repeat(wechat_info):
     repeat_weixin(wechat_info,1440)
     global t_repeat
-    t_repeat = Timer(600, TimeCounter_repeat, (wechat_info,))
+    t_repeat = Timer(28800, TimeCounter_repeat, (wechat_info,))
     t_repeat.start()
 def TimeCounter_token(wechat_info):
     get_token(wechat_info)
