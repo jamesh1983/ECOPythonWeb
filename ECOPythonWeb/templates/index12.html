@@ -60,7 +60,6 @@ $def with (username,data,predata)
             <p class="text">SV7/8/9<span class="badge" id="p9"></span>/<span class="badge" id="sp9"></span>/<span class="badge" id="s9"></span></p>
             <p class="text">一号取水阀<span class="badge" id="p2"></span>一号注水阀<span class="badge" id="p4"></span></p>
             <p class="text">二号取水阀<span class="badge" id="p3"></span>二号注水阀<span class="badge" id="p5"></span></p>
-            
         </div>
         <div class="col-sm-3" id="chart2" style="height: 100%; "></div>
         <div class="col-sm-3" id="chart3" style="height: 100%; "></div>
@@ -76,7 +75,6 @@ $def with (username,data,predata)
             <div class="progress" style="width: 50%;">
                 <div id="d23" class="progress-bar progress-bar-striped progress-bar-animated"></div>
             </div>
-            
         </div>
         <div class="col-sm-3">
             <p class="text"><span class="badge" id="li11"></span></p>
@@ -105,6 +103,7 @@ $def with (username,data,predata)
     <div class="container body-content">
         <hr />
         <footer>
+            <p class="text">获取的是时间为：$data["TIMETAG"]的数据</p>
             <p class="text">&copy; ECOTECH</p>
         </footer>
     </div>
@@ -389,15 +388,12 @@ $def with (username,data,predata)
         };
         flag_to_element(document.getElementById('p6'), $data["bool17"], Element_Option);
         flag_to_element(document.getElementById('sp6'), $data["bool18"], Element_Option);
-        
         //增压泵1/2
         flag_to_element(document.getElementById('p7'), $data["bool19"], Element_Option);
         flag_to_element(document.getElementById('sp7'), $data["bool20"], Element_Option);
-
         //循泵1 / 2
         flag_to_element(document.getElementById('p22'), $data["bool21"], Element_Option);
         flag_to_element(document.getElementById('sp22'), $data["bool22"], Element_Option);
-
         Element_Option = {
             ClassName: ["badge badge-success", "badge badge-secondary"],
             HTMLText: ["开", "关"]
@@ -406,50 +402,36 @@ $def with (username,data,predata)
         flag_to_element(document.getElementById('p8'), $data["bool1"], Element_Option);
         flag_to_element(document.getElementById('sp8'), $data["bool2"], Element_Option);
         flag_to_element(document.getElementById('s8'), $data["bool3"], Element_Option);
-        
         //SV7/8/9
         flag_to_element(document.getElementById('p9'), $data["bool4"], Element_Option);
         flag_to_element(document.getElementById('sp9'), $data["bool5"], Element_Option);
         flag_to_element(document.getElementById('s9'), $data["bool6"], Element_Option);
-        
         //本地支路水压 / 气压
         value_to_element(document.getElementById('p10'), $data["Value11"]);
         value_to_element(document.getElementById('sp10'), $data["Value17"]);
-        
         //远调支路水压 / 气压
         value_to_element(document.getElementById('p11'), $data["Value10"]);
         value_to_element(document.getElementById('sp11'), $data["Value18"]);
-        
         //凝前ORP
         value_to_element(document.getElementById('p12'), $data["Value8"]);
-        
         //塔前ORP
         value_to_element(document.getElementById('p13'), $data["Value9"]);
-        
         //pH值
         value_to_element(document.getElementById('p14'), $data["Value19"]);
-        
         //电导率
         value_to_element(document.getElementById('p15'), $data["Value20"]);
-        
         //凝前SS
         value_to_element(document.getElementById('p16'), $data["Value15"]);
-        
         //塔前SS
         value_to_element(document.getElementById('p17'), $data["Value16"]);
-        
         //端差
         value_to_element(document.getElementById('p18'), $data["Value3"]);
-        
         //负荷
         value_to_element(document.getElementById('p19'), $data["Value5"]);
-        
         //进水水温
         value_to_element(document.getElementById('p20'), $data["Value1"]);
-        
         //出水水温
         value_to_element(document.getElementById('p21'), $data["Value2"]);
-        
         //调节阀开度
         var ElementId = document.getElementById('p23');
         var pressure1 = $data["int_14"];
@@ -461,7 +443,6 @@ $def with (username,data,predata)
         pr1 = pressure1.toString();
         ElementId.style.width = pr1 + '%';
         ElementId.innerHTML = pr1 + '%';
-        
         //故障信息
         Element_Option = {
             ClassName: ["badge badge-danger", "badge badge-success"],
@@ -595,7 +576,6 @@ $def with (username,data,predata)
                 ElementId.innerHTML = "2#增压泵故障报警";
             }
         }
-
         Element_Option = {
             ClassName: ["badge badge-success", "badge badge-secondary"],
             HTMLText: ["运行中", "停机中"]
@@ -627,6 +607,5 @@ $def with (username,data,predata)
         flag_to_element(document.getElementById('li14'), $data["bool37"], Element_Option);
         flag_to_element(document.getElementById('li18'), $data["bool41"], Element_Option);
         flag_to_element(document.getElementById('li22'), $data["bool45"], Element_Option);
-
     </script>
 </body>

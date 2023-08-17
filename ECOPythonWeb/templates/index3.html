@@ -90,6 +90,7 @@ $def with (username,data,predata)
     <div class="container body-content">
         <hr />
         <footer>
+            <p class="text">获取的是时间为：$data["TIMETAG"]的数据</p>
             <p class="text">&copy; ECOTECH</p>
         </footer>
     </div>
@@ -130,7 +131,6 @@ $def with (username,data,predata)
             var temp_string = Value.toFixed(2).toString();
             ElementName.innerHTML = temp_string;
         }
-        
         var option = {
             tooltip: {
                 trigger: 'axis',
@@ -212,7 +212,6 @@ $def with (username,data,predata)
             ]
         };
         set_option_to_chart(document.getElementById('chart1'), option);
-        
         var temp = $data["Value12"];                                                                                                                                                                                                                                                                                                                                
         var temp_num = temp.toFixed(2);
         option = {
@@ -246,7 +245,6 @@ $def with (username,data,predata)
             ]
         };
         set_option_to_chart(document.getElementById('chart2'), option);
-
         int_to_element(document.getElementById('p1'), $data["int_8"]);
         int_to_element(document.getElementById('p2'), $data["int_10"]);
         temp = $data["int_33"] / 100;
@@ -257,7 +255,6 @@ $def with (username,data,predata)
         temp = $data["int_11"] / 10;
         int_to_element(document.getElementById('p6'), temp);
         int_to_element(document.getElementById('p17'), $data["int_13"]);
-
         value_to_element(document.getElementById('p7'), $data["Value5"]);
         value_to_element(document.getElementById('p8'), $data["Value6"]);
         value_to_element(document.getElementById('p9'), $data["Value7"]);
@@ -269,21 +266,18 @@ $def with (username,data,predata)
         value_to_element(document.getElementById('p25'), $data["Value16"]);
         value_to_element(document.getElementById('p26'), $data["Value18"]);
         value_to_element(document.getElementById('p27'), $data["Value19"]);
-
         var Element_Option = {
             ClassName: ["badge badge-success", "badge badge-secondary", "badge badge-warning"],
             HTMLText: ["开", "关", "动作中"]
         }
         flags_to_element(document.getElementById('p12'), $data["bool6"], $data["bool7"], Element_Option);
         flags_to_element(document.getElementById('p13'), $data["bool8"], $data["bool9"], Element_Option);
-
         Element_Option = {
             ClassName: ["badge badge-success", "badge badge-danger", "badge badge-secondary"],
             HTMLText: ["运行中", "故障", "未运行"]
         }
         flags_to_element(document.getElementById('p28'), $data["bool10"], $data["bool11"], Element_Option);
         flags_to_element(document.getElementById('p29'), $data["bool21"], $data["bool13"], Element_Option);
-
         Element_Option = {
             ClassName: ["badge badge-success", "badge badge-secondary"],
             HTMLText: ["运行中", "未运行"]
@@ -293,7 +287,6 @@ $def with (username,data,predata)
         flag_to_element(document.getElementById('p16'), $data["bool1"], Element_Option);
         flag_to_element(document.getElementById('sp16'), $data["bool2"], Element_Option);
         flag_to_element(document.getElementById('s16'), $data["bool3"], Element_Option);
-        
         var myElement = document.getElementById('p30');
         var temp1 = $data["bool31"];
         var temp2 = $data["bool22"];
@@ -329,19 +322,16 @@ $def with (username,data,predata)
             myElement.className = "badge badge-success";
             myElement.innerHTML += '/后吹扫';
         }
-
         myElement = document.getElementById('p20');
         pressure1 = $data["int_4"];
         pr1 = pressure1.toString();
         myElement.style.width = pr1 + '%';
         myElement.innerHTML = pr1 + '%';
-
         myElement = document.getElementById('p21');
         pressure1 = $data["int_5"];
         pr1 = pressure1.toString();
         myElement.style.width = pr1 + '%';
         myElement.innerHTML = pr1 + '%';
-
         myElement = document.getElementById('p31');
         pressure1 = $data["int_6"];
         pr1 = pressure1.toString();
@@ -349,7 +339,6 @@ $def with (username,data,predata)
         pressure1 = $data["int_6"] * 100 / 90;
         pr1 = pressure1.toFixed(2).toString();
         myElement.style.width = pr1 + '%';
-
         myElement = document.getElementById('p32');
         pressure1 = $data["int_7"];
         pr1 = pressure1.toString();

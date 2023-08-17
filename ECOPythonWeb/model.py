@@ -692,5 +692,3 @@ def run_mysql_HL():
             #db.close()
         else:
             print(col, ":", v, "正常！")
-
-
