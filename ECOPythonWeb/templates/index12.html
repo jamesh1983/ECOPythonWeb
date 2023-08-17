@@ -192,6 +192,7 @@ $def with (username,data,predata)
                 {
                     name: '负荷(MW)',
                     type: 'line',
+                    showSymbol: false,
                     data: $predata["result1"],
                     yAxisIndex: 1,
                     smooth: true
@@ -199,12 +200,14 @@ $def with (username,data,predata)
                 {
                     name: '端差(℃)',
                     type: 'line',
+                    showSymbol: false,
                     data: $predata["result2"],
                     smooth: true
                 },
                 {
                     name: '预测(℃)',
                     type: 'line',
+                    showSymbol: false,
                     data: $predata["result3"],
                     lineStyle: {
                         type: [5, 10],
@@ -214,6 +217,7 @@ $def with (username,data,predata)
                 {
                     name: '警戒值(℃)',
                     type: 'line',
+                    showSymbol: false,
                     data: $predata["warningvalue"],
                     lineStyle: {
                         type: [5, 10],
