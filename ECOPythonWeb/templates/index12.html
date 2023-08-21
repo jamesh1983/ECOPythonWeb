@@ -140,6 +140,8 @@ $def with (username,data,predata)
             var temp_string = Value.toFixed(2).toString();
             ElementName.innerHTML = temp_string;
         }
+        var pre_day = $predata["pre_day"][0];
+        var subtext = "预计凝汽器端差" + pre_day.toFixed(1).toString() + "天后达到报警值";
         var option = {
             tooltip: {
                 trigger: 'axis',
@@ -154,6 +156,7 @@ $def with (username,data,predata)
             title: {
                 left: 'center',
                 text: '预测运维数据',
+                subtext: subtext,
                 textStyle: {
                     fontSize: 15,
                     color: "#d6ecf0"

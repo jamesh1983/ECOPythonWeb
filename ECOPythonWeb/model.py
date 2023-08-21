@@ -57,12 +57,12 @@ class CurrentData:
             print(e)
             return None
     def getPreData(sn):
-        resultdata = {"TIMETAG":[],"result1":[],"result2":[],"result3":[],"warningvalue":[],"num":[]}
+        resultdata = {"TIMETAG":[],"result1":[],"result2":[],"result3":[],"warningvalue":[],"num":[],"pre_day":[]}
         try:
             if (sn == 1) | (sn == 2):
-                results = db.query('SELECT TIMETAG, result1, result2, round((kvalue*@num1+ bvalue), 2) as result3, warningvalue, (@num1:= @num1+ 1) as num FROM (SELECT TIMETAG,round(avg(Value5), 2) as result1, round(avg(Value3), 2) as result2 FROM table_prodict WHERE SN= ' + str(sn) + ' AND Value5 > 200 AND date_sub(CURDATE(), INTERVAL 7 DAY) <= date(TIMETAG) Group BY year(TIMETAG), month(TIMETAG), date(TIMETAG), hour(TIMETAG)) a, (SELECT kvalue, bvalue, warningvalue FROM table_result WHERE SN= ' + str(sn) + ' AND MD= 1 And period= 7 ORDER BY ID DESC LIMIT 1) b, (SELECT(@num1:= 0)) c')
+                results = db.query('SELECT TIMETAG, pre_day, result1, result2, round((kvalue*@num1+ bvalue), 2) as result3, warningvalue, (@num1:= @num1+ 1) as num FROM (SELECT TIMETAG,round(avg(Value5), 2) as result1, round(avg(Value3), 2) as result2 FROM table_prodict WHERE SN= ' + str(sn) + ' AND Value5 > 200 AND date_sub(CURDATE(), INTERVAL 7 DAY) <= date(TIMETAG) Group BY year(TIMETAG), month(TIMETAG), date(TIMETAG), hour(TIMETAG)) a, (SELECT kvalue, bvalue, warningvalue, pre_day FROM table_result WHERE SN= ' + str(sn) + ' AND MD= 1 And period= 7 ORDER BY ID DESC LIMIT 1) b, (SELECT(@num1:= 0)) c')
             elif sn == 3:
-                results = db.query('SELECT TIMETAG, result1, result2, round((kvalue*@num1+ bvalue), 2) as result3, warningvalue, (@num1:= @num1+ 1) as num FROM (SELECT TIMETAG,round(avg(Value4), 2) as result1, round(avg(Value5-Value6), 2) as result2 FROM table_prodict WHERE SN= ' + str(sn) + ' AND Value4 > 0.1 AND date_sub(CURDATE(), INTERVAL 7 DAY) <= date(TIMETAG) Group BY year(TIMETAG), month(TIMETAG), date(TIMETAG), hour(TIMETAG)) a, (SELECT kvalue, bvalue, warningvalue FROM table_result WHERE SN= ' + str(sn) + ' AND MD= 1 And period= 7 ORDER BY ID DESC LIMIT 1) b, (SELECT(@num1:= 0)) c')
+                results = db.query('SELECT TIMETAG, pre_day, result1, result2, round((kvalue*@num1+ bvalue), 2) as result3, warningvalue, (@num1:= @num1+ 1) as num FROM (SELECT TIMETAG,round(avg(Value4), 2) as result1, round(avg(Value5-Value6), 2) as result2 FROM table_prodict WHERE SN= ' + str(sn) + ' AND Value4 > 0.1 AND date_sub(CURDATE(), INTERVAL 7 DAY) <= date(TIMETAG) Group BY year(TIMETAG), month(TIMETAG), date(TIMETAG), hour(TIMETAG)) a, (SELECT kvalue, bvalue, warningvalue, pre_day FROM table_result WHERE SN= ' + str(sn) + ' AND MD= 1 And period= 7 ORDER BY ID DESC LIMIT 1) b, (SELECT(@num1:= 0)) c')
             else:
                 results = None
             for result in results:
@@ -72,12 +72,14 @@ class CurrentData:
                 k_value = result.result3
                 warning = result.warningvalue
                 num_value = result.num
+                pre_day = result.pre_day
                 resultdata["TIMETAG"].append(datetime_inf)
                 resultdata["result1"].append(FH_value)
                 resultdata["result2"].append(DX_value)
                 resultdata["result3"].append(k_value)
                 resultdata["warningvalue"].append(warning)
                 resultdata["num"].append(num_value)
+            resultdata["pre_day"].append(pre_day)
             return resultdata
         except Exception as e:
             print(e)
