@@ -1,0 +1,349 @@
+$def with (username,column_data,his_data,title_name)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>ECOTECH | 控制台</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="铱钶环保网站平台">
+    <meta name="author" content="黄健">
+    <link rel="stylesheet" type="text/css" href="/static/css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css">
+    <!-- STYLESHEETS --><!--[if lt IE 9]><script src="/static/js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- ANIMATE -->
+    <link rel="stylesheet" type="text/css" href="/static/css/animatecss/animate.min.css" />
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <!-- TODO -->
+    <!--<link rel="stylesheet" type="text/css" href="/static/js/jquery-todo/css/styles.css" />-->
+    <!-- FULL CALENDAR -->
+    <link rel="stylesheet" type="text/css" href="/static/js/fullcalendar/fullcalendar.min.css" />
+    <!-- GRITTER -->
+    <!--<link rel="stylesheet" type="text/css" href="/static/js/gritter/css/jquery.gritter.css" />-->
+    <!-- FONTS -->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="navbar clearfix" id="header">
+        <div class="container">
+            <div class="navbar-brand">
+                <!-- COMPANY LOGO -->
+                <a href="#">
+                    <img src="/static/img/logo/ECOTECH.png" alt="ECOTECH" class="img-responsive" height="30" width="120">
+                </a>
+                <!-- /COMPANY LOGO -->
+                <!-- SIDEBAR COLLAPSE -->
+                <div id="sidebar-collapse" class="sidebar-collapse btn">
+                    <i class="fa fa-bars"
+                       data-icon1="fa fa-bars"
+                       data-icon2="fa fa-bars"></i>
+                </div>
+                <!-- /SIDEBAR COLLAPSE -->
+            </div>
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <ul class="nav navbar-nav pull-right">
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown user pull-right" id="header-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img alt="" src="static/img/avatars/ET.jpg" />
+                        <span class="username">$username</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="logout"><i class="fa fa-power-off"></i> 登出</a></li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </header>
+    <!--/HEADER -->
+    <!-- PAGE -->
+    <section id="page">
+        <!-- SIDEBAR -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-menu nav-collapse">
+                <!-- SIDEBAR MENU -->
+                <ul>
+                    <!--dashboard-->
+                    $if (username=='111')|(username=='222'):
+                        <li class="has-sub active"><a href="" class=""><i class="fa fa-tachometer fa-fw"></i><span class="menu-text">仪表台</span><span class="arrow"></span></a><ul class="sub"><li><a class="" href="/?sn=1&dates=1"><span class="sub-menu-text">一号机组</span></a></li><li><a class="" href="/?sn=2&dates=1"><span class="sub-menu-text">二号机组</span></a></li></ul></li>
+                    $if username=='333':
+                        <li class="has-sub"><a href="/?sn=3&dates=1" class=""><i class="fa fa-tachometer fa-fw"></i><span class="menu-text">仪表台</span></a></li>
+                    <!--historical-->
+                    <li class="active">
+                        <a href="#" class="">
+                            <i class="fa fa-bookmark-o fa-fw"></i>
+                            <span class="menu-text">历史数据曲线</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                    <!--工单管理-->
+                    <li class="">
+                        <a href="#" class="">
+                            <i class="fa fa-table fa-fw"></i> <span class="menu-text">工单管理</span>
+                        </a>
+                    </li>
+                    <!--日历-->
+                    <li>
+                        <a class="" href="calendar">
+                            <i class="fa fa-calendar fa-fw"></i>
+                            <span class="menu-text">
+                                日历
+                                <span class="tooltip-error pull-right" title="" data-original-title="3 New Events">
+                                    <span class="label label-success">New</span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /SIDEBAR MENU -->
+            </div>
+        </div>
+        <!-- /SIDEBAR -->
+        <div id="main-content">
+            <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+            <div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Box Settings</h4>
+                        </div>
+                        <div class="modal-body">
+                            Here goes box setting content.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
+            <div class="container">
+                <div class="row">
+                    <div id="content" class="col-md-12">
+                        <!-- PAGE HEADER-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-header">
+                                    <!-- BREADCRUMBS -->
+                                    <ul class="breadcrumb">
+                                        <li>
+                                            <i class="fa fa-home"></i>
+                                            $if (username=='111')|(username=='222'):
+                                                <a href="/?sn=1&dates=1">首页</a>
+                                            $if username=='333':
+                                                <a href="/?sn=3&dates=1">首页</a>
+                                        </li>
+                                        <li>历史数据曲线</li>
+                                    </ul>
+                                    <!-- /BREADCRUMBS -->
+                                    <div class="clearfix">
+                                        <h3 class="content-title pull-left">历史数据曲线</h3>
+                                    </div>
+                                    <div class="description">$title_name</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /PAGE HEADER -->
+                        <!-- DASHBOARD CONTENT -->
+                        <div class="row">
+                            <!-- COLUMN 1 -->
+                            <div class="col-md-12">
+                                <form action="historical" method="post" class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="date1">开始日期:</label>
+                                            <input type="date" name="date1" id="date1">
+                                            <label for="time1">时间:</label>
+                                            <input type="time" name="time1" id="time1">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="date2">截止日期:</label>
+                                            <input type="date" name="date2" id="date2">
+                                            <label for="time2">时间:</label>
+                                            <input type="time" name="time2" id="time2">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="select">查询字段名</label>
+                                                <select class="form-control" name="select" id="select">
+                                                $for name in column_data.values():
+                                                    $if name!="空":
+                                                        <option>$name</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                            $if (username=='111')|(username=='222'):
+                                                <label for="select2">查询机组</label>
+                                                <select class="form-control" name="select2" id="select2">
+                                                    <option>鹤淇一号机组</option>
+                                                    <option>鹤淇二号机组</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="form-control" id="Button1" type="submit">查询</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /COLUMN 1 -->
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="box solid" style="height: 500px; ">
+                                        <div class="box-title" align="center">
+                                            <h4>$title_name</h4>
+                                            <div class="tools">
+                                                <a href="javascript:;" class="collapse">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="box-body" style="height: 500px; ">
+                                            <!--<div id="chart-revenue" style="height:240px"></div>-->
+                                            <div class="col-md-12" id="chart1" style="height: 500px; "></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /DASHBOARD CONTENT -->
+                        <footer>
+                            <p>获取的是时间为：$his_data["TIMETAG"][0]的数据</p>
+                            <p>&copy; ECOTECH</p>
+                        </footer>
+                    </div><!-- /CONTENT-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--/PAGE -->
+    <!-- JAVASCRIPTS -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="/static/js/jquery/jquery-2.0.3.min.js"></script>
+    <!-- JQUERY UI-->
+    <script src="/static/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="/static/bootstrap-dist/js/bootstrap.min.js"></script>
+    <!-- DATE RANGE PICKER -->
+    <script src="/static/js/bootstrap-daterangepicker/moment.min.js"></script>
+    <script src="/static/js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+    <!-- BLOCK UI -->
+    <script type="text/javascript" src="/static/js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+    <!-- SPARKLINES -->
+    <script type="text/javascript" src="/static/js/sparklines/jquery.sparkline.min.js"></script>
+    <!-- EASY PIE CHART -->
+    <script src="/static/js/jquery-easing/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="/static/js/easypiechart/jquery.easypiechart.min.js"></script>
+    <!-- FLOT CHARTS -->
+    <script src="/static/js/flot/jquery.flot.min.js"></script>
+    <!--<script src="/static/js/flot/jquery.flot.time.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.selection.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.resize.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.stack.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.crosshair.min.js"></script>-->
+    <!-- TODO -->
+    <!--<script type="text/javascript" src="/static/js/jquery-todo/js/paddystodolist.js"></script>-->
+    <!-- TIMEAGO -->
+    <!--<script type="text/javascript" src="/static/js/timeago/jquery.timeago.min.js"></script>-->
+    <!-- FULL CALENDAR -->
+    <!--<script type="text/javascript" src="/static/js/fullcalendar/fullcalendar.min.js"></script>-->
+    <!-- COOKIE -->
+    <script type="text/javascript" src="/static/js/jQuery-Cookie/jquery.cookie.min.js"></script>
+    <!-- GRITTER -->
+    <!--<script type="text/javascript" src="/static/js/gritter/js/jquery.gritter.min.js"></script>-->
+    <!-- CUSTOM SCRIPT -->
+    <script type="text/javascript" src="/static/js/script.js" charset="UTF-8"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            App.setPage("index");  //Set current page
+            App.init(); //Initialise plugins and elements
+        });
+        function today() {
+            let d = new Date();
+            let currDate = d.getDate();
+            let currMonth = d.getMonth() + 1;
+            let currYear = d.getFullYear();
+            return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
+        }
+        function yesterday() {
+            let d = new Date();
+            let currDate = d.getDate() - 1;
+            let currMonth = d.getMonth() + 1;
+            let currYear = d.getFullYear();
+            return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
+        }
+        function nowtime() {
+            let d = new Date();
+            let hour = d.getHours();
+            let Min = d.getMinutes();
+            return ((hour < 10) ? '0' + hour : hour) + ":" + ((Min < 10) ? '0' + Min : Min);
+        }
+        document.getElementById('date1').value = yesterday();
+        document.getElementById('date2').value = today();
+        document.getElementById('time1').value = nowtime();
+        document.getElementById('time2').value = nowtime();
+        var user = $username;
+        if ((user == '111') | (user == '222'))
+            document.getElementById('select').value = '凝汽器前ORP';
+        if (user == '333')
+            document.getElementById('select').value = '凝汽器前ORP值1';
+        var myChart1 = echarts.init(document.getElementById('chart1'));
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+
+            toolbox: {
+                feature: {
+                    dataView: {},
+                    saveAsImage: {},
+                    dataZoom: {},
+                    restore: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: $his_data["TIMETAG"]
+            },
+            yAxis: {
+                type: 'value',
+                title: '查询结果'
+            },
+            series: [
+                {
+                    data: $his_data["result"],
+                    type: 'line',
+                    showSymbol: false,
+                    smooth: true
+                }
+            ]
+        };
+        myChart1.setOption(option);
+    </script>
+    <!-- /JAVASCRIPTS -->
+</body>
+</html>

@@ -1,0 +1,941 @@
+$def with (username,data,predata,hisdata1,hisdata2,hisdata3)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>ECOTECH | 控制台</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="铱钶环保网站平台">
+    <meta name="author" content="黄健">
+    <meta http-equiv="refresh" content="120">
+    <link rel="stylesheet" type="text/css" href="/static/css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css">
+    <!-- STYLESHEETS --><!--[if lt IE 9]><script src="/static/js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- ANIMATE -->
+    <link rel="stylesheet" type="text/css" href="/static/css/animatecss/animate.min.css" />
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <!-- TODO -->
+    <!--<link rel="stylesheet" type="text/css" href="/static/js/jquery-todo/css/styles.css" />-->
+    <!-- FULL CALENDAR -->
+    <link rel="stylesheet" type="text/css" href="/static/js/fullcalendar/fullcalendar.min.css" />
+    <!-- GRITTER -->
+    <!--<link rel="stylesheet" type="text/css" href="/static/js/gritter/css/jquery.gritter.css" />-->
+    <!-- FONTS -->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="navbar clearfix" id="header">
+        <div class="container">
+            <div class="navbar-brand">
+                <!-- COMPANY LOGO -->
+                <a href="#">
+                    <img src="/static/img/logo/ECOTECH.png" alt="ECOTECH" class="img-responsive" height="30" width="120">
+                </a>
+                <!-- /COMPANY LOGO -->
+                <!-- SIDEBAR COLLAPSE -->
+                <div id="sidebar-collapse" class="sidebar-collapse btn">
+                    <i class="fa fa-bars"
+                       data-icon1="fa fa-bars"
+                       data-icon2="fa fa-bars"></i>
+                </div>
+                <!-- /SIDEBAR COLLAPSE -->
+            </div>
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <ul class="nav navbar-nav pull-right">
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown user pull-right" id="header-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img alt="" src="static/img/avatars/ET.jpg" />
+                        <span class="username">$username</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="logout"><i class="fa fa-power-off"></i> 登出</a></li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </header>
+    <!--/HEADER -->
+    <!-- PAGE -->
+    <section id="page">
+        <!-- SIDEBAR -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-menu nav-collapse">
+                <!-- SIDEBAR MENU -->
+                <ul>
+                    <!--dashboard-->
+                    <li class="has-sub active">
+                        <a href="/?sn=3&dates=1" class="">
+                            <i class="fa fa-tachometer fa-fw"></i>
+                            <span class="menu-text">仪表台</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                    <!--historical-->
+                    <li class="has-sub">
+                        <a href="historical" class="">
+                            <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">历史数据曲线</span>
+                        </a>
+                    </li>
+                    <!--工单管理-->
+                    <li class="">
+                        <a href="#" class="">
+                            <i class="fa fa-table fa-fw"></i> <span class="menu-text">工单管理</span>
+                        </a>
+                    </li>
+                    <!--日历-->
+                    <li>
+                        <a class="" href="calendar">
+                            <i class="fa fa-calendar fa-fw"></i>
+                            <span class="menu-text">
+                                日历
+                                <span class="tooltip-error pull-right" title="" data-original-title="3 New Events">
+                                    <span class="label label-success">New</span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /SIDEBAR MENU -->
+            </div>
+            <!--<div class="container" id="warning">
+                <div class="alert alert-success" id="li1">
+                    一切正常!
+                </div>
+            </div>-->
+        </div>
+        <!-- /SIDEBAR -->
+        <div id="main-content">
+            <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+            <div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Box Settings</h4>
+                        </div>
+                        <div class="modal-body">
+                            Here goes box setting content.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
+            <div class="container">
+                <div class="row">
+                    <div id="content" class="col-md-12">
+                        <!-- PAGE HEADER-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-header">
+                                    <!-- BREADCRUMBS -->
+                                    <ul class="breadcrumb">
+                                        <li>
+                                            <i class="fa fa-home"></i>
+                                            <a href="/?sn=3&dates=1" id="homepage">首页</a>
+                                        </li>
+                                        <li>仪表台</li>
+                                    </ul>
+                                    <!-- /BREADCRUMBS -->
+                                    <div class="clearfix">
+                                        <h3 class="content-title pull-left">仪表台</h3>
+                                        <!-- DATE RANGE PICKER -->
+                                        <div class="date-range pull-right">
+                                            <div class="btn-group">
+                                                <a class="js_update btn btn-default" href="/?sn=3&dates=1">今日</a>
+                                                <a class="js_update btn btn-default" href="/?sn=3&dates=7">最近7天</a>
+                                                <a class="js_update btn btn-default hidden-xs" href="/?sn=3&dates=30">最近30天</a>
+                                                <!--<a id="reportrange" class="btn reportrange">
+                                                    <i class="fa fa-calendar"></i>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>-->
+                                            </div>
+                                        </div>
+                                        <!-- /DATE RANGE PICKER -->
+                                    </div>
+                                    <div class="description">总览, 数据及更多</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /PAGE HEADER -->
+                        <!-- DASHBOARD CONTENT -->
+                        <div class="row">
+                            <!-- COLUMN 1 -->
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">ORP</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p1"></div>
+                                                    <div class="title">探头1</div>
+                                                    <span class="label label-success">
+                                                        mV<!--<i class="fa fa-arrow-up"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">ORP</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p2"></div>
+                                                    <div class="title">探头2</div>
+                                                    <span class="label label-success">
+                                                        mV<!--<i class="fa fa-arrow-up"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">进水</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p5"></div>
+                                                    <div class="title">探头1</div>
+                                                    <span class="label label-success">
+                                                        ℃<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">进水</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p6"></div>
+                                                    <div class="title">探头2</div>
+                                                    <span class="label label-success">
+                                                        ℃<!--<i class="fa fa-arrow-up"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /COLUMN 1 -->
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="box solid green">
+                                            <div class="box-title">
+                                                <h4>状态表</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body" style="height: 260px; overflow: auto;">
+                                                <table class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><i class="fa fa-user"></i>列表</th>
+                                                            <th><i class="fa fa-bars"></i>状态</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><a>当前臭氧发生器</a></td>
+                                                            <td><span class="label label-sm label-success" id="p30"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><a>取水阀/气路快开阀</a></td>
+                                                            <td><span class="label label-sm label-warning" id="p12"></span>/<span class="label label-sm" id="p13"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><a>空压机</a></td>
+                                                            <td><span class="label label-sm" id="p28"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><a>冷冻机</a></td>
+                                                            <td><span class="label label-sm" id="p29"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><a>取水泵1</a></td>
+                                                            <td><span class="label label-sm" id="p14"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><a>取水泵2</a></td>
+                                                            <td><span class="label label-sm" id="p15"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><a>循泵1/2/3</a></td>
+                                                            <td><span class="label label-sm" id="p16"></span>/<span class="label label-sm" id="sp16"></span>/<span class="label label-sm" id="s16"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><a>变频循泵2工作频率(Hz)</a></td>
+                                                            <td><span class="label label-sm" id="p19"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>预测运维数据</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <!--<div id="chart-revenue" style="height:240px"></div>-->
+                                                <div id="chart1" style="height: 240px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="quick-pie panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="col-md-12 text-center">
+                                                    <div id="dash_pie_1" class="piechart" data-percent=$data["int_4"]>
+                                                        <span class="percent"></span>
+                                                    </div>
+                                                    <a class="title">凝汽器支路调节阀开度</a>
+                                                </div>
+                                                <div class="col-md-12 text-center">
+                                                    <div id="dash_pie_2" class="piechart" data-percent=$data["int_5"]>
+                                                        <span class="percent"></span>
+                                                    </div>
+                                                    <a class="title">冷却塔支路调节阀开度</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- COLUMN 2 -->
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">pH</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p3"></div>
+                                                    <div class="title"></div>
+                                                    <span class="label label-success">
+                                                        <!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">电导</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p4"></div>
+                                                    <div class="title"></div>
+                                                    <span class="label label-success">
+                                                        uS/cm<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">温度</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p7"></div>
+                                                    <div class="title">排气温度</div>
+                                                    <span class="label label-success">
+                                                        ℃<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">温度</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p8"></div>
+                                                    <div class="title">出水水温</div>
+                                                    <span class="label label-success">
+                                                        ℃<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /COLUMN 2 -->
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">水压</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p24"></div>
+                                                    <div class="title">吸入器进口</div>
+                                                    <span class="label label-success">
+                                                        bar<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">水压</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p25"></div>
+                                                    <div class="title">吸入器出口</div>
+                                                    <span class="label label-success">
+                                                        bar<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">水压</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p26"></div>
+                                                    <div class="title">脱气塔前</div>
+                                                    <span class="label label-success">
+                                                        bar<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">水压</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p27"></div>
+                                                    <div class="title">脱气塔后</div>
+                                                    <span class="label label-success">
+                                                        bar<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">气压</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="sp24"></div>
+                                                    <div class="title">吸入器入口</div>
+                                                    <span class="label label-success">
+                                                        bar<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">水泵</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p17"></div>
+                                                    <div class="title">工作频率</div>
+                                                    <span class="label label-success">
+                                                        Hz<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">流量</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p31"></div>
+                                                    <div class="title">取水量</div>
+                                                    <span class="label label-success">
+                                                        立方米每小时<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="dashbox panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="panel-left blue">
+                                                    <i class="panel-title">流量</i>
+                                                </div>
+                                                <div class="panel-right">
+                                                    <div class="number" id="p32"></div>
+                                                    <div class="title">凝汽器回水流量</div>
+                                                    <span class="label label-success">
+                                                        立方米每小时<!--5% <i class="fa fa-arrow-down"></i>-->
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12" id="chart2" style="height: 450px; "></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>水温数据</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <!--<div id="chart-revenue" style="height:240px"></div>-->
+                                                <div id="chart3" style="height: 300px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /DASHBOARD CONTENT -->
+                        <div class="footer-tools">
+                            <span class="go-top">
+                                <i class="fa fa-chevron-up"></i> Top
+                            </span>
+                        </div>
+                        <footer>
+                            <p>获取的是时间为：$data["TIMETAG"]的数据</p>
+                            <p>&copy; ECOTECH</p>
+                        </footer>
+                    </div><!-- /CONTENT-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--/PAGE -->
+    <!-- JAVASCRIPTS -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="/static/js/jquery/jquery-2.0.3.min.js"></script>
+    <!-- JQUERY UI-->
+    <script src="/static/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="/static/bootstrap-dist/js/bootstrap.min.js"></script>
+    <!-- DATE RANGE PICKER -->
+    <script src="/static/js/bootstrap-daterangepicker/moment.min.js"></script>
+    <script src="/static/js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+    <!-- BLOCK UI -->
+    <script type="text/javascript" src="/static/js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+    <!-- SPARKLINES -->
+    <script type="text/javascript" src="/static/js/sparklines/jquery.sparkline.min.js"></script>
+    <!-- EASY PIE CHART -->
+    <script src="/static/js/jquery-easing/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="/static/js/easypiechart/jquery.easypiechart.min.js"></script>
+    <!-- FLOT CHARTS -->
+    <script src="/static/js/flot/jquery.flot.min.js"></script>
+    <!--<script src="/static/js/flot/jquery.flot.time.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.selection.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.resize.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.stack.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.crosshair.min.js"></script>-->
+    <!-- TODO -->
+    <!--<script type="text/javascript" src="/static/js/jquery-todo/js/paddystodolist.js"></script>-->
+    <!-- TIMEAGO -->
+    <!--<script type="text/javascript" src="/static/js/timeago/jquery.timeago.min.js"></script>-->
+    <!-- FULL CALENDAR -->
+    <!--<script type="text/javascript" src="/static/js/fullcalendar/fullcalendar.min.js"></script>-->
+    <!-- COOKIE -->
+    <script type="text/javascript" src="/static/js/jQuery-Cookie/jquery.cookie.min.js"></script>
+    <!-- GRITTER -->
+    <!--<script type="text/javascript" src="/static/js/gritter/js/jquery.gritter.min.js"></script>-->
+    <!-- CUSTOM SCRIPT -->
+    <script type="text/javascript" src="/static/js/script.js" charset="UTF-8"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            App.setPage("index");  //Set current page
+            App.init(); //Initialise plugins and elements
+        });
+        function set_option_to_chart(ChartName, Option) {
+            myEChart = echarts.init(ChartName);
+            myEChart.setOption(Option);
+        }
+        function flags_to_element(ElementName, Flag1, Flag2, Option) {
+            if (Flag1 == 1) {
+                ElementName.className = Option["ClassName"][0];
+                ElementName.innerHTML = Option["HTMLText"][0];
+            }
+            else if (Flag2 == 1) {
+                ElementName.className = Option["ClassName"][1];
+                ElementName.innerHTML = Option["HTMLText"][1];
+            }
+            else {
+                ElementName.className = Option["ClassName"][2];
+                ElementName.innerHTML = Option["HTMLText"][2];
+            }
+        }
+        function flag_to_element(ElementName, Flag, Option) {
+            if (Flag == 1) {
+                ElementName.className = Option["ClassName"][0];
+                ElementName.innerHTML = Option["HTMLText"][0];
+            }
+            else {
+                ElementName.className = Option["ClassName"][1];
+                ElementName.innerHTML = Option["HTMLText"][1];
+            }
+        }
+        function int_to_element(ElementName, num) {
+            var temp_string = num.toString();
+            ElementName.innerHTML = temp_string;
+        }
+        function value_to_element(ElementName, Value) {
+            var temp_string = Value.toFixed(2).toString();
+            ElementName.innerHTML = temp_string;
+        }
+        var pre_day = $predata["pre_day"][0];
+        var subtext = "预计凝汽器端差" + pre_day.toFixed(1).toString() + "天后达到报警值";
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            title: {
+                left: 'center',
+                text: subtext,
+                textStyle: {
+                    fontSize: 15
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataView: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: $predata["TIMETAG"],
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: [
+                {
+                    name: "端差(℃)",
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    }
+                },
+                {
+                    name: "负荷(%)",
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '负荷(%)',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $predata["result1"],
+                    yAxisIndex: 1,
+                    smooth: true
+                },
+                {
+                    name: '端差(℃)',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $predata["result2"],
+                    yAxisIndex: 0,
+                    smooth: true
+                },
+                {
+                    name: '预测(℃)',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $predata["result3"],
+                    lineStyle: {
+                        type: [5, 10],
+                        dashOffset: 5
+                    }
+                },
+                {
+                    name: '警戒值(℃)',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $predata["warningvalue"],
+                    yAxisIndex: 0,
+                    lineStyle: {
+                        type: [5, 10],
+                        dashOffset: 5
+                    }
+                }
+            ]
+        };
+        set_option_to_chart(document.getElementById('chart1'), option);
+        var temp = $data["Value12"];
+        var temp_num = temp.toFixed(2);
+        option = {
+            radar: {
+                // shape: 'circle',
+                indicator: [
+                    { name: '发生量', max: 1500 },
+                    { name: '臭氧', max: 300 },
+                    { name: '流量', max: 180 },
+                    { name: '功率', max: 11000 },
+                    { name: '进水温', max: 25 },
+                    { name: '出水温', max: 25 },
+                    { name: '氧气', max: 100 }
+                ],
+                radius: ["0%", "75%"]
+            },
+            series: [
+                {
+                    name: 'GM18',
+                    type: 'radar',
+                    data: [
+                        {
+                            value: [$data["int_32"] / 10, $data["int_15"], $data["int_16"] / 10, $data["int_17"] * 10, $data["int_18"] / 10, $data["int_19"] / 10, temp_num],
+                            name: '1'
+                        }
+                    ],
+                    label: {
+                        show: true
+                    }
+                }
+            ]
+        };
+        set_option_to_chart(document.getElementById('chart2'), option);
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            //grid: {
+            //    left: "3%",
+            //    right: "3%",
+            //},
+            toolbox: {
+                feature: {
+                    dataView: {},
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                top: "25%",
+                left: "8%",
+                right: "8%",
+                bottom: "10%"
+            },
+            xAxis: {
+                type: 'category',
+                data: $hisdata1["TIMETAG"]
+            },
+            yAxis: [
+                {
+                    name: "ORP(mV)",
+                    type: 'value'
+                },
+                {
+                    name: "排气温度(℃)",
+                    splitLine: {
+                        show: false
+                    },
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: 'ORP1(mV)',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $hisdata1["result"],
+                    smooth: true
+                },
+                {
+                    name: 'ORP2(mV)',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $hisdata2["result"],
+                    smooth: true
+                },
+                {
+                    name: '排气温度(℃)',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $hisdata3["result"],
+                    yAxisIndex: 1,
+                    smooth: true
+                }
+            ]
+        };
+        set_option_to_chart(document.getElementById('chart3'), option);
+        myElement = document.getElementById('p31');
+        myElement.innerHTML = $data["int_6"];
+        myElement = document.getElementById('p32');
+        myElement.innerHTML = $data["int_7"];
+        int_to_element(document.getElementById('p1'), $data["int_8"]);
+        int_to_element(document.getElementById('p2'), $data["int_10"]);
+        temp = $data["int_33"] / 100;
+        int_to_element(document.getElementById('p3'), temp);
+        int_to_element(document.getElementById('p4'), $data["int_34"]);
+        temp = $data["int_9"] / 10;
+        int_to_element(document.getElementById('p5'), temp);
+        temp = $data["int_11"] / 10;
+        int_to_element(document.getElementById('p6'), temp);
+        int_to_element(document.getElementById('p17'), $data["int_13"]);
+        value_to_element(document.getElementById('p7'), $data["Value5"]);
+        value_to_element(document.getElementById('p8'), $data["Value6"]);
+        //value_to_element(document.getElementById('p9'), $data["Value7"]);//水压进
+        //value_to_element(document.getElementById('p10'), $data["Value8"]);//水压出
+        //value_to_element(document.getElementById('p11'), $data["Value4"]);//负荷
+        value_to_element(document.getElementById('p19'), $data["Value3"]);
+        document.getElementById('p19').className = "label label-sm label-success";
+
+        value_to_element(document.getElementById('p24'), $data["Value15"]);
+        value_to_element(document.getElementById('sp24'), $data["Value14"]);
+        value_to_element(document.getElementById('p25'), $data["Value16"]);
+        value_to_element(document.getElementById('p26'), $data["Value18"]);
+        value_to_element(document.getElementById('p27'), $data["Value19"]);
+        var Element_Option = {
+            ClassName: ["label label-sm label-success", "label label-sm label-danger", "label label-sm label-info"],
+            HTMLText: ["开", "关", "动作中"]
+        }
+        flags_to_element(document.getElementById('p12'), $data["bool6"], $data["bool7"], Element_Option);
+        flags_to_element(document.getElementById('p13'), $data["bool8"], $data["bool9"], Element_Option);
+        Element_Option = {
+            ClassName: ["label label-sm label-success", "label label-sm label-danger", "label label-sm label-info"],
+            HTMLText: ["运行中", "故障", "未运行"]
+        }
+        flags_to_element(document.getElementById('p28'), $data["bool10"], $data["bool11"], Element_Option);
+        flags_to_element(document.getElementById('p29'), $data["bool21"], $data["bool13"], Element_Option);
+        Element_Option = {
+            ClassName: ["label label-sm label-success", "label label-sm label-info"],
+            HTMLText: ["运行中", "未运行"]
+        }
+        flag_to_element(document.getElementById('p14'), $data["bool15"], Element_Option);
+        flag_to_element(document.getElementById('p15'), $data["bool18"], Element_Option);
+        flag_to_element(document.getElementById('p16'), $data["bool1"], Element_Option);
+        flag_to_element(document.getElementById('sp16'), $data["bool2"], Element_Option);
+        flag_to_element(document.getElementById('s16'), $data["bool3"], Element_Option);
+        var myElement = document.getElementById('p30');
+        var temp1 = $data["bool31"];
+        var temp2 = $data["bool22"];
+        if (temp1 == 1) {
+            myElement.className = "label label-sm label-success";
+            myElement.innerHTML += '运行中';
+        }
+        else if (temp2 == 1) {
+            myElement.className = "label label-sm label-info";
+            myElement.innerHTML += '待机中';
+        }
+        else {
+            myElement.className = "label label-sm label-info";
+            myElement.innerHTML += '未运行';
+        }
+        temp1 = $data["bool34"];
+        if (temp1 == 1) {
+            myElement.className = "label label-sm label-success";
+            myElement.innerHTML += '/前吹扫';
+        }
+        temp1 = $data["bool35"];
+        if (temp1 == 1) {
+            myElement.className = "label label-sm label-success";
+            myElement.innerHTML += '/爬升';
+        }
+        temp1 = $data["bool36"];
+        if (temp1 == 1) {
+            myElement.className = "label label-sm label-success";
+            myElement.innerHTML += '/臭氧生成中';
+        }
+        temp1 = $data["bool37"];
+        if (temp1 == 1) {
+            myElement.className = "label label-sm label-success";
+            myElement.innerHTML += '/后吹扫';
+        }
+    </script>
+    <!-- /JAVASCRIPTS -->
+</body>
+</html>

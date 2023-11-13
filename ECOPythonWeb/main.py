@@ -79,16 +79,48 @@ class login:
             i = web.input()
             if i.get('sn'):
                 sn = int(i.get('sn'))
+                if (i.get('dates') == '7'):
+                    delta_day=datetime.timedelta(days=7)
+                elif (i.get('dates') == '30'):
+                    delta_day=datetime.timedelta(days=30)
+                else:
+                    delta_day=datetime.timedelta(days=1)
             else:
                 sn=settings.auth[loginuser]
-            if (sn==1)|(sn==2):
-                return render.index12(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn))
+                delta_day=datetime.timedelta(days=1)
+            s_day = datetime.datetime.today() - delta_day
+            startdate = s_day.strftime("%Y-%m-%d")
+            enddate = datetime.datetime.today().strftime("%Y-%m-%d")
+            
+            if sn==1:
+                selected_column = "Value1"
+                his_data_1 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value2"
+                his_data_2 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value3"
+                his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.index_1(loginuser,sn, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn), his_data_1, his_data_2, his_data_3, model.CurrentData.getPreDataZK(sn))
+                #return render.index12(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn))
+            elif sn==2:
+                selected_column = "Value1"
+                his_data_1 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value2"
+                his_data_2 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value3"
+                his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.index_1(loginuser,sn, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn), his_data_1, his_data_2, his_data_3, model.CurrentData.getPreDataZK(sn))
             elif sn==3:
-                return render.index3(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn))
+                selected_column = "int_8"
+                his_data_1 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "int_10"
+                his_data_2 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value5"
+                his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.index_3(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn), his_data_1, his_data_2, his_data_3)
             else:
                 return None
         else:
-            return render.login('欢迎访问，请先登录...')
+            return render.login_1("欢迎，请登录...")
     def POST(self):
         i = web.input()
         username = i.get('user_id')
@@ -97,18 +129,37 @@ class login:
             loginuser = username
             usertype = settings.auth[loginuser]
             web.setcookie('user_id', loginuser, settings.COOKIE_EXPIRES)
+            oneday=datetime.timedelta(days=1)
+            yesterday = datetime.datetime.today() - oneday
+            startdate = yesterday.strftime("%Y-%m-%d")
+            enddate = datetime.datetime.today().strftime("%Y-%m-%d")
             if (loginuser == '111') | (loginuser == '222'):
-                return render.index12(loginuser, model.CurrentData.getCurrentData(1), model.CurrentData.getPreData(1))
+                sn = 1
+                selected_column = "Value1"#进水水温
+                his_data_1 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value2"#出水水温
+                his_data_2 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value3"#端差
+                his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.index_1(loginuser,sn, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn), his_data_1, his_data_2, his_data_3, model.CurrentData.getPreDataZK(sn))
+                #return render.index12(loginuser, model.CurrentData.getCurrentData(1), model.CurrentData.getPreData(1))
             elif loginuser == '333':
-                return render.index3(loginuser, model.CurrentData.getCurrentData(3), model.CurrentData.getPreData(3))
+                sn = 3
+                selected_column = "int_8"#ORP1
+                his_data_1 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "int_10"#ORP2
+                his_data_2 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "Value5"#进水水温
+                his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.index_3(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn), his_data_1, his_data_2, his_data_3)
             else:
-                return render.login('登录错误，请重新登陆...')
+                return render.login_1("登录错误，请重新登录...")
         else:
-            return render.login('登录错误，请重新登陆...')
+            return render.login_1("登录错误，请重新登录...")
 class logout:
     def GET(self):
         web.setcookie('user_id', loginuser, -1)
-        return render.login('欢迎，请登录...')
+        return render.login_1("欢迎，请登录...")
 class historical:
     def GET(self):
         loginuser=web.cookies().get('user_id')
@@ -121,14 +172,14 @@ class historical:
                 sn = 1
                 selected_column = "Value8"
                 his_data = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
-                return render.historical(loginuser, ColumnList12, his_data, "凝汽器前ORP")
+                return render.historical_1(loginuser, ColumnList12, his_data, "凝汽器前ORP")
             if loginuser=='333':
                 sn = 3
                 selected_column = "int_8"
                 his_data = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
-                return render.historical(loginuser, ColumnList3, his_data, "凝汽器前ORP值1")
+                return render.historical_1(loginuser, ColumnList3, his_data, "凝汽器前ORP值1")
         else:
-            return render.login('欢迎，请登录...')
+            return render.login_1('欢迎，请登录...')
     def POST(self):
         i = web.input()
         loginuser=web.cookies().get('user_id')
@@ -147,16 +198,19 @@ class historical:
                 his_data = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
                 #show_data = dict(his_data['result'])
                 tilte_name = i.get('select2')+"-"+column_name
-                return render.historical(loginuser, ColumnList12, his_data, tilte_name)
+                return render.historical_1(loginuser, ColumnList12, his_data, tilte_name)
             if loginuser=='333':
                 sn = 3
                 selected_column = list(ColumnList3.keys())[list(ColumnList3.values()).index(column_name)]
                 hisdata = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
                 tilte_name = column_name
-                return render.historical(loginuser, ColumnList3, hisdata, tilte_name)
+                return render.historical_1(loginuser, ColumnList3, hisdata, tilte_name)
         else:
             return render.login('欢迎，请登录...')
-
+class calendar:
+    def GET(self):
+        loginuser=web.cookies().get('user_id')
+        return render.calendar_1(loginuser)
 if __name__ == '__main__':
     #TimeCounter_60()
     #model.conn_weixin()

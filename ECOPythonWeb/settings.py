@@ -7,6 +7,7 @@ urls = (
     '/logout','logout',
     '/historical','historical',
     '/wx', 'Handle',
+    '/calendar', 'calendar',
 )
 allowed = (
     ('111','111'),
