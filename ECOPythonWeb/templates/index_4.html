@@ -1,0 +1,999 @@
+$def with (username, data, hisdata1, hisdata2, hisdata3, hisdata4)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>ECOTECH | 控制台</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="铱钶环保网站平台">
+    <meta name="author" content="黄健">
+    <meta http-equiv="refresh" content="120">
+    <link rel="stylesheet" type="text/css" href="/static/css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css">
+    <!-- STYLESHEETS --><!--[if lt IE 9]><script src="/static/js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- ANIMATE -->
+    <link rel="stylesheet" type="text/css" href="/static/css/animatecss/animate.min.css" />
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <!-- TODO -->
+    <!--<link rel="stylesheet" type="text/css" href="/static/js/jquery-todo/css/styles.css" />-->
+    <!-- FULL CALENDAR -->
+    <link rel="stylesheet" type="text/css" href="/static/js/fullcalendar/fullcalendar.min.css" />
+    <!-- GRITTER -->
+    <!--<link rel="stylesheet" type="text/css" href="/static/js/gritter/css/jquery.gritter.css" />-->
+    <!-- FONTS -->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="navbar clearfix" id="header">
+        <div class="container">
+            <div class="navbar-brand">
+                <!-- COMPANY LOGO -->
+                <a href="#">
+                    <img src="/static/img/logo/ECOTECH.png" alt="ECOTECH" class="img-responsive" height="30" width="120">
+                </a>
+                <!-- /COMPANY LOGO -->
+                <!-- SIDEBAR COLLAPSE -->
+                <div id="sidebar-collapse" class="sidebar-collapse btn">
+                    <i class="fa fa-bars"
+                       data-icon1="fa fa-bars"
+                       data-icon2="fa fa-bars"></i>
+                </div>
+                <!-- /SIDEBAR COLLAPSE -->
+            </div>
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <ul class="nav navbar-nav pull-right">
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown user pull-right" id="header-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img alt="" src="static/img/avatars/ET.jpg" />
+                        <span class="username">$username</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="logout"><i class="fa fa-power-off"></i> 登出</a></li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </header>
+    <!--/HEADER -->
+    <!-- PAGE -->
+    <section id="page">
+        <!-- SIDEBAR -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-menu nav-collapse">
+                <!-- SIDEBAR MENU -->
+                <ul>
+                    <!--dashboard-->
+                    <li class="has-sub active">
+                        <a href="/?sn=4&dates=1" class="">
+                            <i class="fa fa-tachometer fa-fw"></i>
+                            <span class="menu-text">仪表台</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                    <!--historical-->
+                    <li class="has-sub">
+                        <a href="historical" class="">
+                            <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">历史数据曲线</span>
+                        </a>
+                    </li>
+                    <!--工单管理-->
+                    <li class="">
+                        <a href="#" class="">
+                            <i class="fa fa-table fa-fw"></i> <span class="menu-text">工单管理</span>
+                        </a>
+                    </li>
+                    <!--日历-->
+                    <li>
+                        <a class="" href="calendar">
+                            <i class="fa fa-calendar fa-fw"></i>
+                            <span class="menu-text">
+                                日历
+                                <span class="tooltip-error pull-right" title="" data-original-title="3 New Events">
+                                    <span class="label label-success">New</span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /SIDEBAR MENU -->
+            </div>
+            <!--<div class="container" id="warning">
+                <div class="alert alert-success" id="li1">
+                    一切正常!
+                </div>
+            </div>-->
+        </div>
+        <!-- /SIDEBAR -->
+        <div id="main-content">
+            <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+            <div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Box Settings</h4>
+                        </div>
+                        <div class="modal-body">
+                            Here goes box setting content.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
+            <div class="container">
+                <div class="row">
+                    <div id="content" class="col-md-12">
+                        <!-- PAGE HEADER-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-header">
+                                    <!-- BREADCRUMBS -->
+                                    <ul class="breadcrumb">
+                                        <li>
+                                            <i class="fa fa-home"></i>
+                                            <a href="/?sn=4&dates=1" id="homepage">首页</a>
+                                        </li>
+                                        <li>仪表台</li>
+                                    </ul>
+                                    <!-- /BREADCRUMBS -->
+                                    <div class="clearfix">
+                                        <h3 class="content-title pull-left">仪表台</h3>
+                                        <!-- DATE RANGE PICKER -->
+                                        <div class="date-range pull-right">
+                                            <div class="btn-group">
+                                                <a class="js_update btn btn-default" href="/?sn=4&dates=1">今日</a>
+                                                <a class="js_update btn btn-default" href="/?sn=4&dates=7">最近7天</a>
+                                                <a class="js_update btn btn-default hidden-xs" href="/?sn=4&dates=30">最近30天</a>
+                                                <!--<a id="reportrange" class="btn reportrange">
+                                                    <i class="fa fa-calendar"></i>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>-->
+                                            </div>
+                                        </div>
+                                        <!-- /DATE RANGE PICKER -->
+                                    </div>
+                                    <div class="description">总览, 数据及更多</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /PAGE HEADER -->
+                        <!-- INTERACTIVE CHART -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- BOX -->
+                                <div class="box border blue">
+                                    <div class="box-title">
+                                        <h4><i class="fa fa-signal"></i>硝化液回流泵工作状态曲线</h4>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div id="chart1" class="chart"></div>
+                                    </div>
+                                </div>
+                                <!-- /BOX -->
+                            </div>
+                            <div class="col-md-6">
+                                <!-- BOX -->
+                                <div class="box border blue">
+                                    <div class="box-title">
+                                        <h4><i class="fa fa-signal"></i>污泥回流泵工作状态曲线</h4>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div id="chart2" class="chart"></div>
+                                    </div>
+                                </div>
+                                <!-- /BOX -->
+                            </div>
+                        </div>
+                        <!-- /INTERACTIVE CHART -->
+                        <!-- DASHBOARD CONTENT -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>调节池</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left green" id="c0">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p0">运行</div>
+                                                            <div class="title">格栅机</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left green" id="c1">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p1">上液位</div>
+                                                            <div class="title">液位</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c2">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p2">运行</div>
+                                                            <div class="title">1#提升泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c3">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p3">待机</div>
+                                                            <div class="title">2#提升泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>缺氧池</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c4">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p4">有流量</div>
+                                                            <div class="title">调节池来液</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c5">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p5">运行</div>
+                                                            <div class="title">推流搅拌机</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>浓缩池</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c20">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p20">运行</div>
+                                                            <div class="title">1#排泥泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c21">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p21">待机</div>
+                                                            <div class="title">2#排泥泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>好氧池</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c24">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p24">有流量</div>
+                                                            <div class="title">硝化液回流管道流量</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c6">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p6">运行</div>
+                                                            <div class="title">1#曝气风机</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c7">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p7">运行</div>
+                                                            <div class="title">2#曝气风机</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c22">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p22">运行</div>
+                                                            <div class="title">1#硝化液回流泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c23">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p23">运行</div>
+                                                            <div class="title">2#硝化液回流泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>二沉池</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c8">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p8">有流量</div>
+                                                            <div class="title">回流\排泥泵后管道流量</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c9">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p9">运行</div>
+                                                            <div class="title">1#回流泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c10">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p10">待机</div>
+                                                            <div class="title">2#回流泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c11">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p11">回流</div>
+                                                            <div class="title">回流/排泥切换阀</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>中间水池</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c12">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p12">有流量</div>
+                                                            <div class="title">过滤泵后管道流量</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c13">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p13">上液位</div>
+                                                            <div class="title">液位</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c14">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p14">运行</div>
+                                                            <div class="title">1#过滤泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c15">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p15">待机</div>
+                                                            <div class="title">2#过滤泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="box solid">
+                                            <div class="box-title">
+                                                <h4>消毒池</h4>
+                                                <div class="tools">
+                                                    <a href="javascript:;" class="collapse">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c16">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p16">有流量</div>
+                                                            <div class="title">反冲洗泵后管道流量</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c17">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p17">上液位</div>
+                                                            <div class="title">液位</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c18">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p18">运行</div>
+                                                            <div class="title">1#反冲洗泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="dashbox panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="panel-left blue" id="c19">
+                                                            <i class="fa fa-square fa-3x"></i>
+                                                        </div>
+                                                        <div class="panel-right">
+                                                            <div class="number" id="p19">待机</div>
+                                                            <div class="title">2#反冲洗泵</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /DASHBOARD CONTENT -->
+                        <div class="footer-tools">
+                            <span class="go-top">
+                                <i class="fa fa-chevron-up"></i> Top
+                            </span>
+                        </div>
+                        <footer>
+                            <p>&copy; ECOTECH</p>
+                        </footer>
+                    </div><!-- /CONTENT-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--/PAGE -->
+    <!-- JAVASCRIPTS -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="/static/js/jquery/jquery-2.0.3.min.js"></script>
+    <!-- JQUERY UI-->
+    <script src="/static/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="/static/bootstrap-dist/js/bootstrap.min.js"></script>
+    <!-- DATE RANGE PICKER -->
+    <script src="/static/js/bootstrap-daterangepicker/moment.min.js"></script>
+    <script src="/static/js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+    <!-- BLOCK UI -->
+    <script type="text/javascript" src="/static/js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+    <!-- SPARKLINES -->
+    <script type="text/javascript" src="/static/js/sparklines/jquery.sparkline.min.js"></script>
+    <!-- EASY PIE CHART -->
+    <script src="/static/js/jquery-easing/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="/static/js/easypiechart/jquery.easypiechart.min.js"></script>
+    <!-- FLOT CHARTS -->
+    <script src="/static/js/flot/jquery.flot.min.js"></script>
+    <!--<script src="/static/js/flot/jquery.flot.time.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.selection.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.resize.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.pie.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.stack.min.js"></script>
+    <script src="/static/js/flot/jquery.flot.crosshair.min.js"></script>-->
+    <!--TODO-->
+    <!--<script type="text/javascript" src="/static/js/jquery-todo/js/paddystodolist.js"></script>-->
+    <!--TIMEAGO-->
+    <!--<script type="text/javascript" src="/static/js/timeago/jquery.timeago.min.js"></script>-->
+    <!--FULL CALENDAR-->
+    <!--<script type="text/javascript" src="/static/js/fullcalendar/fullcalendar.min.js"></script>-->
+    <!-- COOKIE -->
+    <script type="text/javascript" src="/static/js/jQuery-Cookie/jquery.cookie.min.js"></script>
+    <!-- GRITTER -->
+    <!--<script type="text/javascript" src="/static/js/gritter/js/jquery.gritter.min.js"></script>-->
+    <!-- CUSTOM SCRIPT -->
+    <script type="text/javascript" src="/static/js/script.js" charset="UTF-8"></script>
+    <!--<script type="text/javascript" src="/static/js/charts.js" charset="UTF-8"></script>-->
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            App.setPage("index");  //Set current page
+            App.init(); //Initialise plugins and elements
+            //Charts.initCharts();
+            //Charts.initPieCharts();
+        });
+        function set_option_to_chart(ChartName, Option) {
+            myEChart = echarts.init(ChartName);
+            myEChart.setOption(Option);
+        }
+        function flags_to_element(ElementN, ElementC, Flag1, Flag2, Flag3) {
+            ElementId = document.getElementById(ElementN);
+            ElementColor = document.getElementById(ElementC);
+            var temp1 = Flag1;/*运行信号*/
+            var temp2 = Flag2;/*故障信号*/
+            var temp3 = Flag3;/*启动信号*/
+            if ((temp1 == 1) && (temp2 == 0) && (temp3 == 1)) {
+                ElementColor.className = "panel-left green";
+                ElementId.innerHTML = '正常运行';
+            }
+            else if ((temp1 == 0) && (temp2 == 0) && (temp3 == 0)) {
+                ElementColor.className = "panel-left yellow";
+                ElementId.innerHTML = '正常待机';
+            }
+            else {
+                ElementColor.className = "panel-left red";
+                ElementId.innerHTML = '故障';
+            }
+        }
+
+        function flag_to_element(ElementN, ElementC, Flag1, Flag2, Flag3, Flag4) {
+            ElementId = document.getElementById(ElementN);
+            ElementColor = document.getElementById(ElementC);
+            var temp1 = Flag1;/*启动信号*/
+            var temp2 = Flag2;/*运行信号*/
+            var temp3 = Flag3;/*启动信号*/
+            var temp4 = Flag4;/*运行信号*/
+            if (((temp1 == 1) && (temp2 == 1)) || ((temp3 == 1) && (temp4 == 1))) {
+                ElementColor.className = "panel-left green";
+                ElementId.innerHTML = '有流量';
+            }
+            else if (((temp1 == 0) && (temp2 == 0)) && ((temp3 == 0) && (temp4 == 0))) {
+                ElementColor.className = "panel-left yellow";
+                ElementId.innerHTML = '无流量';
+            }
+            else {
+                ElementColor.className = "panel-left red";
+                ElementId.innerHTML = '故障';
+            }
+        }
+
+        //格栅机
+        var ElementId = document.getElementById('p0');
+        var ElementColor = document.getElementById('c0');
+        var temp1 = $data["bool7"];
+        var temp2 = $data["bool8"];
+        if (temp2 == 1) {
+            ElementColor.className = "panel-left red";
+            ElementId.innerHTML = '故障';
+        }
+        else if (temp1 == 1) {
+            ElementColor.className = "panel-left green";
+            ElementId.innerHTML = '运行';
+        }
+        else {
+            ElementColor.className = "panel-left yellow";
+            ElementId.innerHTML = '未运行';
+        }
+
+        //调节池液位
+        ElementId = document.getElementById('p1');
+        ElementColor = document.getElementById('c1');
+        temp1 = $data["bool1"];
+        temp2 = $data["bool2"];
+        if ((temp2 == 1) && (temp1 == 1)) {
+            ElementColor.className = "panel-left yellow";
+            ElementId.innerHTML = '高液位';
+        }
+        else if ((temp1 == 1) && (temp2 == 0)) {
+            ElementColor.className = "panel-left green";
+            ElementId.innerHTML = '低液位';
+        }
+        else {
+            ElementColor.className = "panel-left red";
+            ElementId.innerHTML = '液位信号故障';
+        }
+
+        //电磁阀回流\排泥切换
+        ElementId = document.getElementById('p11');
+        ElementColor = document.getElementById('c11');
+        temp1 = $data["bool44"];
+        if (temp1 == 1) {
+            ElementColor.className = "panel-left yellow";
+            ElementId.innerHTML = '排泥';
+        }
+        else {
+            ElementColor.className = "panel-left green";
+            ElementId.innerHTML = '回流';
+        }
+
+        //反冲洗池液位
+        ElementId = document.getElementById('p17');
+        ElementColor = document.getElementById('c17');
+        temp1 = $data["bool6"];
+        if (temp1 == 1) {
+            ElementColor.className = "panel-left yellow";
+            ElementId.innerHTML = '低液位';
+        }
+        else {
+            ElementColor.className = "panel-left green";
+            ElementId.innerHTML = '液位正常';
+        }
+
+        //中间水池液位
+        ElementId = document.getElementById('p13');
+        ElementColor = document.getElementById('c13');
+        temp1 = $data["bool3"];
+        temp2 = $data["bool4"];
+        var temp3 = $data["bool5"];
+        if ((temp1 == 1) && (temp2 == 1) && (temp3 == 1)) {
+            ElementColor.className = "panel-left yellow";
+            ElementId.innerHTML = '超高液位';
+        }
+        else if ((temp1 == 1) && (temp2 == 1) && (temp3 == 0)) {
+            ElementColor.className = "panel-left green";
+            ElementId.innerHTML = '高液位';
+        }
+        else if ((temp1 == 1) && (temp2 == 0) && (temp3 == 0)) {
+            ElementColor.className = "panel-left green";
+            ElementId.innerHTML = '低液位';
+        }
+        else if ((temp1 == 0) && (temp2 == 0) && (temp3 == 0)) {
+            ElementColor.className = "panel-left green";
+            ElementId.innerHTML = '低低液位';
+        }
+        else {
+            ElementColor.className = "panel-left red";
+            ElementId.innerHTML = '信号故障';
+        }
+
+        //1#调节池提升泵
+        flags_to_element('p2', 'c2', $data["bool9"], $data["bool10"], $data["bool41"]);
+
+        //2#调节池提升泵
+        flags_to_element('p3', 'c3', $data["bool11"], $data["bool12"], $data["bool42"]);
+
+        //推流搅拌机
+        flags_to_element('p5', 'c5', $data["bool13"], $data["bool14"], $data["bool43"]);
+
+        //1#曝气风机
+        flags_to_element('p6', 'c6', $data["bool15"], $data["bool16"], $data["bool45"]);
+
+        //2#曝气风机
+        flags_to_element('p7', 'c7', $data["bool17"], $data["bool18"], $data["bool46"]);
+
+        //1#污泥回流泵
+        flags_to_element('p9', 'c9', $data["bool19"], $data["bool20"], $data["bool47"]);
+
+        //2#污泥回流泵
+        flags_to_element('p10', 'c10', $data["bool21"], $data["bool22"], $data["bool48"]);
+
+        //1#污泥泵
+        flags_to_element('p20', 'c20', $data["bool23"], $data["bool24"], $data["bool49"]);
+
+        //2#污泥泵
+        flags_to_element('p21', 'c21', $data["bool25"], $data["bool26"], $data["bool50"]);
+
+        //1#中间水泵
+        flags_to_element('p14', 'c14', $data["bool27"], $data["bool28"], $data["bool51"]);
+
+        //2#中间水泵
+        flags_to_element('p15', 'c15', $data["bool29"], $data["bool30"], $data["bool52"]);
+
+        //1#反冲洗泵
+        flags_to_element('p18', 'c18', $data["bool31"], $data["bool32"], $data["bool53"]);
+
+        //2#反冲洗泵
+        flags_to_element('p19', 'c19', $data["bool33"], $data["bool34"], $data["bool54"]);
+
+        //1#硝化液回流泵
+        flags_to_element('p22', 'c22', $data["bool37"], $data["bool38"], $data["bool56"]);
+
+        //2#硝化液回流泵
+        flags_to_element('p23', 'c23', $data["bool39"], $data["bool40"], $data["bool57"]);
+
+        //调节池提升泵后流量开关
+        flag_to_element('p4', 'c4', $data["bool9"], $data["bool41"], $data["bool11"], $data["bool42"]);
+
+        //污泥回流泵后流量开关
+        flag_to_element('p8', 'c8', $data["bool19"], $data["bool47"], $data["bool21"], $data["bool48"]);
+
+        //中间水池过滤泵后流量开关
+        flag_to_element('p12', 'c12', $data["bool27"], $data["bool51"], $data["bool29"], $data["bool52"]);
+
+        //反冲洗泵后流量开关
+        flag_to_element('p16', 'c16', $data["bool31"], $data["bool53"], $data["bool33"], $data["bool54"]);
+
+        //硝化液回流泵后流量开关
+        flag_to_element('p24', 'c24', $data["bool37"], $data["bool56"], $data["bool39"], $data["bool57"]);
+
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataView: {},
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                top: "25%",
+                left: "10%",
+                right: "10%",
+                bottom: "10%"
+            },
+            xAxis: {
+                type: 'category',
+                data: $hisdata1["TIMETAG"]
+            },
+            yAxis: [
+                {
+                    name: "1#硝化液回流泵",
+                    type: 'value'
+                },
+                {
+                    name: "2#硝化液回流泵",
+                    //splitLine: {
+                    //    show: false
+                    //},
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '1#硝化液回流泵',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $hisdata1["result"],
+                    smooth: true
+                },
+                {
+                    name: '2#硝化液回流泵',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $hisdata2["result"],
+                    smooth: true
+                }
+            ]
+        };
+        set_option_to_chart(document.getElementById('chart1'), option);
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataView: {},
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                top: "25%",
+                left: "10%",
+                right: "10%",
+                bottom: "10%"
+            },
+            xAxis: {
+                type: 'category',
+                data: $hisdata1["TIMETAG"]
+            },
+            yAxis: [
+                {
+                    name: "1#污泥回流泵",
+                    type: 'value'
+                },
+                {
+                    name: "2#污泥回流泵",
+                    //splitLine: {
+                    //    show: false
+                    //},
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '1#污泥回流泵',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $hisdata1["result"],
+                    smooth: true
+                },
+                {
+                    name: '2#污泥回流泵',
+                    type: 'line',
+                    showSymbol: false,
+                    data: $hisdata2["result"],
+                    smooth: true
+                }
+            ]
+        };
+        set_option_to_chart(document.getElementById('chart2'), option);
+    </script>
+    <!-- /JAVASCRIPTS -->
+</body>
+</html>

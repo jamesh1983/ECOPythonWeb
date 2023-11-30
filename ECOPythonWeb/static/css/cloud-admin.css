@@ -8861,13 +8861,23 @@ div[data-role="editor-toolbar"] {
 .dashbox .panel-left.yellow i {
     color: #E29C45;
 }
+.dashbox .panel-left.orange i {
+    color: #EEA236;
+}
+.dashbox .panel-left.green i {
+    color: #A8BC7B;
+}
+.dashbox .panel-left.grey i {
+    color: #FFFFFF;
+}
+
 .dashbox .panel-right {
-  width: 70%;
-  float: right;
-  padding-left: 20px;
-  padding-top: 10px;
-  border-radius: 0 4px 4px 0;
-  position: relative;
+    width: 70%;
+    float: right;
+    padding-left: 20px;
+    padding-top: 10px;
+    border-radius: 0 4px 4px 0;
+    position: relative;
 }
 .dashbox .panel-right .number {
   font-size: 30px;

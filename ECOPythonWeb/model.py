@@ -16,19 +16,22 @@ db = web.database(dbn=settings.DBN, host=settings.HOST, port=settings.PORT,  db=
 class CurrentData:
     def getColumnList():
         try:
-            cmd = 'SELECT column_name, comments, comments_for_HL FROM column_list'
+            cmd = 'SELECT column_name, comments, comments_for_HL, comments_for_GQ FROM column_list'
             list = db.query(cmd)
             columnlist = {}
             column_name = []
             comments = []
             comments_for_HL = []
+            comments_for_GQ = []
             for row in list:
                 column_name.append(row.column_name)
                 comments.append(row.comments)
                 comments_for_HL.append(row.comments_for_HL)
+                comments_for_GQ.append(row.comments_for_GQ)
             columnlist["column_name"] = column_name
             columnlist["comments"] = comments
             columnlist["comments_for_HL"] = comments_for_HL
+            columnlist["comments_for_GQ"] = comments_for_GQ
             return columnlist
             #return list
         except Exception as e:

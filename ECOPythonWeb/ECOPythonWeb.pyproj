@@ -378,6 +378,7 @@
     <Content Include="templates\historical_1.html" />
     <Content Include="templates\index_1.html" />
     <Content Include="templates\index_3.html" />
+    <Content Include="templates\index_4.html" />
     <Content Include="templates\login_1.html" />
     <Content Include="templates\vector_maps.html" />
     <None Include="static\js\jquery-1.10.2.intellisense.js" />

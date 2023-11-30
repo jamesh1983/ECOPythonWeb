@@ -3164,12 +3164,12 @@ var App = function () {
         init: function () {
 		
             if (App.isPage("index")) {
-				//handleDateTimePickers(); //Function to display Date Timepicker
-				//handleSparkline();		//Function to display Sparkline charts
+				handleDateTimePickers(); //Function to display Date Timepicker
+				handleSparkline();		//Function to display Sparkline charts
 				handleDashFlotCharts(); //Function to display flot charts in dashboard
-				//handleChat('chat-window'); //Function to handle chat
+				handleChat('chat-window'); //Function to handle chat
 				//handleCalendar();	//Function to display calendar
-				//handleGritter();	//Function to display Gritter notifications
+				handleGritter();	//Function to display Gritter notifications
             }
 			if (App.isPage("widgets_box")) {
 				handleBoxSortable(); //Function to handle Box sortables

@@ -75,8 +75,10 @@ $def with (username,column_data,his_data,title_name)
                     <!--dashboard-->
                     $if (username=='111')|(username=='222'):
                         <li class="has-sub active"><a href="" class=""><i class="fa fa-tachometer fa-fw"></i><span class="menu-text">仪表台</span><span class="arrow"></span></a><ul class="sub"><li><a class="" href="/?sn=1&dates=1"><span class="sub-menu-text">一号机组</span></a></li><li><a class="" href="/?sn=2&dates=1"><span class="sub-menu-text">二号机组</span></a></li></ul></li>
-                    $if username=='333':
+                    $if (username=='333'):
                         <li class="has-sub"><a href="/?sn=3&dates=1" class=""><i class="fa fa-tachometer fa-fw"></i><span class="menu-text">仪表台</span></a></li>
+                    $if (username=='444'):
+                        <li class="has-sub"><a href="/?sn=4&dates=1" class=""><i class="fa fa-tachometer fa-fw"></i><span class="menu-text">仪表台</span></a></li>
                     <!--historical-->
                     <li class="active">
                         <a href="#" class="">
@@ -143,6 +145,8 @@ $def with (username,column_data,his_data,title_name)
                                                 <a href="/?sn=1&dates=1">首页</a>
                                             $if username=='333':
                                                 <a href="/?sn=3&dates=1">首页</a>
+                                            $if username=='444':
+                                                <a href="/?sn=4&dates=1">首页</a>
                                         </li>
                                         <li>历史数据曲线</li>
                                     </ul>

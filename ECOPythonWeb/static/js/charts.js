@@ -147,10 +147,10 @@ var Charts = function () {
 
                 var plot = $.plot($("#chart_2"), [{
                             data: pageviews,
-                            label: "Unique Visits"
+                            label: "调节池水泵"
                         }, {
                             data: visitors,
-                            label: "Page Views"
+                            label: "中间水池水泵"
                         }
                     ], {
                         series: {
@@ -550,13 +550,13 @@ var Charts = function () {
             }
 
             //graph
-            chart1();
+            //chart1();
             chart2();
-			chart7();
-            chart3();
-            chart4();
-            chart5();
-			chart6();
+			//chart7();
+            //chart3();
+            //chart4();
+            //chart5();
+			//chart6();
         },
 
         initPieCharts: function () {

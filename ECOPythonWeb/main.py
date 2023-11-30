@@ -15,7 +15,7 @@ render = web.template.render('templates')
 ColumnData = model.CurrentData.getColumnList()
 ColumnList12 = dict(zip(ColumnData["column_name"], ColumnData["comments"]))
 ColumnList3 = dict(zip(ColumnData["column_name"], ColumnData["comments_for_HL"]))
-
+ColumnList4 = dict(zip(ColumnData["column_name"], ColumnData["comments_for_GQ"]))
 #render = render_jinja(
 #    'templates',
 #    encoding = 'utf-8',
@@ -117,6 +117,16 @@ class login:
                 selected_column = "Value5"
                 his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
                 return render.index_3(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn), his_data_1, his_data_2, his_data_3)
+            elif sn==4:
+                selected_column = "bool37"#1号硝化液回流泵
+                his_data_1 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "bool39"#1号硝化液回流泵
+                his_data_2 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "bool19"#1号污泥回流泵
+                his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "bool21"#2号污泥回流泵
+                his_data_4 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.index_4(loginuser, model.CurrentData.getCurrentData(sn), his_data_1, his_data_2, his_data_3, his_data_4)
             else:
                 return None
         else:
@@ -152,6 +162,17 @@ class login:
                 selected_column = "Value5"#进水水温
                 his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
                 return render.index_3(loginuser, model.CurrentData.getCurrentData(sn), model.CurrentData.getPreData(sn), his_data_1, his_data_2, his_data_3)
+            elif loginuser == '444':
+                sn = 4
+                selected_column = "bool37"#1号硝化液回流泵
+                his_data_1 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "bool39"#2号硝化液回流泵
+                his_data_2 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "bool19"#1号污泥回流泵
+                his_data_3 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                selected_column = "bool21"#2号污泥回流泵
+                his_data_4 = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.index_4(loginuser, model.CurrentData.getCurrentData(sn), his_data_1, his_data_2, his_data_3, his_data_4)
             else:
                 return render.login_1("登录错误，请重新登录...")
         else:
@@ -178,6 +199,11 @@ class historical:
                 selected_column = "int_8"
                 his_data = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
                 return render.historical_1(loginuser, ColumnList3, his_data, "凝汽器前ORP值1")
+            if loginuser=='444':
+                sn = 4
+                selected_column = "bool1"
+                his_data = model.CurrentData.getHisData(sn, selected_column, startdate, enddate)
+                return render.historical_1(loginuser, ColumnList4, his_data, "调节池低液位")
         else:
             return render.login_1('欢迎，请登录...')
     def POST(self):
@@ -205,6 +231,12 @@ class historical:
                 hisdata = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
                 tilte_name = column_name
                 return render.historical_1(loginuser, ColumnList3, hisdata, tilte_name)
+            if loginuser=='444':
+                sn = 4
+                selected_column = list(ColumnList4.keys())[list(ColumnList4.values()).index(column_name)]
+                hisdata = model.CurrentData.getHisData(sn, selected_column, startdatetime, enddatetime)
+                tilte_name = column_name
+                return render.historical_1(loginuser, ColumnList4, hisdata, tilte_name)
         else:
             return render.login('欢迎，请登录...')
 class calendar:
