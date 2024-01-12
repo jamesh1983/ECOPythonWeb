@@ -1,0 +1,426 @@
+$def with (username,data1,data2)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>ECOTECH | 控制台</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="铱钶环保网站平台">
+    <meta name="author" content="黄健">
+    <link rel="stylesheet" type="text/css" href="/static/css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css">
+    <!-- STYLESHEETS --><!--[if lt IE 9]><script src="/static/js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- ANIMATE -->
+    <link rel="stylesheet" type="text/css" href="/static/css/animatecss/animate.min.css" />
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href="/static/js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+    <!-- DATE PICKER -->
+    <link rel="stylesheet" type="text/css" href="/static/js/datepicker/themes/default.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/js/datepicker/themes/default.date.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/js/datepicker/themes/default.time.min.css" />
+    <!-- COLOR PICKER -->
+    <link rel="stylesheet" type="text/css" href="/static/js/colorpicker/css/colorpicker.min.css" />
+    <!-- TODO -->
+    <!--<link rel="stylesheet" type="text/css" href="/static/js/jquery-todo/css/styles.css" />-->
+    <!-- FULL CALENDAR -->
+    <link rel="stylesheet" type="text/css" href="/static/js/fullcalendar/fullcalendar.min.css" />
+    <!-- GRITTER -->
+    <link rel="stylesheet" type="text/css" href="/static/js/gritter/css/jquery.gritter.css" />
+    <!-- FONTS -->
+    <!-- JQGRID -->
+    <link rel="stylesheet" type="text/css" href="/static/js/jqgrid/css/ui.jqgrid.min.css" />
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    <script src="/static/js/echarts.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="navbar clearfix" id="header">
+        <div class="container">
+            <div class="navbar-brand">
+                <!-- COMPANY LOGO -->
+                <a href="#">
+                    <img src="/static/img/logo/ECOTECH.png" alt="ECOTECH" class="img-responsive" height="30" width="120">
+                </a>
+                <!-- /COMPANY LOGO -->
+                <!-- SIDEBAR COLLAPSE -->
+                <div id="sidebar-collapse" class="sidebar-collapse btn">
+                    <i class="fa fa-bars"
+                       data-icon1="fa fa-bars"
+                       data-icon2="fa fa-bars"></i>
+                </div>
+                <!-- /SIDEBAR COLLAPSE -->
+            </div>
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <ul class="nav navbar-nav pull-right">
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <li class="dropdown user pull-right" id="header-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img alt="" src="static/img/avatars/ET.jpg" />
+                        <span class="username">$username</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="logout"><i class="fa fa-power-off"></i> 登出</a></li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </header>
+    <!--/HEADER -->
+    <!-- PAGE -->
+    <section id="page">
+        <!-- SIDEBAR -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-menu nav-collapse">
+                <!-- SIDEBAR MENU -->
+                <ul>
+                    <!--dashboard-->
+                    <li class="">
+                        <a href="/?sn=4&dates=1" class="">
+                            <i class="fa fa-tachometer fa-fw"></i>
+                            <span class="menu-text">仪表台</span>
+                        </a>
+                    </li>
+                    <!--historical-->
+                    <li class="">
+                        <a href="historical" class="">
+                            <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">历史数据曲线</span>
+                        </a>
+                    </li>
+                    <!--工单管理-->
+                    <li class="active">
+                        <a href="workplan" class="">
+                            <i class="fa fa-table fa-fw"></i>
+                            <span class="menu-text">工单管理</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                    <!--日历-->
+                    <li>
+                        <a class="" href="calendar">
+                            <i class="fa fa-calendar fa-fw"></i>
+                            <span class="menu-text">
+                                日历
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /SIDEBAR MENU -->
+            </div>
+        </div>
+        <!-- /SIDEBAR -->
+        <div id="main-content">
+            <div class="container">
+                <div class="row">
+                    <div id="content" class="col-md-12">
+                        <!-- PAGE HEADER-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-header">
+                                    <!-- BREADCRUMBS -->
+                                    <ul class="breadcrumb">
+                                        <li>
+                                            <i class="fa fa-home"></i>
+                                            <a href="/?sn=4&dates=1" id="homepage">首页</a>
+                                        </li>
+                                        <li>工单管理</li>
+                                    </ul>
+                                    <!-- /BREADCRUMBS -->
+                                    <div class="clearfix">
+                                        <h3 class="content-title pull-left">工单管理</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /PAGE HEADER -->
+                        <div class="col-md-6">
+                            <!-- BASIC -->
+                            <div class="box border primary">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-bars"></i>编辑工单</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="javascript:;" class="collapse">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                        <a href="javascript:;" class="remove">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body big">
+                                    <h3 class="form-title">工单信息</h3>
+                                    <form class="form-horizontal" role="form" action="#">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">编号</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="CODE" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">类型</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" id="TYPE" disabled="disabled">
+                                                    <option>设备维保</option>
+                                                    <option>设备抢修</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">地点</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" id="LOCATION" disabled="disabled">
+                                                    <option>港区</option>
+                                                    <option>其他</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">状态</label>
+                                            <div class="col-sm-9">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="STATUS1" value="option1" disabled="disabled"> 创建
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="STATUS2" value="option2" disabled="disabled"> 分配
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" id="STATUS3" value="option3" disabled="disabled"> 完成
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">创建日期</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="date" name="regular" size="10" id="CREATEDDATE" disabled="disabled">
+                                            </div>
+                                            <label class="col-sm-3 control-label">分配日期</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="date" name="regular" size="10" id="PLANEDDATE">
+                                            </div>
+                                            <label class="col-sm-3 control-label">完成日期</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="date" name="regular" size="10" id="FINISHEDDATE">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">内容</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="form-control" rows="3" id="CONTENT"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">执行人员</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" id="PERSON">
+                                                    <option>人员1</option>
+                                                    <option>人员2</option>
+                                                    <option>人员3</option>
+                                                    <option>人员4</option>
+                                                    <option>人员5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success" id="submitbtn" style="display:none"></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /BASIC -->
+                        </div>
+                        <div class="col-md-6">
+                            <!-- BOX -->
+                            <div class="box border orange">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-table"></i>待分配工单列表</h4>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="reload">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
+                                        <a href="javascript:;" class="collapse">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>编号</th>
+                                                <th>类型</th>
+                                                <th>状态</th>
+                                                <th>地点</th>
+                                                <th>创建日期</th>
+                                                <th>分配日期</th>
+                                                <th>完成日期</th>
+                                                <th>内容</th>
+                                                <th>人员</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="myTable1">
+                                        $ n = 0
+                                        $for x in data1.get("CODE"):
+                                            <tr onclick="handleClick(this);">
+                                            $for row in data1.values():
+                                                <td>$row[n]</td>
+                                            </tr>
+                                            $ n = n + 1
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="box border green">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-table"></i>待完成工单列表</h4>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="reload">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
+                                        <a href="javascript:;" class="collapse">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>编号</th>
+                                                <th>类型</th>
+                                                <th>状态</th>
+                                                <th>地点</th>
+                                                <th>创建日期</th>
+                                                <th>分配日期</th>
+                                                <th>完成日期</th>
+                                                <th>内容</th>
+                                                <th>人员</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="myTable2">
+                                            $ n = 0
+                                            $for x in data2.get("CODE"):
+                                            <tr onclick="handleClick(this);">
+                                                $for row in data2.values():
+                                                <td>$row[n]</td>
+                                            </tr>
+                                            $ n = n + 1
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /BOX -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                        </div>
+                        <div class="separator"></div>
+                        <div class="footer-tools">
+                            <span class="go-top">
+                                <i class="fa fa-chevron-up"></i> Top
+                            </span>
+                        </div>
+                        <footer>
+                            <p>&copy; ECOTECH</p>
+                        </footer>
+                    </div>
+                </div>
+                <!-- /FORMS -->
+            </div>
+        </div>
+    </section>
+    <!--/PAGE -->
+    <!-- JAVASCRIPTS -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- JQUERY -->
+    <script src="/static/js/jquery/jquery-2.0.3.min.js"></script>
+    <!-- JQUERY UI-->
+    <script src="/static/js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="/static/bootstrap-dist/js/bootstrap.min.js"></script>
+    <!-- DATE RANGE PICKER -->
+    <script src="/static/js/bootstrap-daterangepicker/moment.min.js"></script>
+    <script src="/static/js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <!-- SLIMSCROLL -->
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+    <!-- BLOCK UI -->
+    <script type="text/javascript" src="/static/js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+    <!-- SPARKLINES -->
+    <script type="text/javascript" src="/static/js/sparklines/jquery.sparkline.min.js"></script>
+    <!-- EASY PIE CHART -->
+    <script src="/static/js/jquery-easing/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="/static/js/easypiechart/jquery.easypiechart.min.js"></script>
+    <!-- FLOT CHARTS -->
+    <script src="/static/js/flot/jquery.flot.min.js"></script>
+    <!-- COOKIE -->
+    <script type="text/javascript" src="/static/js/jQuery-Cookie/jquery.cookie.min.js"></script>
+    <!-- JQGRID -->
+    <script type="text/javascript" src="/static/js/jqgrid/js/grid.locale-en.min.js"></script>
+    <script type="text/javascript" src="/static/js/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <!-- DATE PICKER -->
+    <script type="text/javascript" src="/static/js/datepicker/picker.js"></script>
+    <script type="text/javascript" src="/static/js/datepicker/picker.date.js"></script>
+    <script type="text/javascript" src="/static/js/datepicker/picker.time.js"></script>
+    <!-- COLOR PICKER -->
+    <script type="text/javascript" src="/static/js/colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <!-- CUSTOM SCRIPT -->
+    <script type="text/javascript" src="/static/js/script.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        function today() {
+            let d = new Date();
+            let currDate = d.getDate();
+            let currMonth = d.getMonth() + 1;
+            let currYear = d.getFullYear();
+            return currYear + "-" + ((currMonth < 10) ? '0' + currMonth : currMonth) + "-" + ((currDate < 10) ? '0' + currDate : currDate);
+        }
+
+        function handleClick(row) {
+            document.getElementById('CODE').value = row.cells[0].innerHTML;
+            document.getElementById('TYPE').value = row.cells[1].innerHTML;
+            if (row.cells[2].innerHTML == "创建") {
+                document.getElementById('STATUS1').checked = true;
+                document.getElementById('STATUS2').checked = false;
+                document.getElementById('STATUS3').checked = false;
+                document.getElementById('PLANEDDATE').value = today();
+                document.getElementById('PLANEDDATE').disabled = false;
+                document.getElementById('FINISHEDDATE').value = null;
+                document.getElementById('FINISHEDDATE').disabled = "disabled";
+                document.getElementById('submitbtn').innerHTML = "工单分配";
+                document.getElementById('submitbtn').style.display = 'block';
+            }
+            if (row.cells[2].innerHTML == "分配") {
+                document.getElementById('STATUS1').checked = true;
+                document.getElementById('STATUS2').checked = true;
+                document.getElementById('STATUS3').checked = false;
+                document.getElementById('PLANEDDATE').value = row.cells[5].innerHTML;
+                document.getElementById('PLANEDDATE').disabled = "disabled";
+                document.getElementById('FINISHEDDATE').value = today();
+                document.getElementById('FINISHEDDATE').disabled = false;
+                document.getElementById('submitbtn').innerHTML = "工单完成";
+                document.getElementById('submitbtn').style.display = 'block';
+            }
+            document.getElementById('LOCATION').value = row.cells[3].innerHTML;
+            document.getElementById('CREATEDDATE').value = row.cells[4].innerHTML;
+
+            document.getElementById('CONTENT').value = row.cells[7].innerHTML;
+            document.getElementById('PERSON').value = row.cells[8].innerHTML;
+        }
+
+        jQuery(document).ready(function () {
+            App.setPage("forms");  //Set current page
+            App.init(); //Initialise plugins and elements
+        });
+
+    </script>
+    <!-- /JAVASCRIPTS -->
+</body>
+</html>

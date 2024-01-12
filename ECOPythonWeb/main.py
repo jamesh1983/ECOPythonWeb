@@ -243,6 +243,18 @@ class calendar:
     def GET(self):
         loginuser=web.cookies().get('user_id')
         return render.calendar_1(loginuser)
+class workplan:
+    def GET(self):
+        loginuser=web.cookies().get('user_id')
+        workplandata1 = model.CurrentData.getWorkPlanData1()
+        a=workplandata1.items()
+        b=workplandata1.keys()
+        c=workplandata1.values()
+        i=workplandata1.get("CODE")
+        #workplandata1 = dict(zip(result1["CODE"], result1["TYPE"], result1["STATUS"], result1["LOCATION"], result1["CREATEDDATE"], result1["PLANEDDATE"], result1["FINISHEDDATE"], result1["CONTENT"], result1["PERSON"]))
+        workplandata2 = model.CurrentData.getWorkPlanData2()
+        #workplandata2 = dict(zip(result1["CODE"], result1["TYPE"], result1["STATUS"], result1["LOCATION"], result1["CREATEDDATE"], result1["PLANEDDATE"], result1["FINISHEDDATE"], result1["CONTENT"], result1["PERSON"]))
+        return render.workplan_1(loginuser,workplandata1,workplandata2)
 if __name__ == '__main__':
     #TimeCounter_60()
     #model.conn_weixin()

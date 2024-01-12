@@ -103,9 +103,8 @@ $def with (username)
                     </li>
                     <!--工单管理-->
                     <li class="">
-                        <a href="#" class="">
-                            <i class="fa fa-table fa-fw"></i> <span class="menu-text">工单管理</span>
-                        </a>
+                        $if (username=='444'):
+                            <a href="workplan" class=""><i class="fa fa-table fa-fw"></i> <span class="menu-text">工单管理</span></a>
                     </li>
                     <!--日历-->
                     <li class="active">

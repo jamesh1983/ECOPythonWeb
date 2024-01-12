@@ -8,6 +8,7 @@ urls = (
     '/historical','historical',
     '/wx', 'Handle',
     '/calendar', 'calendar',
+    '/workplan', 'workplan',
 )
 allowed = (
     ('111','111'),

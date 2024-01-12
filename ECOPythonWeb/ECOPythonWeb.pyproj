@@ -375,12 +375,14 @@
     <Content Include="static\css\bootstrap.min.css" />
     <Content Include="static\css\site.css" />
     <Content Include="templates\calendar_1.html" />
+    <Content Include="templates\forms.html" />
     <Content Include="templates\historical_1.html" />
     <Content Include="templates\index_1.html" />
     <Content Include="templates\index_3.html" />
     <Content Include="templates\index_4.html" />
     <Content Include="templates\login_1.html" />
     <Content Include="templates\vector_maps.html" />
+    <Content Include="templates\workplan_1.html" />
     <None Include="static\js\jquery-1.10.2.intellisense.js" />
     <None Include="static\js\jquery.validate-vsdoc.js" />
     <Content Include="static\js\jquery.validate.js" />

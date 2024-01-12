@@ -794,12 +794,7 @@ var App = function () {
 		});
 		$(".datepicker-fullscreen").pickadate();
 		$(".timepicker-fullscreen").pickatime();
-		//Color picker
-		$('.colorpicker').colorpicker();
-		var a = $("#color-pickers")[0].style;
-		$("#colorpicker-event").colorpicker().on("changeColor", function (b) {
-			a.backgroundColor = b.color.toHex()
-		});
+		
 	}
 	/*-----------------------------------------------------------------------------------*/
 	/*	Raty
@@ -3206,12 +3201,15 @@ var App = function () {
 				handleJqgrid();	//Function to display jqGrid
 			}
 			if (App.isPage("forms")) {
-				handleTypeahead();	//Function to display autocomplete
-				handleAutosize(); //Function to handle textarea autosize
-				handleCountable(); //Function to handle char count
-				handleSelect2(); //Function to handle select2
-				handleUniform();	//Function to handle uniform inputs
-				handleTimeAgo(); //Function to handle timestamps
+				//handleTypeahead();	//Function to display autocomplete
+				//handleAutosize(); //Function to handle textarea autosize
+				//handleCountable(); //Function to handle char count
+				//handleSelect2(); //Function to handle select2
+				//handleUniform();	//Function to handle uniform inputs
+				//handleTimeAgo(); //Function to handle timestamps
+				
+				handleBootbox(); //Function to display Date Timepicker
+				handleDateColorpicker();
 			}
 			if (App.isPage("rich_text_editors")) {
 				handleWysiwyg();	//Function to display wysiwyg

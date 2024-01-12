@@ -119,6 +119,68 @@ class CurrentData:
         except Exception as e:
             print(e)
             return None
+    def getWorkPlanData1():
+        resultdata = {"CODE":[],"TYPE":[],"STATUS":[],"LOCATION":[],"CREATEDDATE":[],"PLANEDDATE":[],"FINISHEDDATE":[],"CONTENT":[],"PERSON":[]}
+        try:
+            cmd = 'SELECT * FROM table_workplan WHERE PLANEDDATE is null'
+            results = db.query(cmd)
+            for result in results:
+                resultdata["CODE"].append(result.CODE)
+                resultdata["TYPE"].append(result.TYPE)
+                resultdata["STATUS"].append(result.STATUS)
+                resultdata["LOCATION"].append(result.LOCATION)
+                resultdata["CREATEDDATE"].append(result.CREATEDDATE.strftime('%Y-%m-%d'))
+                if result.PLANEDDATE != None:
+                    resultdata["PLANEDDATE"].append(result.PLANEDDATE.strftime('%Y-%m-%d'))
+                else:
+                    resultdata["PLANEDDATE"].append('')
+                if result.FINISHEDDATE != None:
+                    resultdata["FINISHEDDATE"].append(result.FINISHEDDATE.strftime('%Y-%m-%d'))
+                else:
+                    resultdata["FINISHEDDATE"].append('')
+                if result.CONTENT != None:
+                    resultdata["CONTENT"].append(result.CONTENT)
+                else:
+                    resultdata["CONTENT"].append('')
+                if result.PERSON != None:
+                    resultdata["PERSON"].append(result.PERSON)
+                else:
+                    resultdata["PERSON"].append('')
+            return resultdata
+        except Exception as e:
+            print(e)
+            return None
+    def getWorkPlanData2():
+        resultdata = {"CODE":[],"TYPE":[],"STATUS":[],"LOCATION":[],"CREATEDDATE":[],"PLANEDDATE":[],"FINISHEDDATE":[],"CONTENT":[],"PERSON":[]}
+        try:
+            cmd = 'SELECT * FROM table_workplan WHERE PLANEDDATE is not null AND FINISHEDDATE is null'
+            results = db.query(cmd)
+            for result in results:
+                resultdata["CODE"].append(result.CODE)
+                resultdata["TYPE"].append(result.TYPE)
+                resultdata["STATUS"].append(result.STATUS)
+                resultdata["LOCATION"].append(result.LOCATION)
+                resultdata["CREATEDDATE"].append(result.CREATEDDATE.strftime('%Y-%m-%d'))
+                if result.PLANEDDATE != None:
+                    resultdata["PLANEDDATE"].append(result.PLANEDDATE.strftime('%Y-%m-%d'))
+                else:
+                    resultdata["PLANEDDATE"].append('')
+                if result.FINISHEDDATE != None:
+                    resultdata["FINISHEDDATE"].append(result.FINISHEDDATE.strftime('%Y-%m-%d'))
+                else:
+                    resultdata["FINISHEDDATE"].append('')
+                if result.CONTENT != None:
+                    resultdata["CONTENT"].append(result.CONTENT)
+                else:
+                    resultdata["CONTENT"].append('')
+                if result.PERSON != None:
+                    resultdata["PERSON"].append(result.PERSON)
+                else:
+                    resultdata["PERSON"].append('')
+            return resultdata
+        except Exception as e:
+            print(e)
+            return None
 class Msg_RLY(object):
     def __init__(self):
         pass
