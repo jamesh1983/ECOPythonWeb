@@ -3165,6 +3165,9 @@ var App = function () {
 				handleChat('chat-window'); //Function to handle chat
 				//handleCalendar();	//Function to display calendar
 				handleGritter();	//Function to display Gritter notifications
+				handleBoxSortable(); //Function to handle Box sortables
+
+				collapseSidebar();
             }
 			if (App.isPage("widgets_box")) {
 				handleBoxSortable(); //Function to handle Box sortables
@@ -3394,3 +3397,5 @@ var App = function () {
         return Theme;
     })();
 })(window.jQuery);
+
+

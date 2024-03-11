@@ -553,6 +553,58 @@ class MySQL(object):
         except Exception as Argment:
             print(Argment)
             return None
+    def Get_Warning_Value_GQ(self):
+        try:
+            sql_cmd = "SELECT warning_setting.value_name, warning_setting.up_limit, warning_setting.down_limit, warning_setting.user_list, table_sn.SN_ID, "\
+                      "table_warningcode.content, warning_setting.equipment_ID, warning_setting.ID, concat(table_equipment.name,'-',table_equipment.spec) as equipment_name, table_sn.name as SN_name "\
+                      "FROM warning_setting, table_equipment, table_sn, table_warningcode "\
+                      "WHERE table_warningcode.code_ID = warning_setting.warningcode_content AND "\
+                      "warning_setting.equipment_ID = table_equipment.equipment_ID AND "\
+                      "table_equipment.SN_ID = table_sn.SN_ID AND "\
+                      "table_sn.location = 'GQ' and warning_setting.activated = '1' "
+            data = db.query(sql_cmd)
+            return data
+        except Exception as Argment:
+            print(Argment)
+            return None
+    def Get_Value_GQ(self, value_name):
+        try:
+            sql_cmd = "SELECT "+value_name+" "\
+                "FROM table_prodict, table_sn "\
+                "WHERE table_prodict.SN = table_sn.SN_ID AND table_sn.location = 'GQ' "\
+                "ORDER BY table_prodict.ID DESC LIMIT 1"
+            data = db.query(sql_cmd)
+            return data
+        except Exception as Argment:
+            print(Argment)
+            return None
+    def New_worplan_GQ(self):
+        try:
+            sql_cmd = "INSERT INTO table_workplan "\
+                    "(`TYPE`, `STATUS`, `LOCATION`, `CREATEDDATE`) "\
+                    "VALUES "\
+                    "('设备维保', '创建', '港区', '" + datetime.now().strftime("%Y-%m-%d") + "')"
+            result = db.query(sql_cmd)
+        except Exception as Argment:
+            print(Argment)
+    def Update_worplan_GQ(code, planeddate, content, person):
+        try:
+            sql_cmd = "UPDATE table_workplan "\
+                    "SET STATUS = '分配', PLANEDDATE = '" + planeddate + "', "\
+                    "CONTENT = '" + content + "', PERSON = '" + person + "' "\
+                    "WHERE CODE = " + code
+            result = db.query(sql_cmd)
+        except Exception as Argment:
+            print(Argment)
+    def Finish_worplan_GQ(code, finisheddate, content, person):
+        try:
+            sql_cmd = "UPDATE table_workplan "\
+                    "SET STATUS = '完成', FINISHEDDATE = '" + finisheddate + "', "\
+                    "CONTENT = '" + content + "', PERSON = '" + person + "' "\
+                    "WHERE CODE = " + code
+            result = db.query(sql_cmd)
+        except Exception as Argment:
+            print(Argment)
 def parse_xml(web_data):
     if len(web_data) == 0:
         return None
@@ -662,7 +714,6 @@ def TimeCounter_token(wechat_info):
     t_token.start()
 def get_token(wechat_info):
     wechat_info.token = wechat_info.get_token(wechat_info.appid,wechat_info.secret)
-    #print(wechat_info.token)
 def insert_user(userID, weixinID):
 # 打开数据库连接
     try:
@@ -789,5 +840,40 @@ def run_mysql_HL():
                 result = db.query(sql_cmd)
             #db.commit()
             #db.close()
+        else:
+            print(col, ":", v, "正常！")
+def run_mysql_GQ():
+    mysql = MySQL()
+    warning_table = mysql.Get_Warning_Value_GQ()
+    for setting_row in warning_table:
+        col = setting_row["value_name"]
+        uplimit = float(setting_row["up_limit"])
+        downlimit = float(setting_row["down_limit"])
+        sql_cmd = "SELECT " + col + " "\
+            "FROM table_current, table_sn "\
+            "WHERE table_current.SN = "+str(setting_row["SN_ID"])+" AND table_sn.location = 'GQ' "\
+            "ORDER BY table_current.ID DESC LIMIT 1"
+        data = db.query(sql_cmd)
+        v = float(data[0][col])
+        if (v > uplimit or v < downlimit):
+            print(col, ":", v, "不在范围内")
+            sql_cmd = "SELECT * FROM warning_log WHERE resolved_user IS NULL AND warning_setting = '" + str(setting_row["ID"]) + "'"
+            results = db.query(sql_cmd)
+            if (results.cursor.rowcount != 0):
+                sql_cmd = "UPDATE warning_log "\
+                    "SET warning_status = warning_status+1 "\
+                    "WHERE warning_setting = '" + str(setting_row["ID"]) + "'"
+                result = db.query(sql_cmd)
+            else:
+                sql_cmd = "INSERT INTO warning_log "\
+                    "(`warningcode`, `SN`, `equipment`, `warning_setting`, `warning_status`, log_time) "\
+                    "VALUES "\
+                    "('" + str(setting_row["content"]) + "', '" + str(setting_row["SN_name"]) + "-" + str(setting_row["SN_ID"]) + "', '" + str(setting_row["equipment_name"]) + "', '" + str(setting_row["ID"]) + "', '0', '" + datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"')"
+                result = db.query(sql_cmd)
+                sql_cmd = "INSERT INTO table_workplan "\
+                    "(`TYPE`, `STATUS`, `LOCATION`, `CREATEDDATE`, `CONTENT`) "\
+                    "VALUES "\
+                    "('设备抢修', '创建', '港区', '" + datetime.now().strftime("%Y-%m-%d") + "', '" + str(setting_row["content"]) + "')"
+                result = db.query(sql_cmd)
         else:
             print(col, ":", v, "正常！")

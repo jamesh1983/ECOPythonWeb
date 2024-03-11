@@ -155,69 +155,55 @@ $def with (username,data1,data2)
                                 </div>
                                 <div class="box-body big">
                                     <h3 class="form-title">工单信息</h3>
-                                    <form class="form-horizontal" role="form" action="#">
+                                    <form class="form-horizontal" role="form" action="workplan" method="post">
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">编号</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="CODE" disabled="disabled">
+                                                <input type="text" class="form-control" id="CODE" readonly="readonly" name="CODE">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">类型</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control" id="TYPE" disabled="disabled">
-                                                    <option>设备维保</option>
-                                                    <option>设备抢修</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="TYPE" readonly="readonly" name="TYPE">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">地点</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control" id="LOCATION" disabled="disabled">
-                                                    <option>港区</option>
-                                                    <option>其他</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="LOCATION" readonly="readonly" name="LOCATION">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">状态</label>
                                             <div class="col-sm-9">
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="STATUS1" value="option1" disabled="disabled"> 创建
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="STATUS2" value="option2" disabled="disabled"> 分配
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    <input type="checkbox" id="STATUS3" value="option3" disabled="disabled"> 完成
-                                                </label>
+                                                <input type="text" class="form-control" id="STATUS" readonly="readonly" name="STATUS">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">创建日期</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="date" name="regular" size="10" id="CREATEDDATE" disabled="disabled">
+                                                <input class="form-control" type="date" name="CREATEDDATE" size="10" id="CREATEDDATE" readonly="readonly">
                                             </div>
                                             <label class="col-sm-3 control-label">分配日期</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="date" name="regular" size="10" id="PLANEDDATE">
+                                                <input class="form-control" type="date" name="PLANEDDATE" size="10" id="PLANEDDATE">
                                             </div>
                                             <label class="col-sm-3 control-label">完成日期</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="date" name="regular" size="10" id="FINISHEDDATE">
+                                                <input class="form-control" type="date" name="FINISHEDDATE" size="10" id="FINISHEDDATE">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">内容</label>
                                             <div class="col-sm-9">
-                                                <textarea class="form-control" rows="3" id="CONTENT"></textarea>
+                                                <textarea class="form-control" rows="3" id="CONTENT" name="CONTENT"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">执行人员</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control" id="PERSON">
+                                                <select class="form-control" id="PERSON" name="PERSON">
                                                     <option>人员1</option>
                                                     <option>人员2</option>
                                                     <option>人员3</option>
@@ -387,22 +373,18 @@ $def with (username,data1,data2)
             document.getElementById('CODE').value = row.cells[0].innerHTML;
             document.getElementById('TYPE').value = row.cells[1].innerHTML;
             if (row.cells[2].innerHTML == "创建") {
-                document.getElementById('STATUS1').checked = true;
-                document.getElementById('STATUS2').checked = false;
-                document.getElementById('STATUS3').checked = false;
+                document.getElementById('STATUS').value = row.cells[2].innerHTML;
                 document.getElementById('PLANEDDATE').value = today();
                 document.getElementById('PLANEDDATE').disabled = false;
                 document.getElementById('FINISHEDDATE').value = null;
-                document.getElementById('FINISHEDDATE').disabled = "disabled";
+                document.getElementById('FINISHEDDATE').disabled = true;
                 document.getElementById('submitbtn').innerHTML = "工单分配";
                 document.getElementById('submitbtn').style.display = 'block';
             }
             if (row.cells[2].innerHTML == "分配") {
-                document.getElementById('STATUS1').checked = true;
-                document.getElementById('STATUS2').checked = true;
-                document.getElementById('STATUS3').checked = false;
+                document.getElementById('STATUS').value = row.cells[2].innerHTML;
                 document.getElementById('PLANEDDATE').value = row.cells[5].innerHTML;
-                document.getElementById('PLANEDDATE').disabled = "disabled";
+                document.getElementById('PLANEDDATE').disabled = true;
                 document.getElementById('FINISHEDDATE').value = today();
                 document.getElementById('FINISHEDDATE').disabled = false;
                 document.getElementById('submitbtn').innerHTML = "工单完成";

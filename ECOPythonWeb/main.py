@@ -56,6 +56,7 @@ def TimeCounter_60():
     ###
     model.run_mysql()
     model.run_mysql_HL()
+    model.run_mysql_GQ()
     #weixin.run_weixin()
     #weixin.repeat_weixin(1440)
     global t1
@@ -247,13 +248,31 @@ class workplan:
     def GET(self):
         loginuser=web.cookies().get('user_id')
         workplandata1 = model.CurrentData.getWorkPlanData1()
-        a=workplandata1.items()
-        b=workplandata1.keys()
-        c=workplandata1.values()
-        i=workplandata1.get("CODE")
-        #workplandata1 = dict(zip(result1["CODE"], result1["TYPE"], result1["STATUS"], result1["LOCATION"], result1["CREATEDDATE"], result1["PLANEDDATE"], result1["FINISHEDDATE"], result1["CONTENT"], result1["PERSON"]))
         workplandata2 = model.CurrentData.getWorkPlanData2()
-        #workplandata2 = dict(zip(result1["CODE"], result1["TYPE"], result1["STATUS"], result1["LOCATION"], result1["CREATEDDATE"], result1["PLANEDDATE"], result1["FINISHEDDATE"], result1["CONTENT"], result1["PERSON"]))
+        return render.workplan_1(loginuser,workplandata1,workplandata2)
+    def POST(self):
+        i = web.input()
+        loginuser=web.cookies().get('user_id')
+        plan_code = i.get('CODE')
+        plan_type = i.get('TYPE')
+        plan_status = i.get('STATUS')
+        plan_createddate = i.get('CREATEDDATE')
+        if i.get('PLANEDDATE'):
+            plan_planeddate = i.get('PLANEDDATE')
+        if i.get('FINISHEDDATE'):
+            plan_finisheddate = i.get('FINISHEDDATE')
+        if i.get('CONTENT'):
+            plan_content = i.get('CONTENT')
+        if i.get('PERSON'):
+            plan_person = i.get('PERSON')
+        if plan_status == '创建':
+            model.MySQL.Update_worplan_GQ(plan_code, plan_planeddate, plan_content, plan_person)
+        if plan_status == '分配':
+            model.MySQL.Finish_worplan_GQ(plan_code,plan_finisheddate, plan_content, plan_person)
+            if plan_type == '设备抢修':
+                model.MySQL.New_worplan_GQ()
+        workplandata1 = model.CurrentData.getWorkPlanData1()
+        workplandata2 = model.CurrentData.getWorkPlanData2()
         return render.workplan_1(loginuser,workplandata1,workplandata2)
 if __name__ == '__main__':
     #TimeCounter_60()

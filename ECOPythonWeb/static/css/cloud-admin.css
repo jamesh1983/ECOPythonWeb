@@ -6426,26 +6426,24 @@ fieldset[disabled] .btn-yellow.active {
 }
 /* Content */
 #content {
-  background-color: #f5f6f6;
-  margin-top: 0;
-  min-height: 800px;
-  border-left: 1px solid #cdd2d2;
-  padding-bottom: 30px;
-  /* Page Header */
-
-  /* Breadcrumbs */
-
+    background-color: #ffffff;
+    margin-top: 0;
+    min-height: 800px;
+    border-left: 1px solid #cdd2d2;
+    padding-bottom: 30px;
+    /* Page Header */
+    /* Breadcrumbs */
 }
-#content .page-header {
-  background: none repeat scroll 0 0 #FFFFFF;
-  border-bottom-color: #cdd2d2;
-  color: #000000;
-  margin: 0 -15px 30px;
-  min-height: 85px;
-  overflow: hidden;
-  padding: 0 20px;
-  position: relative;
-}
+    #content .page-header {
+        background: none repeat scroll 0 0 #ffffff;
+        border-bottom-color: #cdd2d2;
+        color: #000000;
+        margin: 0 -15px 30px;
+        min-height: 50px;
+        overflow: hidden;
+        padding: 0 20px;
+        position: relative;
+    }
 #content .page-header .description {
   color: #888888;
   font-size: 14px;
@@ -6453,24 +6451,24 @@ fieldset[disabled] .btn-yellow.active {
   letter-spacing: 0;
   margin-bottom: 5px;
 }
-#content .content-title {
-  color: #666666;
-  display: block;
-  font-family: 'Open Sans';
-  font-size: 30px;
-  font-weight: 300;
-  letter-spacing: -1px;
-  margin: 5px 0;
-  padding: 0;
-}
-#content .breadcrumb {
-  margin-bottom: 0;
-  padding-right: 0px;
-  padding-left: 0px;
-  font-size: 14px;
-  color: #333;
-  background-color: #FFFFFF;
-}
+    #content .content-title {
+        color: #cccccc;
+        display: block;
+        font-family: 'Open Sans';
+        font-size: 30px;
+        font-weight: 300;
+        letter-spacing: -1px;
+        margin: 5px 0;
+        padding: 0;
+    }
+    #content .breadcrumb {
+        margin-bottom: 0;
+        padding-right: 0px;
+        padding-left: 0px;
+        font-size: 14px;
+        color: #333;
+        background-color: #ffffff;
+    }
 #content .breadcrumb a {
   text-shadow: none;
 }
@@ -6534,21 +6532,21 @@ fieldset[disabled] .btn-yellow.active {
   margin-bottom: 25px;
   padding: 0px;
 }
-.box .box-title {
-  margin-bottom: 15px;
-  border-bottom: 1px solid #c4c4c4;
-  min-height: 30px;
-}
-.box .box-title h4 {
-  font-family: 'Open Sans';
-  display: inline-block;
-  font-size: 18px;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 7px;
-  color: #555555;
-}
+    .box .box-title {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #ffffff00;
+        min-height: 30px;
+    }
+    .box .box-title h4 {
+        font-family: 'Open Sans';
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 400;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 7px;
+        color: cadetblue;
+    }
 .box .box-title h4 i {
   margin-right: 10px;
   color: #666;

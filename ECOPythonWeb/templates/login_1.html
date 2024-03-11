@@ -8,6 +8,7 @@ $def with (loginData1)
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    
     <!-- STYLESHEETS --><!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
     <link rel="stylesheet" type="text/css" href="static/css/cloud-admin.css">
 
@@ -21,7 +22,9 @@ $def with (loginData1)
     <!-- FONTS -->
     <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
 </head>
+
 <body class="login">
+    <canvas id="space"></canvas>
     <!-- PAGE -->
     <section id="page">
         <!-- HEADER -->
@@ -190,6 +193,7 @@ $def with (loginData1)
     <!--/PAGE -->
     <!-- JAVASCRIPTS -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="static/js/changes.js" type="text/javascript"></script>
     <!-- JQUERY -->
     <script src="static/js/jquery/jquery-2.0.3.min.js"></script>
     <!-- JQUERY UI-->
@@ -203,16 +207,18 @@ $def with (loginData1)
     <!-- CUSTOM SCRIPT -->
     <script src="static/js/script.js"></script>
     <script>
-		jQuery(document).ready(function () {
-			App.setPage("login");  //Set current page
-			App.init(); //Initialise plugins and elements
-		});
+
+        jQuery(document).ready(function () {
+            App.setPage("login");  //Set current page
+            App.init(); //Initialise plugins and elements
+        });
     </script>
     <script type="text/javascript">
-		function swapScreen(id) {
-			jQuery('.visible').removeClass('visible animated fadeInUp');
-			jQuery('#' + id).addClass('visible animated fadeInUp');
-		}
+
+        function swapScreen(id) {
+            jQuery('.visible').removeClass('visible animated fadeInUp');
+            jQuery('#' + id).addClass('visible animated fadeInUp');
+        }
     </script>
     <!-- /JAVASCRIPTS -->
 </body>
