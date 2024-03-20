@@ -3167,6 +3167,10 @@ var App = function () {
 				handleGritter();	//Function to display Gritter notifications
 				handleBoxSortable(); //Function to handle Box sortables
 
+				handleSliders(); //Function to display sliders
+				handleProgress(); //Function to display progress bars
+				//handleKnobs();	//Function to display knobs
+
 				collapseSidebar();
             }
 			if (App.isPage("widgets_box")) {
