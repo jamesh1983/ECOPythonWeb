@@ -3165,7 +3165,7 @@ var App = function () {
 				handleChat('chat-window'); //Function to handle chat
 				//handleCalendar();	//Function to display calendar
 				handleGritter();	//Function to display Gritter notifications
-				handleBoxSortable(); //Function to handle Box sortables
+				//handleBoxSortable(); //Function to handle Box sortables
 
 				handleSliders(); //Function to display sliders
 				handleProgress(); //Function to display progress bars
